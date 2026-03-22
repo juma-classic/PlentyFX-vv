@@ -37,7 +37,7 @@ export const ProtectedSignalSavvy: React.FC<ProtectedSignalSavvyProps> = ({ chil
                 title='📡 Signal Savvy - Premium Access'
                 subtitle='Enter password to access premium signal analysis'
                 placeholder='Enter premium password...'
-                errorMessage='Incorrect password. Contact Zeus Trading Hub for access.'
+                errorMessage='Incorrect password. Contact PlentyFX for access.'
             />
         );
     }

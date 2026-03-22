@@ -1,5 +1,5 @@
 /**
- * Centralized API Configuration for Zeus Trading Hub
+ * Centralized API Configuration for PlentyFX
  * 
  * This file manages all Deriv API credentials and endpoints.
  * Update these values with your own app_id from https://api.deriv.com/app-registration

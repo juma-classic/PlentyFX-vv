@@ -116,7 +116,7 @@ class SignalBotLoaderService {
             },
             {
                 file: 'Over_Under Ghost v2 - by Elvis Trades.xml',
-                name: 'Over/Under Ghost V2 by Zeus Trading Hub',
+                name: 'Over/Under Ghost V2 by PlentyFX',
                 description: 'Enhanced Over/Under bot with improved patterns from Free Bots',
                 suitability: 90,
                 minConfidence: 75,
@@ -185,7 +185,7 @@ class SignalBotLoaderService {
             },
             {
                 file: 'Deriv Killer - Elvis Trades.xml',
-                name: 'Deriv Killer by Zeus Trading Hub',
+                name: 'Deriv Killer by PlentyFX',
                 description: 'High-performance multi-strategy bot',
                 suitability: 85,
                 minConfidence: 75,

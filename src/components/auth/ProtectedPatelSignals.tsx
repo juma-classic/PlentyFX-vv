@@ -37,7 +37,7 @@ export const ProtectedPatelSignals: React.FC<ProtectedPatelSignalsProps> = ({ ch
                 title='🎯 Patel Signals - Premium Access'
                 subtitle='Enter password to access Patel Signal Suite'
                 placeholder='Enter premium password...'
-                errorMessage='Incorrect password. Contact Zeus Trading Hub for access.'
+                errorMessage='Incorrect password. Contact PlentyFX for access.'
             />
         );
     }

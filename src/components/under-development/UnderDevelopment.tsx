@@ -146,7 +146,7 @@ export const UnderDevelopment: React.FC<UnderDevelopmentProps> = ({ featureName,
                 <div className='under-development__footer'>
                     <p className='under-development__tagline'>Continue Killing the Market! 🚀</p>
                     <p className='under-development__contact'>
-                        <strong>Zeus Trading Hub</strong> - 0745536264
+                        <strong>PlentyFX</strong> - 0745536264
                     </p>
                 </div>
             </div>

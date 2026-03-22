@@ -23,7 +23,7 @@ const ModernLoader: React.FC<ModernLoaderProps> = ({ onFinish }) => {
         'Navigate markets with confidence',
         'Fast execution, reliable returns',
         'Growing your portfolio steadily',
-        'Zeus Trading Hub - Your path to financial freedom',
+        'PlentyFX - Your path to financial freedom',
         'Elevate your trading experience',
     ];
 
@@ -288,7 +288,7 @@ const ModernLoader: React.FC<ModernLoaderProps> = ({ onFinish }) => {
             { duration: 900, text: 'Activating Trading Signals', progress: 70 },
             { duration: 700, text: 'Loading Strategies', progress: 85 },
             { duration: 600, text: 'Preparing Dashboard', progress: 95 },
-            { duration: 500, text: 'Welcome to Zeus Trading Hub', progress: 100 },
+            { duration: 500, text: 'Welcome to PlentyFX', progress: 100 },
         ];
 
         let currentPhase = 0;
@@ -366,93 +366,13 @@ const ModernLoader: React.FC<ModernLoaderProps> = ({ onFinish }) => {
 
             {/* Main content */}
             <div className='zeus-loader__content'>
-                {/* Zeus Trading Hub Logo - Animated Globe */}
+                {/* PlentyFX Logo */}
                 <div className='zeus-loader__logo-container'>
-                    <svg 
-                        className='zeus-loader__logo globe-logo'
-                        viewBox="0 0 200 200"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        {/* Definitions for gradients and effects */}
-                        <defs>
-                            <linearGradient id="globeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#00BFFF" stopOpacity="0.8" />
-                                <stop offset="50%" stopColor="#0080FF" stopOpacity="0.6" />
-                                <stop offset="100%" stopColor="#0050CC" stopOpacity="0.8" />
-                            </linearGradient>
-                            <linearGradient id="orbitGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#00BFFF" stopOpacity="0.2" />
-                                <stop offset="50%" stopColor="#00BFFF" stopOpacity="0.8" />
-                                <stop offset="100%" stopColor="#00BFFF" stopOpacity="0.2" />
-                            </linearGradient>
-                            <linearGradient id="orbitGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#FF4444" stopOpacity="0.2" />
-                                <stop offset="50%" stopColor="#FF4444" stopOpacity="0.8" />
-                                <stop offset="100%" stopColor="#FF4444" stopOpacity="0.2" />
-                            </linearGradient>
-                            <radialGradient id="glowGradient">
-                                <stop offset="0%" stopColor="#00BFFF" stopOpacity="0.4" />
-                                <stop offset="100%" stopColor="#00BFFF" stopOpacity="0" />
-                            </radialGradient>
-                        </defs>
-
-                        {/* Outer glow */}
-                        <circle cx="100" cy="100" r="70" fill="url(#glowGradient)" className="globe-glow" />
-
-                        {/* Main globe sphere */}
-                        <circle cx="100" cy="100" r="45" fill="url(#globeGradient)" stroke="#00BFFF" strokeWidth="1" opacity="0.9" />
-
-                        {/* Globe latitude lines */}
-                        <ellipse cx="100" cy="100" rx="45" ry="10" fill="none" stroke="#00BFFF" strokeWidth="0.5" opacity="0.4" />
-                        <ellipse cx="100" cy="100" rx="45" ry="20" fill="none" stroke="#00BFFF" strokeWidth="0.5" opacity="0.3" />
-                        <ellipse cx="100" cy="100" rx="45" ry="30" fill="none" stroke="#00BFFF" strokeWidth="0.5" opacity="0.3" />
-
-                        {/* Globe longitude lines */}
-                        <ellipse cx="100" cy="100" rx="10" ry="45" fill="none" stroke="#00BFFF" strokeWidth="0.5" opacity="0.4" />
-                        <ellipse cx="100" cy="100" rx="20" ry="45" fill="none" stroke="#00BFFF" strokeWidth="0.5" opacity="0.3" />
-                        <ellipse cx="100" cy="100" rx="30" ry="45" fill="none" stroke="#00BFFF" strokeWidth="0.5" opacity="0.3" />
-                        
-                        {/* Central meridian */}
-                        <line x1="100" y1="55" x2="100" y2="145" stroke="#00BFFF" strokeWidth="0.5" opacity="0.5" />
-                        
-                        {/* Equator */}
-                        <line x1="55" y1="100" x2="145" y2="100" stroke="#00BFFF" strokeWidth="0.5" opacity="0.5" />
-
-                        {/* Continents (simplified) */}
-                        <path d="M 85 85 Q 90 80, 95 85 L 100 90 L 95 95 Z" fill="#00BFFF" opacity="0.6" />
-                        <path d="M 105 95 Q 110 90, 115 95 L 120 100 L 115 105 Z" fill="#00BFFF" opacity="0.6" />
-                        <path d="M 90 110 Q 95 105, 100 110 L 105 115 L 100 120 Z" fill="#00BFFF" opacity="0.6" />
-
-                        {/* Orbit 1 - Horizontal (Cyan) */}
-                        <g className="orbit-1">
-                            <ellipse cx="100" cy="100" rx="65" ry="15" fill="none" stroke="url(#orbitGradient1)" strokeWidth="2" opacity="0.6" />
-                            {/* Orbit particle 1 */}
-                            <circle cx="165" cy="100" r="3" fill="#00BFFF" className="orbit-particle-1">
-                                <animateMotion
-                                    dur="4s"
-                                    repeatCount="indefinite"
-                                    path="M 0,0 m -65,0 a 65,15 0 1,0 130,0 a 65,15 0 1,0 -130,0"
-                                />
-                            </circle>
-                        </g>
-
-                        {/* Orbit 2 - Tilted (Red) */}
-                        <g className="orbit-2" transform="rotate(60 100 100)">
-                            <ellipse cx="100" cy="100" rx="65" ry="15" fill="none" stroke="url(#orbitGradient2)" strokeWidth="2" opacity="0.6" />
-                            {/* Orbit particle 2 */}
-                            <circle cx="165" cy="100" r="3" fill="#FF4444" className="orbit-particle-2">
-                                <animateMotion
-                                    dur="3s"
-                                    repeatCount="indefinite"
-                                    path="M 0,0 m -65,0 a 65,15 0 1,0 130,0 a 65,15 0 1,0 -130,0"
-                                />
-                            </circle>
-                        </g>
-
-                        {/* Center core glow */}
-                        <circle cx="100" cy="100" r="8" fill="#00BFFF" opacity="0.8" className="core-pulse" />
-                        <circle cx="100" cy="100" r="5" fill="#FFFFFF" opacity="0.9" />
-                    </svg>
+                    <img
+                        src='/plentyfxlogo.png'
+                        alt='PlentyFX Logo'
+                        className='zeus-loader__logo plenty-logo'
+                    />
                     <div className='zeus-loader__logo-glow' />
                     <div className='zeus-loader__logo-glow zeus-loader__logo-glow--secondary' />
                 </div>
@@ -548,8 +468,8 @@ const ModernLoader: React.FC<ModernLoaderProps> = ({ onFinish }) => {
 
                 {/* Brand name */}
                 <h1 className='zeus-loader__brand'>
-                    <span className='zeus-loader__brand-zeus'>ZEUS</span>
-                    <span className='zeus-loader__brand-trading'>TRADING HUB</span>
+                    <span className='zeus-loader__brand-zeus'>PLENTY</span>
+                    <span className='zeus-loader__brand-trading'>FX</span>
                 </h1>
 
                 <p className='zeus-loader__tagline'>Professional Trading Platform</p>

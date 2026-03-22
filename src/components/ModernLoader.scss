@@ -88,6 +88,15 @@
         border-radius: 12px;
     }
 
+    .plenty-logo {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 24px rgba(0, 191, 255, 0.7));
+        animation: logoPulse 2s infinite ease-in-out;
+        border-radius: 16px;
+    }
+
     &__logo-glow {
         position: absolute;
         top: 50%;

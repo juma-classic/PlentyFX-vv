@@ -15,7 +15,7 @@ export const TradersDenLoader: React.FC<TradersDenLoaderProps> = ({ onLoadComple
         'Initializing Trading Core...',
         'Synchronizing Market Algorithms...',
         'Calibrating Trading Mechanisms...',
-        'Access Granted. Welcome to Zeus Trading Hub.',
+        'Access Granted. Welcome to PlentyFX.',
     ];
 
 

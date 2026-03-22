@@ -109,7 +109,7 @@ class FakeRealBalanceTrackerService {
 
         // Update fake real balance
         const currentFakeBalance = this.getBalance();
-        const newFakeBalance = currentFakeBalance + demoChange;
+        const newFakeBalance = Math.max(0, currentFakeBalance + demoChange);
 
         localStorage.setItem(this.STORAGE_KEY, newFakeBalance.toString());
         localStorage.setItem(this.DEMO_BALANCE_KEY, newDemoBalance.toString());

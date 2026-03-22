@@ -42,3 +42,16 @@
 strong {
     font-weight: bold;
 }
+
+// Light mode: force white background across all pages
+.theme--light {
+    body,
+    #root,
+    .main,
+    .bot,
+    .bot-dashboard,
+    .dc-tabs__content,
+    .dc-tabs__panel {
+        background: #ffffff !important;
+    }
+}

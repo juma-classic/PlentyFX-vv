@@ -9,6 +9,10 @@
     color: var(--text-prominent);
 }
 
+.theme--light .dcircles-container {
+    background: #ffffff;
+}
+
 .dcircles-header {
     display: flex;
     justify-content: space-between;

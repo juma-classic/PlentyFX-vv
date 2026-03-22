@@ -269,7 +269,33 @@ const CopyCatPage: React.FC = () => {
             {/* Header */}
             <div className='copycat-page__header'>
                 <div className='copycat-page__title'>
-                    <span className='copycat-page__icon'>🐱</span>
+                    <span className='copycat-page__icon'>
+                        <svg viewBox='0 0 24 24' style={{ width: '40px', height: '40px' }} xmlns='http://www.w3.org/2000/svg'>
+                            <style>{`
+                                @keyframes cp-spin-main { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+                                @keyframes cp-spin-small { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+                                @keyframes cp-spin-tiny { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+                                .cp-gear-main { transform-origin: 12px 12px; animation: cp-spin-main 3s linear infinite; }
+                                .cp-gear-small { transform-origin: 19.5px 4.5px; animation: cp-spin-small 1.8s linear infinite; }
+                                .cp-gear-tiny { transform-origin: 4.5px 19.5px; animation: cp-spin-tiny 2.4s linear infinite; }
+                            `}</style>
+                            <g className='cp-gear-main'>
+                                <circle cx='12' cy='12' r='2.5' fill='none' stroke='currentColor' strokeWidth='1.2' />
+                                <path d='M12 6.5v1.2M12 16.3v1.2M6.5 12H7.7M16.3 12h1.2M8.2 8.2l0.85 0.85M14.95 14.95l0.85 0.85M8.2 15.8l0.85-0.85M14.95 9.05l0.85-0.85' stroke='currentColor' strokeWidth='1.2' strokeLinecap='round' />
+                                <circle cx='12' cy='12' r='4.5' fill='none' stroke='currentColor' strokeWidth='0.6' strokeDasharray='1.5 1' />
+                            </g>
+                            <g className='cp-gear-small'>
+                                <circle cx='19.5' cy='4.5' r='1.4' fill='none' stroke='currentColor' strokeWidth='1' />
+                                <path d='M19.5 2.5v0.7M19.5 5.8v0.7M17.5 4.5h0.7M20.8 4.5h0.7M18.2 3.2l0.5 0.5M20.3 5.3l0.5 0.5M18.2 5.8l0.5-0.5M20.3 3.7l0.5-0.5' stroke='currentColor' strokeWidth='0.9' strokeLinecap='round' />
+                            </g>
+                            <g className='cp-gear-tiny'>
+                                <circle cx='4.5' cy='19.5' r='1.4' fill='none' stroke='currentColor' strokeWidth='1' />
+                                <path d='M4.5 17.5v0.7M4.5 20.8v0.7M2.5 19.5h0.7M5.8 19.5h0.7M3.2 18.2l0.5 0.5M5.3 20.3l0.5 0.5M3.2 20.8l0.5-0.5M5.3 18.7l0.5-0.5' stroke='currentColor' strokeWidth='0.9' strokeLinecap='round' />
+                            </g>
+                            <line x1='16' y1='8' x2='18.2' y2='5.8' stroke='currentColor' strokeWidth='0.6' strokeDasharray='1 0.8' opacity='0.6' />
+                            <line x1='8' y1='16' x2='5.8' y2='18.2' stroke='currentColor' strokeWidth='0.6' strokeDasharray='1 0.8' opacity='0.6' />
+                        </svg>
+                    </span>
                     <div>
                         <h1>CopyCat</h1>
                         <p>Replicate your trades to multiple client accounts in real time</p>

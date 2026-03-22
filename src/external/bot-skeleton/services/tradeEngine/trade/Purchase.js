@@ -17,6 +17,25 @@ export default Engine =>
                 return Promise.resolve();
             }
 
+            // Fake real mode: block trade if balance < stake BEFORE sending to API
+            if (localStorage.getItem('demo_icon_us_flag') === 'true') {
+                const fakeBalance = parseFloat(localStorage.getItem('fake_real_balance') ?? '0');
+                const stake = this.is_proposal_subscription_required
+                    ? parseFloat(this.selectProposal(contract_type)?.askPrice ?? '0')
+                    : parseFloat(this.tradeOptions?.amount ?? '0');
+                if (stake > 0 && fakeBalance < stake) {
+                    const balanceStr = fakeBalance.toFixed(2);
+                    const stakeStr = stake.toFixed(2);
+                    this.observer.emit('Error', {
+                        error: {
+                            message: `Your account balance (${balanceStr} USD) is insufficient to buy this contract (${stakeStr} USD).`,
+                            code: 'InsufficientBalance',
+                        },
+                    });
+                    return Promise.resolve();
+                }
+            }
+
             const onSuccess = response => {
                 // buy_contract_for_multiple_accounts returns result array where each item IS the buy object.
                 // Extract first entry (your own account) as the primary buy.

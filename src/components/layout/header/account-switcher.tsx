@@ -404,7 +404,7 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
                     onMouseDown={handleBalancePressStart}
                     onMouseUp={handleBalancePressEnd}
                     onMouseLeave={handleBalancePressEnd}
-                    style={{ display: 'contents' }}
+                    style={{ display: 'inline-flex', alignItems: 'center' }}
                 >
                 <UIAccountSwitcher
                     activeAccount={displayActiveAccount}

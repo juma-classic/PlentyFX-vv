@@ -240,7 +240,7 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
         if (isFakeRealMode && isDemo) {
             console.log('✅ Switching to Demo view - showing demo balance and icon');
             setCurrentViewTab('demo');
-            toggleAccountsDialog();
+            toggleAccountsDialog(false);
             const params = new URLSearchParams(window.location.search);
             params.set('account', 'demo');
             window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
@@ -251,7 +251,7 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
         if (isFakeRealMode && loginId.toString() === 'CR7125309') {
             console.log('✅ Switching to Real view - showing fake real balance and USD flag');
             setCurrentViewTab('real');
-            toggleAccountsDialog();
+            toggleAccountsDialog(false);
             const params = new URLSearchParams(window.location.search);
             params.set('account', 'USD');
             window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);

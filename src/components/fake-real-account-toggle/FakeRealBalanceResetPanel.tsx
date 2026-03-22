@@ -6,6 +6,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { fakeRealBalanceTracker } from '@/services/fake-real-balance-tracker.service';
+import './FakeRealBalanceResetPanel.scss';
 
 export const FakeRealBalanceResetPanel: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);

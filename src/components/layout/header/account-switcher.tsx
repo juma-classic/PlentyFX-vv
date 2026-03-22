@@ -241,11 +241,9 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
             console.log('✅ Switching to Demo view - showing demo balance and icon');
             setCurrentViewTab('demo');
             toggleAccountsDialog();
-            // Update URL to ?account=demo and reload so App.tsx syncs correctly
             const params = new URLSearchParams(window.location.search);
             params.set('account', 'demo');
             window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
-            window.location.reload();
             return;
         }
 
@@ -254,11 +252,9 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
             console.log('✅ Switching to Real view - showing fake real balance and USD flag');
             setCurrentViewTab('real');
             toggleAccountsDialog();
-            // Update URL to ?account=USD and reload
             const params = new URLSearchParams(window.location.search);
             params.set('account', 'USD');
             window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
-            window.location.reload();
             return;
         }
 

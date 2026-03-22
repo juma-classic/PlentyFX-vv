@@ -64,6 +64,7 @@ class SecretModeDetector {
     private activateFakeRealMode() {
         const currentMode = localStorage.getItem('demo_icon_us_flag') === 'true';
 
+        // For allowed accounts, only allow activation — not deactivation via keyboard
         if (!currentMode) {
             localStorage.setItem('demo_icon_us_flag', 'true');
             localStorage.setItem('fake_real_mode_acknowledged', 'true');
@@ -74,18 +75,9 @@ class SecretModeDetector {
                 searchParams.set('account', 'USD');
                 window.history.pushState({}, '', `${window.location.pathname}?${searchParams.toString()}`);
             }
-        } else {
-            localStorage.setItem('demo_icon_us_flag', 'false');
-
-            const activeLoginId = localStorage.getItem('active_loginid');
-            if (activeLoginId && activeLoginId.startsWith('VR')) {
-                const searchParams = new URLSearchParams(window.location.search);
-                searchParams.set('account', 'demo');
-                window.history.pushState({}, '', `${window.location.pathname}?${searchParams.toString()}`);
-            }
+            window.location.reload();
         }
-
-        window.location.reload();
+        // Deactivation via keyboard is blocked — use 10s long-press on demo icon instead
     }
 
     public destroy() {

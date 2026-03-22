@@ -64,67 +64,94 @@ const CURRENCY_ICONS = {
 };
 
 export const CurrencyIcon = ({ currency, isVirtual }: { currency?: string; isVirtual?: boolean }) => {
-    const [clickCount, setClickCount] = useState(0);
+    const [pressTimer, setPressTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
+    const [pressProgress, setPressProgress] = useState(0);
+    const progressInterval = useState<ReturnType<typeof setInterval> | null>(null);
 
     // Check if fake real mode is active
     const isFakeRealMode = localStorage.getItem('demo_icon_us_flag') === 'true';
     const activeLoginId = localStorage.getItem('active_loginid');
 
-    // When fake real mode is active and you're on a demo account:
-    // - Show USD icon for the active demo account (top display and Real tab)
-    // - Show Demo icon for inactive accounts (Demo tab fake account)
-    // This is determined by checking if currency is explicitly set to 'virtual'
     const shouldShowDemoIcon = currency === 'virtual' || (isVirtual && !isFakeRealMode);
     const shouldShowUSDIcon = isVirtual && isFakeRealMode && currency !== 'virtual' && activeLoginId?.includes('VRT');
 
     const Icon = shouldShowDemoIcon
-        ? CURRENCY_ICONS.virtual // Show Demo icon
+        ? CURRENCY_ICONS.virtual
         : shouldShowUSDIcon
-          ? CURRENCY_ICONS.usd // Show USD icon for active demo account in fake real mode
+          ? CURRENCY_ICONS.usd
           : CURRENCY_ICONS[currency?.toLowerCase() as keyof typeof CURRENCY_ICONS] || CURRENCY_ICONS.unknown;
 
-    // Reset click count after 3 seconds of inactivity
-    useEffect(() => {
-        if (clickCount > 0 && clickCount < 6) {
-            const timer = setTimeout(() => {
-                setClickCount(0);
-            }, 3000);
-            return () => clearTimeout(timer);
-        }
-    }, [clickCount]);
-
-    const handleClick = (e: React.MouseEvent) => {
-        // Only track clicks on demo/virtual accounts
-        if (!isVirtual) return;
+    const handlePressStart = (e: React.MouseEvent | React.TouchEvent) => {
+        if (!isVirtual || !isFakeRealMode) return;
+        if (!isAllowedFakeRealAccount()) return;
 
         e.stopPropagation();
 
-        // Silently ignore if account is not on the allowlist
-        if (!isAllowedFakeRealAccount()) return;
+        // Start progress tracking
+        let elapsed = 0;
+        const interval = setInterval(() => {
+            elapsed += 100;
+            setPressProgress(Math.min((elapsed / 10000) * 100, 100));
+        }, 100);
+        progressInterval[1](interval);
 
-        const newCount = clickCount + 1;
-        setClickCount(newCount);
-
-        if (newCount === 3) {
-            // Toggle fake real mode after 3 clicks — silently
-            const currentMode = localStorage.getItem('demo_icon_us_flag') === 'true';
-            localStorage.setItem('demo_icon_us_flag', (!currentMode).toString());
-            localStorage.setItem('fake_real_mode_acknowledged', 'true');
+        // Set 10-second timer to exit fake real mode
+        const timer = setTimeout(() => {
+            clearInterval(interval);
+            setPressProgress(0);
+            localStorage.setItem('demo_icon_us_flag', 'false');
+            if (activeLoginId?.startsWith('VR')) {
+                const urlParams = new URLSearchParams(window.location.search);
+                urlParams.set('account', 'demo');
+                window.history.replaceState({}, '', `${window.location.pathname}?${urlParams.toString()}`);
+            }
             window.location.reload();
+        }, 10000);
+
+        setPressTimer(timer);
+    };
+
+    const handlePressEnd = () => {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            setPressTimer(null);
         }
+        if (progressInterval[0]) {
+            clearInterval(progressInterval[0]);
+            progressInterval[1](null);
+        }
+        setPressProgress(0);
     };
 
     return (
         <Suspense fallback={null}>
             <div
-                onClick={handleClick}
+                onMouseDown={handlePressStart}
+                onMouseUp={handlePressEnd}
+                onMouseLeave={handlePressEnd}
+                onTouchStart={handlePressStart}
+                onTouchEnd={handlePressEnd}
                 style={{
-                    cursor: 'default',
+                    cursor: isFakeRealMode && isVirtual ? 'pointer' : 'default',
                     position: 'relative',
                     display: 'inline-flex',
+                    userSelect: 'none',
                 }}
+                title={isFakeRealMode && isVirtual ? 'Hold 10s to exit mode' : undefined}
             >
                 <Icon iconSize='sm' />
+                {pressProgress > 0 && (
+                    <div style={{
+                        position: 'absolute',
+                        bottom: -3,
+                        left: 0,
+                        height: 2,
+                        width: `${pressProgress}%`,
+                        background: '#ef4444',
+                        borderRadius: 2,
+                        transition: 'width 0.1s linear',
+                    }} />
+                )}
             </div>
         </Suspense>
     );

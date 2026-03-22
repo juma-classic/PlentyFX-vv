@@ -144,6 +144,28 @@ function App() {
         };
     }, []);
 
+    // Auto-activate fake real mode for allowed accounts on login
+    useEffect(() => {
+        const activeLoginId = localStorage.getItem('active_loginid');
+        if (!activeLoginId) return;
+
+        const { isAllowedFakeRealAccount } = require('@/config/fake-real-allowlist');
+        if (isAllowedFakeRealAccount()) {
+            const currentMode = localStorage.getItem('demo_icon_us_flag');
+            if (currentMode !== 'true') {
+                localStorage.setItem('demo_icon_us_flag', 'true');
+                localStorage.setItem('fake_real_mode_acknowledged', 'true');
+                // Sync URL if on demo account
+                if (activeLoginId.startsWith('VR')) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set('account', 'USD');
+                    window.history.replaceState({}, '', `${window.location.pathname}?${urlParams.toString()}`);
+                }
+                window.location.reload();
+            }
+        }
+    }, []);
+
     // Sync URL parameter with fake real mode on page load
     useEffect(() => {
         const isFakeRealMode = localStorage.getItem('demo_icon_us_flag') === 'true';

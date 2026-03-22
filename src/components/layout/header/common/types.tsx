@@ -53,6 +53,7 @@ export type TRealAccounts = TNoNonEuAccounts & {
     oAuthLogout: () => void;
     loginid?: string;
     is_logging_out: boolean;
+    currentViewTab?: 'real' | 'demo';
 };
 export type TEuAccounts = TNoNonEuAccounts & {
     modifiedMFAccountList: TModifiedAccount[];
@@ -66,6 +67,7 @@ export type TNonEUAccounts = TNoNonEuAccounts & {
     modifiedCRAccountList: TModifiedAccount[];
     modifiedMFAccountList?: TModifiedAccount[];
     switchAccount: (loginId: number) => void;
+    currentViewTab?: 'real' | 'demo';
 };
 
 export type TAccountSwitcherFooter = {

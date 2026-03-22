@@ -16,6 +16,7 @@ const RealAccounts = ({
     oAuthLogout,
     loginid,
     is_logging_out,
+    currentViewTab,
 }: TRealAccounts) => {
     const hasNonEuAccounts = modifiedCRAccountList && modifiedCRAccountList?.length > 0;
     const hasEuAccounts = modifiedMFAccountList && modifiedMFAccountList?.length > 0;
@@ -30,6 +31,7 @@ const RealAccounts = ({
                         isVirtual={isVirtual}
                         tabs_labels={tabs_labels}
                         is_low_risk_country={is_low_risk_country}
+                        currentViewTab={currentViewTab}
                     />
                     <AccountSwitcherDivider />
                 </>

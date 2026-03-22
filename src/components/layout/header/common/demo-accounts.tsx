@@ -35,7 +35,7 @@ const DemoAccounts = ({
                         <span
                             className={clsx('account-switcher__item', {
                                 'account-switcher__item--disabled': account.is_disabled,
-                                'fake-demo-mode-account': isFakeRealMode && account.loginid === 'VRTC7528369', // Bold font for fake demo account
+                                'fake-real-active-account': isFakeRealMode && currentViewTab === 'demo',
                             })}
                             key={account.loginid}
                         >

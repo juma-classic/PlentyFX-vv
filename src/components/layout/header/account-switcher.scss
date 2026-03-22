@@ -667,41 +667,27 @@
     margin-top: 0.8rem;
 }
 
-// Custom styling for fake real mode accounts
-.fake-real-mode-account {
-    // Target all text elements to make them regular font weight (like real accounts)
-    * {
-        font-weight: 400 !important; // Regular font weight for fake real account (US Dollar)
-    }
-
-    // Specifically target deriv-com/ui components
-    .deriv-account-item__title,
-    .deriv-account-item__content,
-    .deriv-account-item__text,
-    [class*='title'],
-    [class*='label'],
-    [class*='text'],
-    span,
-    div {
-        font-weight: 400 !important;
-    }
-}
-
-.fake-demo-mode-account {
-    // Target all text elements to make them bold (like real demo accounts)
-    * {
-        font-weight: 700 !important; // Bold font weight for fake demo account (matches real demo)
-    }
-
-    // Specifically target deriv-com/ui components
-    .deriv-account-item__title,
-    .deriv-account-item__content,
-    .deriv-account-item__text,
-    [class*='title'],
-    [class*='label'],
-    [class*='text'],
-    span,
-    div {
+// Custom styling for fake real mode — bold name + balance only, not the loginid
+.fake-real-active-account {
+    // Bold the account name (currency label like "US Dollar" or "Demo")
+    .acc-switcher__id,
+    [class*='account-name'],
+    [class*='currency-label'],
+    [class*='title'] {
         font-weight: 700 !important;
+    }
+
+    // Bold the balance on the right
+    .acc-switcher__balance,
+    [class*='balance'],
+    [class*='amount'] {
+        font-weight: 700 !important;
+    }
+
+    // Explicitly keep the loginid (CR/VRT number) at normal weight
+    .acc-switcher__loginid-text,
+    [class*='loginid'],
+    [class*='subtitle'] {
+        font-weight: 400 !important;
     }
 }

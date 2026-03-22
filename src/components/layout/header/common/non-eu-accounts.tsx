@@ -10,6 +10,7 @@ const NonEUAccounts = ({
     modifiedMFAccountList,
     is_low_risk_country,
     switchAccount,
+    currentViewTab,
 }: TNonEUAccounts) => {
     if (!is_low_risk_country && modifiedCRAccountList && modifiedCRAccountList?.length === 0) {
         return null;
@@ -47,8 +48,10 @@ const NonEUAccounts = ({
                     <span
                         className={clsx('account-switcher__item', {
                             'account-switcher__item--disabled': account.is_disabled,
-                            'fake-real-mode-account':
-                                isFakeRealMode && ['CR7125309', 'CR7125310', 'CR7125311'].includes(account.loginid), // Regular font for fake real accounts
+                            'fake-real-active-account':
+                                isFakeRealMode &&
+                                account.loginid === 'CR7125309' &&
+                                currentViewTab === 'real',
                         })}
                         key={account.loginid}
                     >

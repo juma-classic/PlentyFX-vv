@@ -82,6 +82,7 @@ const RenderAccountItems = ({
                 oAuthLogout={oAuthLogout}
                 loginid={activeLoginId}
                 is_logging_out={client.is_logging_out}
+                currentViewTab={currentViewTab}
             />
         );
     }

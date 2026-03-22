@@ -11,6 +11,21 @@ export const useFakeRealBalanceSync = () => {
     const previousBalanceRef = useRef<number | null>(null);
     const isFakeRealMode = fakeRealBalanceTracker.isFakeRealModeActive();
 
+    // When balance is manually reset via the panel, re-snapshot the current demo balance
+    // so the next trade delta is calculated from the correct baseline
+    useEffect(() => {
+        const handleManualReset = () => {
+            const currentBalance = client?.all_accounts_balance?.accounts?.[client?.loginid ?? '']?.balance;
+            if (currentBalance !== undefined && currentBalance !== null) {
+                previousBalanceRef.current = currentBalance;
+                fakeRealBalanceTracker.snapshotDemoBalance(currentBalance);
+                console.log('🔄 Re-snapshotted demo balance after manual reset:', currentBalance);
+            }
+        };
+        window.addEventListener('fake-real-balance-updated', handleManualReset);
+        return () => window.removeEventListener('fake-real-balance-updated', handleManualReset);
+    }, [client]);
+
     useEffect(() => {
         // Safety checks
         if (!isFakeRealMode || !client?.loginid || !client?.all_accounts_balance) return;

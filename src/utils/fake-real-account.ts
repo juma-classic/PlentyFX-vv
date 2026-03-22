@@ -41,7 +41,7 @@ export const generateCustomTransactionId = (originalId: string | number): string
     const paddedMiddleDigits = middleDigits.toString().padStart(4, '0');
     
     // Construct the full ID: 1461003 + [4 stable digits] + 1
-    return `1461003${paddedMiddleDigits}1`;
+    return `1479974${paddedMiddleDigits}1`;
 };
 
 /**

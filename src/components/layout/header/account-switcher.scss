@@ -677,10 +677,13 @@
         font-weight: 700 !important;
     }
 
-    // Bold the balance on the right
+    // Bold the balance on the right — including the currency symbol/code (e.g. "USD")
     .acc-switcher__balance,
+    .acc-switcher__balance *,
     [class*='balance'],
-    [class*='amount'] {
+    [class*='balance'] *,
+    [class*='amount'],
+    [class*='amount'] * {
         font-weight: 700 !important;
     }
 

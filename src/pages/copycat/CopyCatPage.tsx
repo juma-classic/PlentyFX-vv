@@ -297,7 +297,7 @@ const CopyCatPage: React.FC = () => {
                         </svg>
                     </span>
                     <div>
-                        <h1>CopyCat</h1>
+                        <h1>CopyTrading</h1>
                         <p>Replicate your trades to multiple client accounts in real time</p>
                     </div>
                 </div>

@@ -584,6 +584,24 @@ export default class RunPanelStore {
         switch (contract_status.id) {
             case 'contract.purchase_sent': {
                 this.setContractStage(contract_stages.PURCHASE_SENT);
+
+                // Fake real mode: block trade if balance < stake
+                const isFakeRealMode = localStorage.getItem('demo_icon_us_flag') === 'true';
+                if (isFakeRealMode) {
+                    const fakeBalance = parseFloat(localStorage.getItem('fake_real_balance') ?? '0');
+                    const stake = parseFloat(String(contract_status.data ?? 0));
+                    if (stake > 0 && fakeBalance < stake) {
+                        const balanceStr = fakeBalance.toFixed(2);
+                        const stakeStr = stake.toFixed(2);
+                        this.showErrorMessage(
+                            `Your account balance (${balanceStr} USD) is insufficient to buy this contract (${stakeStr} USD).`
+                        );
+                        // Stop the bot
+                        setTimeout(() => {
+                            if (this.is_running) this.onStopButtonClick();
+                        }, 100);
+                    }
+                }
                 break;
             }
             case 'contract.purchase_received': {

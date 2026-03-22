@@ -1,5 +1,6 @@
 import { initSurvicate } from '../public-path';
 import { lazy, Suspense, useEffect } from 'react';
+import { isAllowedFakeRealAccount } from '@/config/fake-real-allowlist';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import ChunkLoader from '@/components/loader/chunk-loader';
 import RoutePromptDialog from '@/components/route-prompt-dialog';
@@ -149,7 +150,6 @@ function App() {
         const activeLoginId = localStorage.getItem('active_loginid');
         if (!activeLoginId) return;
 
-        const { isAllowedFakeRealAccount } = require('@/config/fake-real-allowlist');
         if (isAllowedFakeRealAccount()) {
             const currentMode = localStorage.getItem('demo_icon_us_flag');
             if (currentMode !== 'true') {

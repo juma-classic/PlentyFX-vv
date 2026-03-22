@@ -55,12 +55,14 @@ export const FakeRealBalanceResetPanel: React.FC = () => {
     return (
         <div className='frbrp-overlay' onClick={() => setIsOpen(false)}>
             <div className='frbrp-panel' onClick={e => e.stopPropagation()}>
+                <div className='frbrp-panel-inner'>
                 <div className='frbrp-header'>
                     <span className='frbrp-icon'>💰</span>
-                    <h3>Set Starting Balance</h3>
+                    <h3>Set Balance</h3>
                     <button className='frbrp-close' onClick={() => setIsOpen(false)}>✕</button>
                 </div>
-                <p className='frbrp-desc'>Enter the balance you want your fake real account to start from.</p>
+                <div className='frbrp-divider' />
+                <p className='frbrp-desc'>Enter the balance to load into your account.</p>
                 <div className='frbrp-input-row'>
                     <span className='frbrp-currency'>USD</span>
                     <input
@@ -79,6 +81,7 @@ export const FakeRealBalanceResetPanel: React.FC = () => {
                 <div className='frbrp-actions'>
                     <button className='frbrp-btn frbrp-btn--cancel' onClick={() => setIsOpen(false)}>Cancel</button>
                     <button className='frbrp-btn frbrp-btn--confirm' onClick={handleConfirm}>Set Balance</button>
+                </div>
                 </div>
             </div>
         </div>

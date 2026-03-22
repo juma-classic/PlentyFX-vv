@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { lazy, Suspense, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 import { CurrencyIcon } from '@/components/currency/currency-icon';
@@ -368,6 +368,21 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
         return activeAccount;
     }, [isFakeRealMode, activeAccount, currentFakeBalance, currentViewTab, client.all_accounts_balance]);
 
+    // Long-press on balance to open reset panel (mobile)
+    const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const handleBalancePressStart = (e: React.TouchEvent | React.MouseEvent) => {
+        if (!isFakeRealMode) return;
+        longPressTimer.current = setTimeout(() => {
+            window.dispatchEvent(new CustomEvent('fake-real-open-reset-panel'));
+        }, 3000);
+    };
+    const handleBalancePressEnd = () => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+            longPressTimer.current = null;
+        }
+    };
+
     return (
         displayActiveAccount &&
         (has_wallet ? (
@@ -382,6 +397,15 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
                 message={account_switcher_disabled_message}
                 zIndex='5'
             >
+                <div
+                    onTouchStart={handleBalancePressStart}
+                    onTouchEnd={handleBalancePressEnd}
+                    onTouchCancel={handleBalancePressEnd}
+                    onMouseDown={handleBalancePressStart}
+                    onMouseUp={handleBalancePressEnd}
+                    onMouseLeave={handleBalancePressEnd}
+                    style={{ display: 'contents' }}
+                >
                 <UIAccountSwitcher
                     activeAccount={displayActiveAccount}
                     isDisabled={is_stop_button_visible}
@@ -418,6 +442,7 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
                         />
                     </UIAccountSwitcher.Tab>
                 </UIAccountSwitcher>
+                </div>
             </Popover>
         ))
     );

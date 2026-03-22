@@ -2,15 +2,15 @@ import { LocalStorageConstants, LocalStorageUtils, URLUtils } from '@deriv-com/u
 import { isStaging } from '../url/helpers';
 
 export const APP_IDS = {
-    LOCALHOST: 110800,
-    TMP_STAGING: 110800,
-    STAGING: 110800,
-    STAGING_BE: 110800,
-    STAGING_ME: 110800,
-    PRODUCTION: 110800,
-    PRODUCTION_BE: 110800,
-    PRODUCTION_ME: 110800,
-    LIVE: 110800,
+    LOCALHOST: 119552,
+    TMP_STAGING: 119552,
+    STAGING: 119552,
+    STAGING_BE: 119552,
+    STAGING_ME: 119552,
+    PRODUCTION: 119552,
+    PRODUCTION_BE: 119552,
+    PRODUCTION_ME: 119552,
+    LIVE: 119552,
 };
 
 export const livechat_license_id = 12049137;
@@ -71,9 +71,9 @@ export const getDefaultAppIdAndUrl = () => {
 export const getAppId = () => {
     let app_id = window.localStorage.getItem('config.app_id');
 
-    if (!app_id || app_id === '110800') {
+    if (!app_id || app_id === '119552') {
         console.warn('⚠️ App ID is invalid, forcing correct App ID...');
-        app_id = '110800';
+        app_id = '119552';
         window.localStorage.setItem('config.app_id', app_id);
     }
 

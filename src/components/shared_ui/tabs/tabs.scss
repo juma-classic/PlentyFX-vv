@@ -226,9 +226,9 @@
         align-items: center;
         gap: 0.75rem;
         padding: 1rem 1.5rem !important;
-        // Dark purple gradient background
-        background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 50%, #7b1fa2 100%);
-        border: 2px solid rgba(123, 31, 162, 0.5);
+        // Dark navy blue gradient background
+        background: linear-gradient(135deg, #0a1628 0%, #0d1f3c 50%, #112244 100%);
+        border: 2px solid rgba(17, 34, 68, 0.5);
         border-radius: 4px; // Simple rounded rectangle
         color: rgba(255, 255, 255, 0.95) !important; // White text
         font-size: 14.3px; // Increased by 30% (from 11px)
@@ -238,8 +238,8 @@
         user-select: none;
         line-height: 1.2;
         box-shadow: 
-            0 2px 8px rgba(74, 20, 140, 0.3),
-            0 0 10px rgba(123, 31, 162, 0.2);
+            0 2px 8px rgba(10, 22, 40, 0.3),
+            0 0 10px rgba(17, 34, 68, 0.2);
         overflow: hidden;
 
         // Energy glow effect base
@@ -253,8 +253,8 @@
             height: 0;
             background: radial-gradient(
                 circle, 
-                rgba(123, 31, 162, 0.3) 0%, 
-                rgba(106, 27, 154, 0.2) 50%,
+                rgba(17, 34, 68, 0.3) 0%, 
+                rgba(13, 31, 60, 0.2) 50%,
                 transparent 70%
             );
             border-radius: 50%;
@@ -278,15 +278,15 @@
             color: #FFFFFF !important; // White icons
         }
 
-        // Hover state - Lighter purple
+        // Hover state - Lighter navy blue
         &:hover:not(&--active) {
-            background: linear-gradient(135deg, #6a1b9a 0%, #7b1fa2 50%, #8e24aa 100%);
-            border-color: rgba(142, 36, 170, 0.8);
+            background: linear-gradient(135deg, #0d1f3c 0%, #112244 50%, #1a3a6e 100%);
+            border-color: rgba(26, 58, 110, 0.8);
             color: #FFFFFF !important;
             transform: translateY(-2px);
             box-shadow: 
-                0 6px 20px rgba(142, 36, 170, 0.5),
-                0 0 30px rgba(123, 31, 162, 0.4);
+                0 6px 20px rgba(26, 58, 110, 0.5),
+                0 0 30px rgba(17, 34, 68, 0.4);
 
             &:before {
                 width: 200%;
@@ -306,19 +306,19 @@
             }
         }
 
-        // Active state - Bright purple
+        // Active state - Bright navy blue
         &--active {
             background: linear-gradient(
                 135deg, 
-                #9c27b0 0%, 
-                #8e24aa 50%,
-                #7b1fa2 100%
+                #1a3a6e 0%, 
+                #1565c0 50%,
+                #0d47a1 100%
             ) !important;
-            border: 2px solid #9c27b0 !important;
+            border: 2px solid #1565c0 !important;
             color: #FFFFFF !important;
             box-shadow:
-                0 8px 24px rgba(156, 39, 176, 0.6),
-                0 0 40px rgba(123, 31, 162, 0.4),
+                0 8px 24px rgba(21, 101, 192, 0.6),
+                0 0 40px rgba(13, 71, 161, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
             transform: translateY(-3px);
 
@@ -346,14 +346,14 @@
                 height: 3px;
                 background: linear-gradient(
                     90deg, 
-                    #ce93d8 0%, 
-                    #ba68c8 50%,
-                    #ab47bc 100%
+                    #90caf9 0%, 
+                    #42a5f5 50%,
+                    #1e88e5 100%
                 );
                 border-radius: 2px 2px 0 0;
                 animation: energyLine 2s ease-in-out infinite;
                 box-shadow: 
-                    0 0 10px rgba(206, 147, 216, 0.8);
+                    0 0 10px rgba(144, 202, 249, 0.8);
             }
 
             // Energy particles
@@ -362,8 +362,8 @@
                 height: 150%;
                 background: radial-gradient(
                     circle, 
-                    rgba(0, 188, 212, 0.3) 0%,
-                    rgba(0, 172, 193, 0.2) 50%,
+                    rgba(21, 101, 192, 0.3) 0%,
+                    rgba(13, 71, 161, 0.2) 50%,
                     transparent 70%
                 );
                 animation: energyPulse 3s ease-in-out infinite;

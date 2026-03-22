@@ -682,6 +682,9 @@ const AppWrapper = observer(() => {
     useEffect(() => {
         const fetchBots = async () => {
             const botFiles = [
+                'States Digit Switcher.xml',
+                'Profit Pilot.xml',
+                'BramEvenOdd.xml',
                 'PATEL (with Entry).xml',
                 'Auto differ recovery over under.xml',
                 'dollar_flipper.xml',
@@ -749,7 +752,6 @@ const AppWrapper = observer(() => {
                     'Premium Signal Hunter.xml',
                     'Premium Profit Maximizer.xml',
                     'BOMB.xml',
-                    'States Digit Switcher.xml',
                     'States digit switcher version 2💵 (1).xml',
                     'D strike 2.xml',
                     'Magic Recovery.xml',

@@ -89,7 +89,7 @@ class DerivConnectionPoolService {
             });
         });
 
-        console.log('✅ Connection Pool initialized with single App ID (110800) for all features');
+        console.log('✅ Connection Pool initialized with single App ID (119552) for all features');
         console.log('📊 This temporary fix consolidates all connections to resolve timeout issues');
         this.logConnectionDistribution();
     }
@@ -199,7 +199,7 @@ class DerivConnectionPoolService {
      */
     public getAppId(type: ConnectionType): string {
         const config = this.appIdConfigs.find(c => c.type === type);
-        return config?.appId || '110800';
+        return config?.appId || '119552';
     }
 
     /**

@@ -18,7 +18,7 @@ export class WebSocketDiagnostic {
     /**
      * Test direct WebSocket connection to Deriv API
      */
-    public async testDirectConnection(appId: string = '110800', symbol: string = 'R_100'): Promise<DiagnosticResult[]> {
+    public async testDirectConnection(appId: string = '119552', symbol: string = 'R_100'): Promise<DiagnosticResult[]> {
         this.results = [];
         this.isRunning = true;
 

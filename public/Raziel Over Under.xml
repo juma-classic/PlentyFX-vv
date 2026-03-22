@@ -47,7 +47,7 @@
         <field name="VAR" id="y)BE|l7At6oT)ur0Dsw?">Stake</field>
         <value name="VALUE">
           <block type="math_number" id="TDv/W;dNI84TFbp}8X8=">
-            <field name="NUM">0.35</field>
+            <field name="NUM">2</field>
           </block>
         </value>
         <next>
@@ -55,7 +55,7 @@
             <field name="VAR" id="w-u|Aa@hixY}obmPG||/">initalStake</field>
             <value name="VALUE">
               <block type="math_number" id="9Z%4%dmqCp;/sSt8wGv#">
-                <field name="NUM">0.35</field>
+                <field name="NUM">2</field>
               </block>
             </value>
             <next>
@@ -63,7 +63,7 @@
                 <field name="VAR" id=".5ELQ4[J.e4czk,qPqKM">Martingale split</field>
                 <value name="VALUE">
                   <block type="math_number" id="Ib,Krc`nUJzn1KMo9)`A">
-                    <field name="NUM">1.5</field>
+                    <field name="NUM">2</field>
                   </block>
                 </value>
                 <next>
@@ -71,7 +71,7 @@
                     <field name="VAR" id="1uX.p~r.eI(VcFiMN%o/">Prediction before loss</field>
                     <value name="VALUE">
                       <block type="math_number" id="~]Q~lGg)3FCGB95VKA`b">
-                        <field name="NUM">1</field>
+                        <field name="NUM">2</field>
                       </block>
                     </value>
                     <next>
@@ -79,7 +79,7 @@
                         <field name="VAR" id="#gu]uytmw()!MWQ$-DZ$">prediction after loss</field>
                         <value name="VALUE">
                           <block type="math_number" id="(6)D~Nlfu/PCG*s5!9Qy">
-                            <field name="NUM">2</field>
+                            <field name="NUM">3</field>
                           </block>
                         </value>
                         <next>

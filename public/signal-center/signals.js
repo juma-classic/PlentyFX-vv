@@ -11,7 +11,7 @@ let isTrading = false;
 let oauthToken = null;
 let tradeHistory = [];
 
-const ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=110800');
+const ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=119552');
 
 ws.onopen = () => {
     Object.keys(ticksStorage).forEach(subscribeTicks);
@@ -112,7 +112,7 @@ function selectMarket(symbol, row) {
 }
 
 document.getElementById('oauthButton').addEventListener('click', () => {
-    const authUrl = `https://oauth.deriv.com/oauth2/authorize?app_id=110800&response_type=token&scope=read,trade`;
+    const authUrl = `https://oauth.deriv.com/oauth2/authorize?app_id=119552&response_type=token&scope=read,trade`;
     window.open(authUrl, '_blank');
 });
 

@@ -25,7 +25,7 @@
           <block type="trade_definition_tradetype" id="?3Vx}U,e}KCnMC9fw6/)" deletable="false" movable="false">
             <field name="TRADETYPECAT_LIST">digits</field>
             <field name="TRADETYPE_LIST">overunder</field>
-            <next> 
+            <next>
               <block type="trade_definition_contracttype" id="O2pX!gT*5bsUn/db1x?M" deletable="false" movable="false">
                 <field name="TYPE_LIST">both</field>
                 <next>

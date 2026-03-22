@@ -1,0 +1,225 @@
+/**
+ * Signal Pro Navigation Button Styles
+ */
+
+.signal-pro-nav-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    // Primary variant (main navigation)
+    &.primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgb(102 126 234 / 30%);
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgb(255 255 255 / 20%), transparent);
+            transition: left 0.5s;
+        }
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgb(102 126 234 / 40%);
+
+            &:before {
+                left: 100%;
+            }
+
+            .premium-indicator {
+                animation: sparkle 0.6s ease-in-out;
+            }
+        }
+
+        &.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 4px 15px rgb(240 147 251 / 40%);
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .nav-text {
+            font-size: 16px;
+        }
+
+        .nav-badge {
+            background: rgb(255 255 255 / 25%);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+        }
+
+        .premium-indicator {
+            font-size: 14px;
+            margin-left: 4px;
+        }
+    }
+
+    // Sidebar variant
+    &.sidebar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 14px 16px;
+        border-radius: 10px;
+        margin: 4px 0;
+        box-shadow: 0 2px 8px rgb(102 126 234 / 20%);
+
+        &:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgb(102 126 234 / 30%);
+        }
+
+        &.active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 2px 8px rgb(16 185 129 / 30%);
+        }
+
+        .nav-icon {
+            font-size: 16px;
+        }
+
+        .nav-text {
+            font-size: 14px;
+            flex: 1;
+        }
+
+        .nav-badge {
+            background: rgb(255 255 255 / 20%);
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+    }
+
+    // Mobile variant
+    &.mobile {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        padding: 16px 20px;
+        border-radius: 12px;
+        margin: 8px 0;
+        box-shadow: 0 4px 12px rgb(102 126 234 / 30%);
+        justify-content: space-between;
+
+        &:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+
+        &.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-text {
+            font-size: 16px;
+            flex: 1;
+            margin-left: 12px;
+        }
+
+        .nav-badge {
+            background: rgb(255 255 255 / 25%);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+    }
+}
+
+// Animations
+@keyframes sparkle {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+// Pulse animation for new feature
+.signal-pro-nav-button {
+    &:after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+        background-size: 400% 400%;
+        border-radius: inherit;
+        z-index: -1;
+        animation: gradient-pulse 3s ease infinite;
+        opacity: 0.7;
+    }
+
+    &:hover:after {
+        opacity: 1;
+    }
+}
+
+@keyframes gradient-pulse {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+// Dark theme adjustments
+.dark-theme {
+    .signal-pro-nav-button {
+        &.sidebar {
+            box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+
+            &:hover {
+                box-shadow: 0 4px 12px rgb(0 0 0 / 40%);
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (width <= 768px) {
+    .signal-pro-nav-button {
+        &.primary {
+            padding: 10px 16px;
+
+            .nav-text {
+                font-size: 14px;
+            }
+
+            .nav-badge {
+                font-size: 9px;
+                padding: 2px 6px;
+            }
+        }
+    }
+}

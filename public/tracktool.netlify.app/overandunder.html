@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Signals Dashboard</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+
+        .bar-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .bar {
+            width: 300px;
+            height: 30px;
+            background-color: grey;
+            position: relative;
+            margin: 0 10px;
+            border-radius: 5px;
+        }
+
+        .bar .fill {
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 5px;
+        }
+
+        .digit-buttons {
+            margin: 20px;
+        }
+
+        .digit-buttons button {
+            background-color: #444;
+            border: 1px solid white;
+            color: white;
+            margin: 2px;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .digit-buttons button:hover {
+            background-color: #555;
+        }
+
+        .digit-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .digit-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 15px;
+        }
+
+        .digit-bar span {
+            margin-bottom: 5px;
+        }
+
+        .shaking-title {
+            font-size: 30px;
+            font-weight: bold;
+            animation: shakeTitle 3s infinite, changeColor 5s infinite;
+            margin-bottom: 20px;
+            color: #ff5722;
+        }
+
+        .volatility-selector {
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid #1e90ff;
+            box-shadow: 0 0 15px 5px rgba(30, 144, 255, 0.5);
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            font-size: 18px;
+        }
+
+        .volatility-selector select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: #333;
+            border: 1px solid #1e90ff;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        @keyframes shakeTitle {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            50% {
+                transform: translateX(5px);
+            }
+            75% {
+                transform: translateX(-5px);
+            }
+        }
+
+        @keyframes changeColor {
+            0%,
+            100% {
+                color: orange;
+            }
+            25% {
+                color: darkred;
+            }
+            50% {
+                color: orange;
+            }
+            75% {
+                color: darkred;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="shaking-title" id="titleText">Over/Under Percentage Analysis</h1>
+
+    <!-- Volatility Markets Selector -->
+    <div class="volatility-selector">
+        <label for="volatilityMarket">Choose a Volatility Market:</label><br>
+        <select id="volatilityMarket">
+             <option value="R_10">Volatility 10 Index</option>
+        <option value="R_25">Volatility 25 Index</option>
+        <option value="R_50">Volatility 50 Index</option>
+        <option value="R_75">Volatility 75 Index</option>
+        <option value="R_100">Volatility 100 Index</option>
+        <option value="R_200">Volatility 200 Index</option>
+        <option value="R_300">Volatility 300 Index</option>
+        <option value="R_10_1s">Volatility 10 (1s) Index</option>
+        <option value="R_25_1s">Volatility 25 (1s) Index</option>
+        <option value="R_50_1s">Volatility 50 (1s) Index</option>
+        <option value="R_75_1s">Volatility 75 (1s) Index</option>
+        <option value="R_100_1s">Volatility 100 (1s) Index</option>
+        </select>
+    </div>
+
+    <!-- Over and Under Analysis -->
+    <h2>Over and Under Analysis</h2>
+
+    <div class="digit-container">
+        <div class="digit-bar">
+            <h3>Over</h3>
+            <div id="overButtons"></div>
+            <div class="bar-container">
+                <div class="bar" id="overBar">
+                    <div class="fill" id="overFill"></div>
+                </div>
+                <span id="overPercentage">0%</span>
+            </div>
+        </div>
+
+        <div class="digit-bar">
+            <h3>Under</h3>
+            <div id="underButtons"></div>
+            <div class="bar-container">
+                <div class="bar" id="underBar">
+                    <div class="fill" id="underFill"></div>
+                </div>
+                <span id="underPercentage">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const overButtonsContainer = document.getElementById('overButtons');
+        const underButtonsContainer = document.getElementById('underButtons');
+        const overFill = document.getElementById('overFill');
+        const underFill = document.getElementById('underFill');
+        const overPercentage = document.getElementById('overPercentage');
+        const underPercentage = document.getElementById('underPercentage');
+        const volatilityMarket = document.getElementById('volatilityMarket');
+        let digitCounts = Array(10).fill(0);
+        let selectedDigit = null;
+        let selectedType = null;
+
+        // Create digit buttons
+        function createDigitButtons() {
+            for (let i = 0; i <= 8; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.style.backgroundColor = '#333';
+                button.style.border = '1px solid orange';
+                button.addEventListener('click', () => selectDigit(i, 'over'));
+                overButtonsContainer.appendChild(button);
+            }
+            for (let i = 1; i <= 9; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.style.backgroundColor = '#333';
+                button.style.border = '1px solid orange';
+                button.addEventListener('click', () => selectDigit(i, 'under'));
+                underButtonsContainer.appendChild(button);
+            }
+        }
+        createDigitButtons();
+
+        // Select a digit and start auto-updating
+        function selectDigit(digit, type) {
+            selectedDigit = digit;
+            selectedType = type;
+            updatePercentage();
+        }
+
+        // Update percentage every 5 seconds
+        function updatePercentage() {
+            if (selectedDigit !== null && selectedType !== null) {
+                let percentage;
+                const totalDigits = digitCounts.reduce((a, b) => a + b, 0);
+
+                if (selectedType === 'over') {
+                    const total = digitCounts.slice(selectedDigit + 1).reduce((a, b) => a + b, 0);
+                    percentage = ((total / totalDigits) * 100).toFixed(2);
+                    updateBar(overFill, percentage, 'blue');
+                    overPercentage.textContent = `${percentage}%`;
+                } else if (selectedType === 'under') {
+                    const total = digitCounts.slice(0, selectedDigit).reduce((a, b) => a + b, 0);
+                    percentage = ((total / totalDigits) * 100).toFixed(2);
+                    updateBar(underFill, percentage, 'red');
+                    underPercentage.textContent = `${percentage}%`;
+                }
+            }
+            setTimeout(updatePercentage, 5000); // Update every 5 seconds
+        }
+
+        // Update the bar with the percentage
+        function updateBar(fillElement, percentage, color) {
+            fillElement.style.width = `${percentage}%`;
+            fillElement.style.backgroundColor = color;
+        }
+
+        // Fetch data from Deriv API and update digit counts
+        function fetchData() {
+            const appId = '63213'; // Replace with your actual app_id
+            const ws = new WebSocket(`wss://ws.binaryws.com/websockets/v3?app_id=${appId}`);
+
+            ws.onopen = function() {
+                console.log('Connected to WebSocket');
+                ws.send(JSON.stringify({
+                    ticks: volatilityMarket.value
+                })); // Selected market
+            };
+
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                if (data.msg_type === 'tick') {
+                    const digit = parseInt(data.tick.quote.toString().slice(-1));
+                    digitCounts[digit]++;
+                }
+            };
+
+            ws.onerror = function(error) {
+                console.error('WebSocket Error:', error);
+            };
+
+            ws.onclose = function() {
+                console.log('WebSocket connection closed');
+            };
+
+            // Update the WebSocket when the market changes
+            volatilityMarket.addEventListener('change', () => {
+                digitCounts = Array(10).fill(0);
+                ws.close();
+                fetchData();
+            });
+        }
+        fetchData();
+    </script>
+</body>
+
+</html>

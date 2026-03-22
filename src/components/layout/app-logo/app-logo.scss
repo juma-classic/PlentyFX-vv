@@ -1,0 +1,59 @@
+.app-header {
+    &__logo {
+        padding-inline-start: 1.2rem;
+        padding-inline-end: 2rem;
+        border-inline-end: 1px solid var(--general-section-1);
+        height: 32px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        
+        &.plenty-fx-logo {
+            .plenty-fx-text {
+                font-size: 1.825rem; // Increased by 10px (from 1.2rem)
+                font-weight: 900;
+                letter-spacing: 1px;
+                // Red glassy effect
+                background: linear-gradient(135deg, #FF1744 0%, #F50057 50%, #FF4081 100%);
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                -webkit-background-clip: text;
+                text-transform: uppercase;
+                transition: all 0.3s ease;
+                position: relative;
+                
+                // Glassy shine effect
+                &:before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(
+                        135deg,
+                        rgba(255, 255, 255, 0.4) 0%,
+                        rgba(255, 255, 255, 0.1) 50%,
+                        transparent 100%
+                    );
+                    border-radius: 4px;
+                    pointer-events: none;
+                }
+                
+                // Glass reflection
+                filter: drop-shadow(0 2px 4px rgba(255, 23, 68, 0.3))
+                        drop-shadow(0 0 10px rgba(255, 23, 68, 0.2));
+                
+                &:hover {
+                    background: linear-gradient(135deg, #FF4081 0%, #F50057 50%, #FF1744 100%);
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                    filter: drop-shadow(0 4px 8px rgba(255, 23, 68, 0.5))
+                            drop-shadow(0 0 15px rgba(255, 23, 68, 0.4));
+                    transform: scale(1.05);
+                }
+            }
+        }
+    }
+}

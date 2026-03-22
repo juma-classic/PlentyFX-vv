@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>analysis TOOL</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Base styles with smooth textures and gradients */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: stretch;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23dddfe2' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        /* Split layout: sidebar + main content */
+
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Left sidebar for controls */
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(165deg, #1a2a47 0%, #2e4b7a 100%);
+            padding: 25px;
+            box-shadow: 3px 0 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            color: white;
+            z-index: 10;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header {
+            margin-bottom: 35px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .sidebar-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #64b5f6, #90caf9);
+            border-radius: 3px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #90caf9, #e1f5fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .sidebar-header p {
+            font-size: 13px;
+            opacity: 0.75;
+            letter-spacing: 0.5px;
+        }
+
+        .control-group {
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .control-group label::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: #64b5f6;
+            border-radius: 50%;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            backdrop-filter: blur(5px);
+            font-size: 14px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        select {
+            appearance: none;
+            padding-right: 30px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+        }
+
+        select option {
+            background-color: #2a4161;
+            color: white;
+            padding: 10px;
+        }
+
+        select:focus,
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 2px rgba(100, 181, 246, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+            border-color: rgba(100, 181, 246, 0.5);
+        }
+
+        .percentages {
+            margin-top: auto;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .percentage-cards {
+            display: flex;
+            gap: 15px;
+        }
+
+        .percentage-card {
+            flex: 1;
+            padding: 18px 12px;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .percentage-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        #evenPercentage {
+            background: linear-gradient(135deg, rgba(30, 144, 255, 0.7), rgba(100, 181, 246, 0.8));
+        }
+
+        #oddPercentage {
+            background: linear-gradient(135deg, rgba(233, 30, 99, 0.7), rgba(240, 98, 146, 0.8));
+        }
+
+        .percentage-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+            transform: rotate(30deg);
+            z-index: -1;
+        }
+
+        /* Main content area */
+
+        .content {
+            flex: 1;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e0 #f8f9fa;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: #f8f9fa;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 10px;
+        }
+
+        .top-row {
+            display: flex;
+            gap: 25px;
+            height: 120px;
+        }
+
+        .price-card {
+            flex: 1;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .price-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .price-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #64b5f6, #1e88e5);
+        }
+
+        #priceDisplay {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a2a47;
+            margin: 5px 0;
+            position: relative;
+        }
+
+        .price-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #90a4ae;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            height: 650px;
+            /* Increased height for the chart */
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .chart-container:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .chart-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #e0e0e0, transparent);
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a2a47;
+            display: flex;
+            align-items: center;
+        }
+
+        .chart-title::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #64b5f6;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .chart-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .digits-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .digits-section:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .digits-header {
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a2a47;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .digits-header::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #64b5f6;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .digits-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #e0e0e0, transparent);
+        }
+
+        .digits-container {
+            max-height: 180px;
+            overflow-y: auto;
+            padding: 10px 15px;
+            background: rgba(248, 249, 250, 0.9);
+            border-radius: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: #64b5f6 #f8f9fa;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .digits-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .digits-container::-webkit-scrollbar-track {
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .digits-container::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 10px;
+        }
+
+        #lastDigitsList {
+            font-family: 'Roboto Mono', monospace;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px;
+            padding: 2px;
+        }
+
+        /* Style for individual digits */
+
+        .digit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Even digits styling */
+
+        .digit-even {
+            background: linear-gradient(135deg, #64b5f6, #1976d2);
+            color: white;
+        }
+
+        /* Odd digits styling */
+
+        .digit-odd {
+            background: linear-gradient(135deg, #ef5350, #c62828);
+            color: white;
+        }
+
+        /* Hover effects */
+
+        .digit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animation for new digits */
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .digit {
+            animation: popIn 0.3s ease-out forwards;
+        }
+
+        /* Responsive styles */
+
+        @media screen and (max-width: 1200px) {
+            .content {
+                padding: 25px;
+            }
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        @media screen and (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                min-height: unset;
+                position: relative;
+                padding: 20px;
+            }
+            .sidebar-header {
+                margin-bottom: 25px;
+            }
+            .control-group {
+                margin-bottom: 15px;
+            }
+            .percentages {
+                position: static;
+                margin-top: 20px;
+            }
+            .content {
+                max-height: unset;
+                padding: 20px;
+            }
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .top-row {
+                flex-direction: column;
+                height: auto;
+                gap: 20px;
+            }
+            .price-card {
+                width: 100%;
+                padding: 15px;
+            }
+            .chart-container {
+                height: 300px;
+                padding: 15px;
+            }
+            .digits-section {
+                padding: 15px;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .content {
+                padding: 15px;
+            }
+            #priceDisplay {
+                font-size: 24px;
+            }
+            .chart-container {
+                height: 250px;
+            }
+            .percentage-cards {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .percentage-card {
+                padding: 12px 10px;
+            }
+            .digits-container {
+                max-height: 100px;
+            }
+            #lastDigitsList {
+                font-size: 14px;
+            }
+        }
+
+        /* Animations */
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(100, 181, 246, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(100, 181, 246, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(100, 181, 246, 0);
+            }
+        }
+
+        .price-card {
+            animation: fadeIn 0.6s ease-out, pulse 2s infinite;
+        }
+
+        .chart-container {
+            animation: fadeIn 0.6s ease-out 0.2s both;
+        }
+
+        .digits-section {
+            animation: fadeIn 0.6s ease-out 0.4s both;
+        }
+
+        .sidebar-header,
+        .control-group,
+        .percentages {
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .sidebar-header {
+            animation-delay: 0.1s;
+        }
+
+        .control-group:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .control-group:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .percentages {
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Sidebar with controls and percentages -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>analysis</h1>
+                <p>Trading Pattern Recognition</p>
+            </div>
+
+            <div class="control-group">
+                <label for="symbolInput">Volatility Index</label>
+                <select id="symbolInput">
+          <option value="R_10" selected>VOLATILITY INDEX 10</option>
+          <option value="R_25">VOLATILITY INDEX 25</option>
+          <option value="R_50">VOLATILITY INDEX 50</option>
+          <option value="R_75">VOLATILITY INDEX 75</option>
+          <option value="R_100">VOLATILITY INDEX 100</option>
+          <option value="1HZ10V">VOLATILITY INDEX 10s</option>
+          <option value="1HZ25V">VOLATILITY INDEX 25s</option>
+          <option value="1HZ50V">VOLATILITY INDEX 50s</option>
+          <option value="1HZ75V">VOLATILITY INDEX 75s</option>
+          <option value="1HZ100V">VOLATILITY INDEX 100s</option>
+          <option value="JD10">JUMP INDEX 10</option>
+          <option value="JD25">JUMP INDEX 25</option>
+          <option value="JD50">JUMP INDEX 50</option>
+          <option value="JD75">JUMP INDEX 75</option>
+          <option value="JD100">JUMP INDEX 100</option>
+          <option value="RDBULL">BULL MARKET</option>
+          <option value="RDBEAR">BEAR MARKET</option>
+        </select>
+            </div>
+
+            <div class="control-group">
+                <label for="digitsInput">Number of Digits</label>
+                <input type="number" id="digitsInput" value="60" min="1">
+            </div>
+
+            <div class="percentages">
+                <div class="percentage-cards">
+                    <div class="percentage-card" id="evenPercentage">Even: 0%</div>
+                    <div class="percentage-card" id="oddPercentage">Odd: 0%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content area -->
+        <div class="content">
+            <!-- Price display card at top -->
+            <div class="top-row">
+                <div class="price-card">
+                    <span class="price-label">Current Price</span>
+                    <p id="priceDisplay">Loading...</p>
+                </div>
+            </div>
+
+            <div class="digits-section">
+                <div class="digits-header">Digits</div>
+                <div class="digits-container">
+                    <p id="lastDigitsList">Loading...</p>
+                </div>
+            </div>
+
+            <!-- Chart container with increased height -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Digit Distribution</div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="barGraph"></canvas>
+                </div>
+            </div>
+
+            <!-- Digits display at bottom -->
+
+        </div>
+    </div>
+
+    <script src="bar.js"></script>
+</body>
+
+</html>

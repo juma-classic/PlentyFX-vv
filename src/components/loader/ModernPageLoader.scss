@@ -1,0 +1,348 @@
+.modern-page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    &__background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    &__gradient {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        opacity: 0.95;
+    }
+
+    &__shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    &__shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgb(255 255 255 / 10%);
+        animation: float-shape 6s ease-in-out infinite;
+
+        &--1 {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        &--2 {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        &--3 {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+    }
+
+    &__content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: #fff;
+        max-width: 400px;
+        padding: 2rem;
+    }
+
+    &__logo {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    &__logo-ring {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        border: 3px solid rgb(255 255 255 / 30%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: rotate-ring 3s linear infinite;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 3px solid transparent;
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin-border 2s linear infinite;
+        }
+    }
+
+    &__logo-inner {
+        width: 60px;
+        height: 60px;
+        background: rgb(255 255 255 / 10%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        animation: pulse-logo 2s ease-in-out infinite;
+
+        span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+    }
+
+    &__text {
+        font-size: 1.25rem;
+        font-weight: 300;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        min-height: 1.5rem;
+        letter-spacing: 0.5px;
+    }
+
+    &__progress {
+        margin-bottom: 2rem;
+    }
+
+    &__progress-track {
+        width: 100%;
+        height: 6px;
+        background: rgb(255 255 255 / 20%);
+        border-radius: 3px;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+        position: relative;
+    }
+
+    &__progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #fff, rgb(255 255 255 / 80%));
+        border-radius: 3px;
+        transition: width 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    &__progress-glow {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20px;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgb(255 255 255 / 80%));
+        animation: progress-glow 1.5s ease-in-out infinite;
+    }
+
+    &__progress-text {
+        font-size: 0.875rem;
+        font-weight: 500;
+        opacity: 0.8;
+    }
+
+    &__pulse {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    &__pulse-dot {
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-radius: 50%;
+        animation: pulse-dot 1.5s ease-in-out infinite;
+        position: relative;
+
+        &:before,
+        &:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: rgb(255 255 255 / 40%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse-ring 1.5s ease-out infinite;
+        }
+
+        &:after {
+            animation-delay: 0.5s;
+        }
+    }
+}
+
+// Animations
+@keyframes float-shape {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.1;
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.2;
+    }
+}
+
+@keyframes rotate-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin-border {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse-logo {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+@keyframes progress-glow {
+    0%,
+    100% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-10px);
+    }
+}
+
+@keyframes pulse-dot {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+        opacity: 0;
+    }
+}
+
+// Responsive design
+@media (width <= 768px) {
+    .modern-page-loader {
+        &__content {
+            padding: 1rem;
+            max-width: 300px;
+        }
+
+        &__logo-ring {
+            width: 60px;
+            height: 60px;
+        }
+
+        &__logo-inner {
+            width: 45px;
+            height: 45px;
+
+            span {
+                font-size: 1.2rem;
+            }
+        }
+
+        &__text {
+            font-size: 1rem;
+        }
+
+        &__shape {
+            &--1 {
+                width: 120px;
+                height: 120px;
+            }
+
+            &--2 {
+                width: 100px;
+                height: 100px;
+            }
+
+            &--3 {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+    .modern-page-loader {
+        &__gradient {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+    }
+}

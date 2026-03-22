@@ -1,0 +1,689 @@
+.copy-trader-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.copy-trader-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+
+  h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #f8f9fa;
+      color: #dc3545;
+    }
+  }
+}
+
+.message-banner {
+  background: #d4edda;
+  color: #155724;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #c3e6cb;
+  font-weight: 500;
+}
+
+.loading-banner {
+  background: #fff3cd;
+  color: #856404;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ffeaa7;
+  font-weight: 500;
+  text-align: center;
+}
+
+.statistics-section,
+.account-balances-section,
+.copy-trading-list-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+
+  h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+  }
+}
+
+.statistics-section {
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .stat-item {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-label {
+      display: block;
+      font-size: 0.85rem;
+      color: #6c757d;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+
+      &.success {
+        color: #28a745;
+      }
+
+      &.failed {
+        color: #dc3545;
+      }
+
+      &.profit {
+        color: #28a745;
+      }
+
+      &.loss {
+        color: #dc3545;
+      }
+    }
+  }
+}
+
+// Account Balances Section
+.account-balances-section {
+  .total-balance {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    .balance-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+  }
+
+  .balances-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .balance-item {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .balance-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+
+      .account-id {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      .account-type {
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+
+        &.real {
+          background: #d4edda;
+          color: #155724;
+        }
+
+        &.virtual {
+          background: #fff3cd;
+          color: #856404;
+        }
+      }
+    }
+
+    .balance-amount {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+
+      .amount {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #28a745;
+      }
+
+      .currency {
+        font-size: 0.9rem;
+        color: #6c757d;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Token Section Enhancements
+.token-section {
+  .token-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    h3 {
+      margin: 0;
+    }
+
+    .sync-btn {
+      background: #17a2b8;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover:not(:disabled) {
+        background: #138496;
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      &.syncing {
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+
+  .token-item {
+    .token-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .token-status {
+        font-size: 0.8rem;
+        color: #28a745;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Copy Trading List Section
+.copy-trading-list-section {
+  .ct-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .ct-list-item {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .ct-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+
+      .ct-account-id {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      .ct-status {
+        font-size: 0.8rem;
+        font-weight: 600;
+
+        &.active {
+          color: #28a745;
+        }
+
+        &.inactive {
+          color: #dc3545;
+        }
+      }
+    }
+
+    .ct-balance {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #28a745;
+      margin-bottom: 0.5rem;
+    }
+
+    .ct-created {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+  }
+}
+
+// Animations
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.demo-copy-section,
+.token-section,
+.main-copy-section,
+.tutorial-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+
+  h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    color: #6c757d;
+    margin: 0 0 1rem 0;
+    font-size: 0.95rem;
+  }
+}
+
+// Copy Trading Button Styles (adapted from Korean site)
+.copy-trading-btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 30px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 200px;
+
+  &.start {
+    color: #ffffff;
+    background-color: #28a745;
+    box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
+
+    &:hover {
+      background-color: #218838;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+    }
+  }
+
+  &.stop {
+    color: #ffffff;
+    background-color: #dc3545;
+    box-shadow: 0 2px 10px rgba(220, 53, 69, 0.3);
+
+    &:hover {
+      background-color: #c82333;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  &:hover:not(:disabled) {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+  }
+}
+
+// Token Management Styles
+.token-input-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  .token-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+  }
+
+  .add-token-btn {
+    padding: 12px 24px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #0056b3;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.tokens-container {
+  background: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+
+  .no-tokens {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    margin: 2rem 0;
+  }
+}
+
+.token-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+  }
+
+  .token-text {
+    font-family: 'Courier New', monospace;
+    font-weight: 500;
+    color: #2c3e50;
+    word-break: break-all;
+  }
+
+  .remove-token-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #c82333;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.warning-text {
+  color: #dc3545;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.tutorial-section,
+.trading-status-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+
+  h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    color: #6c757d;
+    margin: 0 0 1rem 0;
+    font-size: 0.95rem;
+  }
+}
+
+.tutorial-section {
+  .tutorial-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .tutorial-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    &.secondary {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+
+      &:hover {
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+      }
+    }
+  }
+}
+
+.trading-status-section {
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .status-item {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-label {
+      font-weight: 500;
+      color: #2c3e50;
+    }
+
+    .status-value {
+      font-weight: 600;
+
+      &.connected {
+        color: #28a745;
+      }
+
+      &.active {
+        color: #28a745;
+      }
+
+      &.inactive {
+        color: #dc3545;
+      }
+    }
+  }
+}
+
+// Dark mode support
+.dark_active {
+  .copy-trader-container {
+    background: #2a2e35;
+    color: #ffffff;
+  }
+
+  .copy-trader-header h2 {
+    color: #ffffff;
+  }
+
+  .demo-copy-section,
+  .token-section,
+  .main-copy-section,
+  .tutorial-section {
+    background: #343a40;
+    border-color: #495057;
+
+    h3 {
+      color: #ffffff;
+    }
+
+    p {
+      color: #adb5bd;
+    }
+  }
+
+  .token-input {
+    color: #ffffff;
+    background: #343a40;
+    border-color: #495057;
+  }
+
+  .tokens-container {
+    background: #2a2e35;
+    border-color: #495057;
+  }
+
+  .token-item {
+    background: #343a40;
+    border-color: #495057;
+
+    .token-text {
+      color: #adb5bd;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .copy-trader-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .token-input-container {
+    flex-direction: column;
+
+    .add-token-btn {
+      width: 100%;
+    }
+  }
+
+  .copy-trading-btn {
+    width: 100%;
+    min-width: auto;
+  }
+}

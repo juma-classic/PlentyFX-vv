@@ -1,0 +1,326 @@
+.deriv-api-connection {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    box-shadow: 0 8px 25px rgb(0 0 0 / 20%);
+
+    .connection-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgb(255 255 255 / 10%);
+
+        h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+
+            .status-indicator {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                animation: pulse 2s infinite;
+            }
+
+            &.connected {
+                background: rgb(46 204 113 / 20%);
+                border: 1px solid #2ecc71;
+
+                .status-indicator {
+                    background: #2ecc71;
+                }
+            }
+
+            &.disconnected {
+                background: rgb(231 76 60 / 20%);
+                border: 1px solid #e74c3c;
+
+                .status-indicator {
+                    background: #e74c3c;
+                }
+            }
+        }
+    }
+
+    .connection-form {
+        .connection-info-box {
+            background: rgb(255 255 255 / 10%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+
+            h4 {
+                margin: 0 0 1rem;
+                color: #f39c12;
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+
+            p {
+                margin: 0 0 1rem;
+                color: rgb(255 255 255 / 90%);
+                line-height: 1.5;
+            }
+
+            .features-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 0.75rem;
+
+                .feature-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: rgb(255 255 255 / 90%);
+                    font-size: 0.9rem;
+
+                    .feature-icon {
+                        font-size: 1rem;
+                    }
+                }
+            }
+
+            .debug-info {
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid rgb(255 255 255 / 10%);
+
+                h5 {
+                    margin: 0 0 0.5rem;
+                    color: #f39c12;
+                    font-size: 0.9rem;
+                }
+
+                .debug-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.25rem 0;
+                    font-size: 0.8rem;
+                    color: rgb(255 255 255 / 80%);
+
+                    span:first-child {
+                        font-weight: 600;
+                    }
+
+                    span:last-child {
+                        font-family: monospace;
+                        background: rgb(255 255 255 / 10%);
+                        padding: 0.2rem 0.4rem;
+                        border-radius: 4px;
+                    }
+                }
+            }
+        }
+
+        .connection-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+
+            .connect-btn,
+            .test-btn {
+                padding: 0.75rem 2rem;
+                border: none;
+                border-radius: 8px;
+                background: linear-gradient(45deg, #3498db, #2980b9);
+                color: #fff;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover:not(:disabled) {
+                    background: linear-gradient(45deg, #2980b9, #1f5f8b);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 15px rgb(52 152 219 / 40%);
+                }
+
+                &:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                }
+            }
+
+            .test-btn {
+                background: linear-gradient(45deg, #f39c12, #e67e22);
+
+                &:hover:not(:disabled) {
+                    background: linear-gradient(45deg, #e67e22, #d35400);
+                    box-shadow: 0 4px 15px rgb(243 156 18 / 40%);
+                }
+            }
+        }
+    }
+
+    .error-message {
+        background: rgb(231 76 60 / 20%);
+        border: 1px solid #e74c3c;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: #e74c3c;
+    }
+}
+
+.connection-info {
+    .connection-details {
+        background: rgb(255 255 255 / 10%);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        backdrop-filter: blur(10px);
+
+        h4 {
+            margin: 0 0 1rem;
+            color: #2ecc71;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .connection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+
+            .connection-item {
+                background: rgb(255 255 255 / 5%);
+                border-radius: 8px;
+                padding: 0.75rem 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .label {
+                    font-size: 0.9rem;
+                    opacity: 0.8;
+                }
+
+                .value {
+                    font-weight: 600;
+                    color: #3498db;
+                }
+            }
+        }
+    }
+
+    .connection-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgb(255 255 255 / 10%);
+
+        .reconnect-btn,
+        .disconnect-btn {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid rgb(255 255 255 / 30%);
+            border-radius: 8px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: rgb(255 255 255 / 10%);
+                border-color: rgb(255 255 255 / 50%);
+            }
+        }
+
+        .disconnect-btn {
+            border-color: rgb(231 76 60 / 50%);
+            color: #e74c3c;
+
+            &:hover {
+                background: rgb(231 76 60 / 10%);
+                border-color: #e74c3c;
+            }
+        }
+
+        .market-data-notice {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            .market-badge {
+                background: linear-gradient(45deg, #10b981, #059669);
+                color: #fff;
+                padding: 0.25rem 0.75rem;
+                border-radius: 12px;
+                font-size: 0.75rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                animation: pulse 2s infinite;
+            }
+
+            .market-text {
+                font-size: 0.8rem;
+                color: rgb(255 255 255 / 70%);
+            }
+        }
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+// Responsive design
+@media (width <= 768px) {
+    .deriv-api-connection {
+        padding: 1rem;
+
+        .connection-header {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .connection-form .input-group .input-container {
+            flex-direction: column;
+        }
+
+        .connection-info .account-details .account-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .connection-info .connection-actions {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+
+            .live-trading-notice {
+                align-items: center;
+            }
+        }
+    }
+}

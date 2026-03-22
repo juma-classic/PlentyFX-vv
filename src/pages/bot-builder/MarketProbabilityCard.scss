@@ -1,0 +1,238 @@
+.market-probability-card {
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    transition: all 0.3s ease;
+
+    &.minimized {
+        width: 280px;
+
+        .card-body {
+            display: none;
+        }
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+        border-radius: 12px 12px 0 0;
+        cursor: pointer;
+        user-select: none;
+
+        .card-title {
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .minimize-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: transform 0.2s ease;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    .card-body {
+        padding: 16px;
+
+        .market-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            margin-bottom: 16px;
+
+            .symbol-label {
+                font-size: 0.85rem;
+                color: #666;
+                font-weight: 600;
+            }
+
+            .symbol-value {
+                font-size: 0.9rem;
+                color: #1f2937;
+                font-weight: 700;
+            }
+        }
+
+        .probabilities {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 16px;
+
+            .prob-section {
+                h4 {
+                    margin: 0 0 8px 0;
+                    font-size: 0.85rem;
+                    color: #374151;
+                    font-weight: 700;
+                }
+
+                .prob-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    margin-bottom: 8px;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    .prob-label {
+                        min-width: 50px;
+                        font-size: 0.8rem;
+                        color: #4b5563;
+                        font-weight: 600;
+                    }
+
+                    .prob-bar {
+                        flex: 1;
+                        height: 24px;
+                        background: #e5e7eb;
+                        border-radius: 6px;
+                        overflow: hidden;
+
+                        .prob-fill {
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: width 0.3s ease;
+                            min-width: 40px;
+
+                            &.over {
+                                background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+                            }
+
+                            &.under {
+                                background: linear-gradient(135deg, #ec4899, #f472b6);
+                            }
+
+                            &.even {
+                                background: linear-gradient(135deg, #10b981, #34d399);
+                            }
+
+                            &.odd {
+                                background: linear-gradient(135deg, #f59e0b, #fbbf24);
+                            }
+
+                            .prob-text {
+                                color: white;
+                                font-size: 0.75rem;
+                                font-weight: 700;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+
+            .status-label,
+            .mode-label {
+                font-weight: 600;
+                color: #6b7280;
+            }
+
+            .status-value {
+                font-weight: 700;
+
+                &.running {
+                    color: #10b981;
+                }
+
+                &.paused {
+                    color: #f59e0b;
+                }
+            }
+
+            .mode-value {
+                font-weight: 600;
+                color: #0ea5e9;
+            }
+        }
+
+        .control-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .control-btn {
+                padding: 10px;
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                background: white;
+                color: #374151;
+                font-size: 0.85rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                &.active {
+                    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+                    color: white;
+                    border-color: #0ea5e9;
+                    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+                }
+
+                &.stop {
+                    background: linear-gradient(135deg, #ef4444, #dc2626);
+                    color: white;
+                    border-color: #ef4444;
+
+                    &:hover {
+                        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .market-probability-card {
+        top: 50px;
+        width: 90%;
+        max-width: 320px;
+
+        &.minimized {
+            width: 200px;
+        }
+    }
+}

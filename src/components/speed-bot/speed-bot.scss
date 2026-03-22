@@ -1,0 +1,583 @@
+.speed-bot-container {
+    background-color: #f5f5f5;
+    width: 100vw;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    height: auto;
+
+    // Custom scrollbar styling
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #e0e0e0;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #c0c0c0;
+        border-radius: 4px;
+        
+        &:hover {
+            background: #a0a0a0;
+        }
+    }
+}
+
+.speed-bot-header {
+    background-color: #2a3052;
+    color: white;
+    padding: 15px 20px;
+    width: 100%;
+    max-width: none;
+    flex-shrink: 0;
+}
+
+.speed-bot-title {
+    h3 {
+        margin: 0 0 10px;
+        font-size: 24px;
+    }
+
+    .market-price {
+        font-size: 16px;
+        opacity: 0.9;
+        animation: pulse 2s ease-in-out infinite;
+
+        .price-value {
+            font-weight: bold;
+            color: #4caf50;
+            font-size: 18px;
+            margin-left: 5px;
+        }
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 1; }
+}
+
+.speed-bot-main {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
+    overflow: visible;
+    height: auto;
+}
+
+.speed-bot-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.control-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.control-section label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.control-button-container {
+    width: 100%;
+    position: relative;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    margin-top: 4px;
+    animation: slideDown 0.2s ease-out;
+
+    &.show {
+        display: block;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s, padding-left 0.2s;
+    border-bottom: 1px solid #f5f5f5;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &:hover {
+        background-color: #e8f5e9;
+        padding-left: 20px;
+    }
+
+    &:active {
+        background-color: #c8e6c9;
+    }
+}
+
+.control-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: left;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .dropdown-arrow {
+        font-size: 12px;
+        transition: transform 0.2s;
+    }
+
+    &:hover {
+        background-color: #e8e8e8;
+        border-color: #bbb;
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+.control-input-container {
+    width: 100%;
+}
+
+.control-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.run-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff444f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.run-button.running {
+    background-color: #4caf50;
+}
+
+.trade-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.trade-info-left,
+.trade-info-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.no-positions {
+    color: #999;
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.trade-display-area {
+    flex: 1;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    min-height: 200px;
+}
+
+/* Position item styles */
+.position-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.position-left,
+.position-middle,
+.position-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.position-type {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.position-market {
+    color: #666;
+}
+
+.position-entry,
+.position-exit {
+    margin-bottom: 5px;
+}
+
+.position-buy {
+    margin-bottom: 5px;
+}
+
+.position-pl {
+    font-weight: bold;
+}
+
+.position-pl.positive {
+    color: #4caf50;
+}
+
+.position-pl.negative {
+    color: #ff444f;
+}
+
+.reset-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.reset-button {
+    padding: 10px 20px;
+    background-color: #2a3052;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.speed-bot-footer {
+    background-color: #f0f0f0;
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    width: 100%;
+    max-width: none;
+    flex-shrink: 0;
+}
+
+.stats-info {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stat-item span {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.stat-value.positive {
+    color: #4caf50;
+}
+
+.stat-value.negative {
+    color: #ff444f;
+}
+
+@media (width <= 1200px) {
+    .speed-bot-controls {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .control-section label {
+        font-size: 16px;
+    }
+
+    .control-button,
+    .control-input,
+    .dropdown-item {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+@media (width <= 768px) {
+    .speed-bot-controls {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .speed-bot-title h3 {
+        font-size: 18px;
+    }
+
+    .market-price {
+        font-size: 14px !important;
+    }
+
+    .trade-display-area {
+        max-height: calc(100vh - 500px);
+    }
+}
+
+@media (width <= 480px) {
+    .speed-bot-controls {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .control-section label {
+        font-size: 14px;
+    }
+
+    .stat-item span {
+        font-size: 14px;
+    }
+
+    .position-item {
+        flex-direction: column;
+        gap: 8px;
+        font-size: 14px;
+    }
+
+    .speed-bot-header {
+        padding: 10px 15px;
+    }
+
+    .speed-bot-main {
+        padding: 15px;
+    }
+}
+
+// Confirmation Dialog Styles
+.confirm-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0 0 0 / 60%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.confirm-dialog {
+    background-color: white;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgb(0 0 0 / 30%);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.confirm-dialog-header {
+    background-color: #2a3052;
+    color: white;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+
+    h3 {
+        margin: 0;
+        font-size: 20px;
+    }
+}
+
+.confirm-dialog-body {
+    padding: 24px;
+    font-size: 16px;
+    line-height: 1.6;
+
+    p {
+        margin: 0 0 16px;
+    }
+
+    .confirm-settings {
+        list-style: none;
+        padding: 16px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        margin: 16px 0;
+
+        li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            strong {
+                color: #2a3052;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .warning-text {
+        background-color: #fff3cd;
+        border: 1px solid #ffc107;
+        padding: 12px;
+        border-radius: 4px;
+        color: #856404;
+        font-size: 14px;
+        margin-top: 16px;
+    }
+
+    .info-text {
+        color: #666;
+        font-size: 14px;
+        font-style: italic;
+    }
+}
+
+.confirm-dialog-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    button {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+
+    .btn-cancel {
+        background-color: #f5f5f5;
+        color: #333;
+
+        &:hover {
+            background-color: #e0e0e0;
+        }
+    }
+
+    .btn-confirm {
+        background-color: #4caf50;
+        color: white;
+
+        &:hover {
+            background-color: #45a049;
+        }
+    }
+}
+
+@media (width <= 480px) {
+    .confirm-dialog {
+        width: 95%;
+        max-width: none;
+    }
+
+    .confirm-dialog-body {
+        padding: 16px;
+        font-size: 14px;
+    }
+
+    .confirm-dialog-footer {
+        flex-direction: column-reverse;
+
+        button {
+            width: 100%;
+        }
+    }
+}

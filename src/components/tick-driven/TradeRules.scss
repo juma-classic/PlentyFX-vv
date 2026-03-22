@@ -1,0 +1,257 @@
+// Trade Rules Component Styles
+.trade-rules {
+    background: var(--secondary-bg, #1a2332);
+    border: 1px solid var(--border-color, rgb(20 184 166 / 30%));
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        h3 {
+            color: var(--text-primary, #fff);
+            margin: 0;
+            font-size: 18px;
+        }
+    }
+
+    &__add-btn {
+        background: var(--accent-teal, #14b8a6);
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+
+        &:hover {
+            background: var(--accent-teal-light, #5eead4);
+        }
+    }
+
+    &__form {
+        background: var(--tertiary-bg, #2d3748);
+        border: 1px solid var(--border-color, rgb(20 184 166 / 20%));
+        border-radius: 6px;
+        padding: 16px;
+        margin-bottom: 16px;
+
+        h4 {
+            color: var(--text-primary, #fff);
+            margin: 0 0 16px;
+            font-size: 16px;
+        }
+    }
+
+    &__form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+
+        @media (width <= 768px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__form-group {
+        display: flex;
+        flex-direction: column;
+
+        label {
+            color: var(--text-secondary, #cbd5e1);
+            font-size: 12px;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        input,
+        select {
+            background: var(--primary-bg, #0f1419);
+            border: 1px solid var(--border-color, rgb(20 184 166 / 30%));
+            border-radius: 4px;
+            padding: 8px 12px;
+            color: var(--text-primary, #fff);
+            font-size: 14px;
+
+            &:focus {
+                outline: none;
+                border-color: var(--accent-teal, #14b8a6);
+                box-shadow: 0 0 0 2px rgb(20 184 166 / 20%);
+            }
+        }
+    }
+
+    &__form-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 16px;
+    }
+
+    &__save-btn {
+        background: var(--accent-teal, #14b8a6);
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+            background: var(--accent-teal-light, #5eead4);
+        }
+    }
+
+    &__cancel-btn {
+        background: transparent;
+        color: var(--text-secondary, #cbd5e1);
+        border: 1px solid var(--border-color, rgb(20 184 166 / 30%));
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+            background: var(--tertiary-bg, #2d3748);
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__empty {
+        text-align: center;
+        color: var(--text-secondary, #cbd5e1);
+        padding: 32px;
+        font-style: italic;
+    }
+
+    &__item {
+        background: var(--tertiary-bg, #2d3748);
+        border: 1px solid var(--border-color, rgb(20 184 166 / 20%));
+        border-radius: 6px;
+        padding: 12px;
+        transition: all 0.2s;
+
+        &.enabled {
+            border-color: var(--accent-teal, #14b8a6);
+            box-shadow: 0 0 0 1px rgb(20 184 166 / 10%);
+        }
+
+        &.disabled {
+            opacity: 0.6;
+            border-color: var(--text-secondary, #cbd5e1);
+        }
+    }
+
+    &__item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+    }
+
+    &__item-info {
+        flex: 1;
+
+        h4 {
+            color: var(--text-primary, #fff);
+            margin: 0 0 4px;
+            font-size: 14px;
+        }
+    }
+
+    &__item-details {
+        color: var(--text-secondary, #cbd5e1);
+        font-size: 12px;
+        font-family: monospace;
+    }
+
+    &__item-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    &__toggle {
+        padding: 4px 12px;
+        border-radius: 12px;
+        border: none;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        min-width: 40px;
+
+        &.enabled {
+            background: var(--accent-teal, #14b8a6);
+            color: #fff;
+        }
+
+        &.disabled {
+            background: var(--text-secondary, #cbd5e1);
+            color: var(--primary-bg, #0f1419);
+        }
+    }
+
+    &__delete {
+        background: var(--accent-navy, #1e3a8a);
+        color: #fff;
+        border: none;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 11px;
+
+        &:hover {
+            background: var(--accent-navy-light, #2563eb);
+        }
+    }
+
+    &__item-conditions {
+        display: flex;
+        gap: 12px;
+        font-size: 11px;
+        color: var(--text-secondary, #cbd5e1);
+
+        span:first-child {
+            font-weight: 600;
+        }
+    }
+}
+
+// Dark theme (default)
+.theme-dark {
+    --primary-bg: #0f1419;
+    --secondary-bg: #1a2332;
+    --tertiary-bg: #2d3748;
+    --accent-teal: #14b8a6;
+    --accent-teal-light: #5eead4;
+    --accent-navy: #1e3a8a;
+    --accent-navy-light: #2563eb;
+    --text-primary: #fff;
+    --text-secondary: #cbd5e1;
+    --border-color: rgb(20 184 166 / 30%);
+}
+
+// Light theme
+.theme-light {
+    --primary-bg: #f8fafc;
+    --secondary-bg: #fff;
+    --tertiary-bg: #f1f5f9;
+    --accent-teal: #0891b2;
+    --accent-teal-light: #0e7490;
+    --accent-navy: #1e40af;
+    --accent-navy-light: #3b82f6;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: rgb(8 145 178 / 20%);
+}

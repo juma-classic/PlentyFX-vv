@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Metatron Analysis Tool - Advanced Trading Analytics</title>
+        <link rel="stylesheet" href="/ai/index-enhanced.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    </head>
+    <body>
+        <!-- Skip Link for Accessibility -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+
+        <!-- Loading Skeleton -->
+        <div id="loading-skeleton" class="loading-skeleton">
+            <div class="skeleton-header"></div>
+            <div class="skeleton-grid">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="app" class="app" style="display: none;">
+            <!-- Sticky Header -->
+            <header class="header">
+                <div class="container">
+                    <div class="header-top">
+                        <h1 class="title">🔮 Metatron Analysis Tool</h1>
+                        <div class="header-actions">
+                            <!-- Live Connection Status -->
+                            <div class="connection-status" id="connection-status">
+                                <span class="status-dot"></span>
+                                <span class="status-text">Connecting...</span>
+                            </div>
+                            <!-- Theme Toggle -->
+                            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                                <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </svg>
+                                <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="controls">
+                        <div class="control-group">
+                            <label for="symbol-select">Market Symbol</label>
+                            <select id="symbol-select" class="control-input">
+                                <option value="R_10">Volatility 10</option>
+                                <option value="1HZ10V">Volatility 10 (1s)</option>
+                                <option value="R_25">Volatility 25</option>
+                                <option value="1HZ25V">Volatility 25 (1s)</option>
+                                <option value="R_50" selected>Volatility 50</option>
+                                <option value="1HZ50V">Volatility 50 (1s)</option>
+                                <option value="R_75">Volatility 75</option>
+                                <option value="1HZ75V">Volatility 75 (1s)</option>
+                                <option value="R_100">Volatility 100</option>
+                                <option value="1HZ100V">Volatility 100 (1s)</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="tick-count-input">Tick Count</label>
+                            <input type="number" id="tick-count-input" class="control-input" value="1000" min="100" max="5000" />
+                        </div>
+                        <div class="control-group">
+                            <button id="refresh-btn" class="btn btn-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <polyline points="23 4 23 10 17 10"></polyline>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                                </svg>
+                                Refresh
+                            </button>
+                        </div>
+                        <div class="control-group">
+                            <button id="export-btn" class="btn btn-secondary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main id="main-content" class="main">
+                <div class="container">
+                    <!-- Live Price Card -->
+                    <div class="price-card glass-card">
+                        <div class="price-label">Current Price</div>
+                        <div class="price-value" id="current-price">
+                            <span class="price-number">0.00000</span>
+                            <span class="price-change" id="price-change">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <polyline points="18 15 12 9 6 15"></polyline>
+                                </svg>
+                                <span>0.00%</span>
+                            </span>
+                        </div>
+                        <div class="price-meta">
+                            <span id="last-update">Last update: --</span>
+                            <span class="pulse-indicator"></span>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Grid -->
+                    <div class="analytics-grid">
+                        <!-- Digit Distribution -->
+                        <section class="card glass-card" id="digit-section">
+                            <div class="card-header">
+                                <h2 class="card-title">🎯 Digit Distribution</h2>
+                                <button class="card-action" onclick="toggleSection('digit-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="digit-display-container" class="digit-grid"></div>
+                                <div class="chart-container">
+                                    <canvas id="digit-chart"></canvas>
+                                </div>
+                                <div class="stat-row">
+                                    <span id="digit-percentage">Highest: N/A% | Lowest: N/A%</span>
+                                </div>
+                                
+                                <!-- Advanced Analysis Sections -->
+                                <div class="advanced-analysis">
+                                    <!-- Streak Analysis -->
+                                    <div class="analysis-section">
+                                        <h3>🔥 Streak Analysis</h3>
+                                        <div id="streak-display" class="streak-container"></div>
+                                    </div>
+                                    
+                                    <!-- Hot/Cold Analysis -->
+                                    <div class="analysis-section">
+                                        <h3>🌡️ Temperature Analysis</h3>
+                                        <div id="hot-cold-display" class="hot-cold-container"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Pattern Recognition -->
+                        <section class="card glass-card" id="pattern-section">
+                            <div class="card-header">
+                                <h2 class="card-title">🧩 Pattern Recognition</h2>
+                                <button class="card-action" onclick="toggleSection('pattern-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="pattern-display" class="pattern-container"></div>
+                            </div>
+                        </section>
+
+                        <!-- Statistical Analysis -->
+                        <section class="card glass-card" id="statistics-section">
+                            <div class="card-header">
+                                <h2 class="card-title">📊 Statistical Analysis</h2>
+                                <button class="card-action" onclick="toggleSection('statistics-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="statistics-display" class="statistics-container"></div>
+                            </div>
+                        </section>
+
+                        <!-- Even/Odd Analysis -->
+                        <section class="card glass-card" id="evenodd-section">
+                            <div class="card-header">
+                                <h2 class="card-title">⚪⚫ Even/Odd Analysis</h2>
+                                <button class="card-action" onclick="toggleSection('evenodd-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="last-50-oe-container" class="oe-grid"></div>
+                                <div class="chart-container">
+                                    <canvas id="even-odd-chart"></canvas>
+                                </div>
+                                <div class="stat-row">
+                                    <span id="even-odd-percentage">Even: N/A% | Odd: N/A%</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Rise/Fall Analysis -->
+                        <section class="card glass-card" id="risefall-section">
+                            <div class="card-header">
+                                <h2 class="card-title">📈📉 Rise/Fall Analysis</h2>
+                                <button class="card-action" onclick="toggleSection('risefall-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="chart-container">
+                                    <canvas id="rise-fall-chart"></canvas>
+                                </div>
+                                <div class="stat-row">
+                                    <span id="rise-fall-percentage">Rise: N/A% | Fall: N/A%</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Data Sync Status -->
+                        <section class="card glass-card" id="sync-section">
+                            <div class="card-header">
+                                <h2 class="card-title">🔄 Data Synchronization</h2>
+                                <button class="card-action" onclick="toggleSection('sync-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="sync-status" class="sync-status">Initializing...</div>
+                                <div class="button-group">
+                                    <button onclick="backfillGaps()" class="btn btn-sm">Detect Gaps</button>
+                                    <button onclick="compareWithRestApi()" class="btn btn-sm">Compare API</button>
+                                </div>
+                                <div id="diff-results" class="diff-results"></div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Keyboard Shortcuts Help -->
+            <div id="shortcuts-modal" class="modal">
+                <div class="modal-content">
+                    <h3>⌨️ Keyboard Shortcuts</h3>
+                    <ul class="shortcuts-list">
+                        <li><kbd>R</kbd> - Refresh data</li>
+                        <li><kbd>T</kbd> - Toggle theme</li>
+                        <li><kbd>E</kbd> - Export data</li>
+                        <li><kbd>?</kbd> - Show this help</li>
+                        <li><kbd>Esc</kbd> - Close modal</li>
+                    </ul>
+                    <button onclick="closeShortcutsModal()" class="btn btn-primary">Got it!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script src="/ai/advanced-digit-analysis.js"></script>
+        <script src="/ai/index.js"></script>
+        <script>
+            // Show shortcuts on ? key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    document.getElementById('shortcuts-modal').classList.add('active');
+                }
+            });
+
+            function closeShortcutsModal() {
+                document.getElementById('shortcuts-modal').classList.remove('active');
+            }
+
+            function toggleSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                section.classList.toggle('collapsed');
+            }
+
+            // Hide loading skeleton after 1 second
+            setTimeout(() => {
+                document.getElementById('loading-skeleton').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+            }, 1000);
+        </script>
+    </body>
+</html>

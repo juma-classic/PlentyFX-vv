@@ -1,0 +1,133 @@
+// Live Analysis Controls for Bot Builder
+.live-analysis-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .live-analysis-trigger {
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgb(59 130 246 / 30%);
+        backdrop-filter: blur(10px);
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgb(59 130 246 / 40%);
+        }
+
+        &.active {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 12px rgb(16 185 129 / 30%);
+
+            &:hover {
+                box-shadow: 0 8px 20px rgb(16 185 129 / 40%);
+            }
+        }
+    }
+
+    .analysis-quick-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        background: linear-gradient(135deg, rgb(15 23 42 / 95%), rgb(30 41 59 / 95%));
+        border: 2px solid rgb(100 116 139 / 30%);
+        border-radius: 12px;
+        padding: 12px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 12px rgb(0 0 0 / 30%);
+        animation: slide-in-down 0.3s ease;
+
+        .market-selector,
+        .type-selector {
+            padding: 8px 12px;
+            background: rgb(0 0 0 / 30%);
+            border: 2px solid rgb(100 116 139 / 30%);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                border-color: rgb(59 130 246 / 50%);
+            }
+
+            &:focus {
+                outline: none;
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgb(59 130 246 / 20%);
+            }
+
+            option {
+                background: rgb(15 23 42);
+                color: #fff;
+            }
+
+            optgroup {
+                background: rgb(30 41 59);
+                color: rgb(255 255 255 / 80%);
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+// Animation
+@keyframes slide-in-down {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+// Responsive Design
+@media (width <= 768px) {
+    .live-analysis-controls {
+        top: 10px;
+        right: 10px;
+
+        .live-analysis-trigger {
+            padding: 10px 16px;
+            font-size: 12px;
+        }
+
+        .analysis-quick-controls {
+            padding: 10px;
+
+            .market-selector,
+            .type-selector {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+        }
+    }
+}
+
+@media (width <= 480px) {
+    .live-analysis-controls {
+        top: 5px;
+        right: 5px;
+
+        .live-analysis-trigger {
+            padding: 8px 12px;
+            font-size: 11px;
+        }
+    }
+}

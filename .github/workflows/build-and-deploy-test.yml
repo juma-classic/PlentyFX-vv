@@ -1,0 +1,154 @@
+name: Build test link and Deploy to Cloudflare Pages
+
+permissions:
+  actions: write
+  checks: write
+  pull-requests: write
+  contents: read
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+    branches:
+      - '**'
+
+concurrency:
+  group: cloudflare-pages-build-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_to_cloudflare_pages:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Verify user
+        uses: deriv-com/shared-actions/.github/actions/verify_user_in_organization@v1
+        with:
+          username: ${{ github.event.pull_request.user.login }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: 'npm'
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run test:lint
+
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Build staging
+        run: npm run build
+        env:
+          R2_PROJECT_NAME: ${{ vars.R2_PROJECT_NAME }}
+          TRANSLATIONS_CDN_URL: ${{ vars.TRANSLATIONS_CDN_URL }}
+          CROWDIN_BRANCH_NAME: staging
+          IS_GROWTHBOOK_ENABLED: ${{ vars.IS_GROWTHBOOK_ENABLED }}
+          RUDDERSTACK_KEY: ${{ vars.RUDDERSTACK_KEY }}
+          REMOTE_CONFIG_URL: ${{ vars.REMOTE_CONFIG_URL }}
+          GROWTHBOOK_CLIENT_KEY: ${{ vars.GROWTHBOOK_CLIENT_KEY }}
+          GROWTHBOOK_DECRYPTION_KEY: ${{ vars.GROWTHBOOK_DECRYPTION_KEY }}
+          GD_API_KEY: ${{ secrets.GD_API_KEY }}
+          GD_APP_ID: ${{ secrets.GD_APP_ID }}
+          GD_CLIENT_ID: ${{ secrets.GD_CLIENT_ID }}
+
+      - name: Retrieve PR information
+        run: |
+          mkdir -p .pr
+          echo "${{ github.event.number }}" > .pr/NR
+          echo "${{ github.event.pull_request.user.login }}" > .pr/USERNAME
+          echo "${{ github.head_ref }}" > .pr/BRANCHNAME
+          echo "${{ github.event.pull_request.draft }}" > .pr/DRAFT
+
+      - name: Publish to Cloudflare Pages
+        id: publish-to-pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_TEST_LINK_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_TEST_LINK_ACCOUNT_ID }}
+          CLOUDFLARE_PROJECT_NAME: ${{ vars.CLOUDFLARE_TEST_LINK_PROJECT_NAME }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          npm i -g wrangler
+          echo "Deploying build to Cloudflare Pages..."
+          directory='dist/'
+          branch=$(echo "$HEAD_BRANCH" | head -c 20 | sed 's/[\/_\.]/-/g; s/[^a-zA-Z0-9]$/1/')
+          wrangler pages deploy $directory --project-name=$CLOUDFLARE_PROJECT_NAME --branch=$branch > log.txt 2>&1
+          preview_url=https://$branch.bot-65f.pages.dev
+          if grep -q "Deployment complete" log.txt; then
+            echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
+            echo $preview_url > .pr/PREVIEW_URL
+          else
+            echo "Deployment failed"
+            exit 1
+          fi
+
+      - name: Generate success comment
+        if: success()
+        id: generate_preview_url
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const action_url = `${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}`;
+            const preview_url = `${{steps.publish-to-pages.outputs.preview_url}}`;
+            const comment = [
+              `**Preview Link**: ${preview_url}`,
+              '| Name | Result |',
+              '| :--- | :------ |',
+              `| **Build status**  | ✅ Success |`,
+              `| **Preview URL**  | [Visit Preview](${preview_url}) |`,
+              `| **Action URL**  | [Visit Action](${action_url}) |`
+            ].join('\n');
+            core.setOutput("comment", comment);
+
+      - name: Generate failure comment
+        if: failure()
+        id: generate_failure_comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const action_url = `${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}`;
+            const comment = [
+              '| Name | Result |',
+              '| :--- | :------ |',
+              `| **Build status**  | ❌ Failed |`,
+              `| **Action URL**  | [Visit Action](${action_url}) |`
+            ].join('\n');
+            core.setOutput("comment", comment);
+
+      - name: Post Cloudflare Pages Comment
+        if: success() || failure()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: Cloudflare Pages Preview Comment
+          number: ${{ github.event.number }}
+          message: ${{ steps.generate_preview_url.outputs.comment || steps.generate_failure_comment.outputs.comment }}
+          recreate: true
+
+      - name: Upload PR info to artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-${{ github.run_id }}
+          path: .pr

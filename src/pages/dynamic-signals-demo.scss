@@ -1,0 +1,159 @@
+.dynamic-signals-demo {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    padding: 40px 20px;
+
+    .demo-header {
+        text-align: center;
+        margin-bottom: 40px;
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 16px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .demo-subtitle {
+            font-size: 18px;
+            color: rgb(255 255 255 / 70%);
+            margin: 0;
+        }
+    }
+
+    .demo-features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 40px;
+
+        .feature-badge {
+            padding: 8px 16px;
+            background: rgb(59 130 246 / 20%);
+            border: 1px solid rgb(59 130 246 / 40%);
+            border-radius: 20px;
+            color: #3b82f6;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    }
+
+    .demo-grid {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 24px;
+        margin-bottom: 40px;
+    }
+
+    .trade-log {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: rgb(15 23 42 / 95%);
+        border: 2px solid rgb(100 116 139 / 50%);
+        border-radius: 16px;
+        padding: 24px;
+
+        h2 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .log-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .log-item {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                padding: 12px 16px;
+                background: rgb(0 0 0 / 30%);
+                border-radius: 8px;
+                font-size: 14px;
+
+                .log-time {
+                    color: rgb(255 255 255 / 60%);
+                    min-width: 80px;
+                }
+
+                .log-market {
+                    color: rgb(255 255 255 / 80%);
+                    min-width: 100px;
+                }
+
+                .log-type {
+                    padding: 4px 12px;
+                    border-radius: 6px;
+                    font-weight: 700;
+                    min-width: 80px;
+                    text-align: center;
+
+                    &.over,
+                    &.even,
+                    &.rise {
+                        background: rgb(16 185 129 / 20%);
+                        color: #10b981;
+                    }
+
+                    &.under,
+                    &.odd,
+                    &.fall {
+                        background: rgb(239 68 68 / 20%);
+                        color: #ef4444;
+                    }
+                }
+
+                .log-confidence {
+                    color: #3b82f6;
+                    font-weight: 700;
+                    min-width: 60px;
+                }
+
+                .log-stake {
+                    color: #10b981;
+                    font-weight: 700;
+                    min-width: 60px;
+                }
+
+                .log-prediction {
+                    color: rgb(255 255 255 / 70%);
+                    margin-left: auto;
+                }
+            }
+        }
+    }
+}
+
+@media (width <= 768px) {
+    .dynamic-signals-demo {
+        padding: 20px 10px;
+
+        .demo-header {
+            h1 {
+                font-size: 32px;
+            }
+        }
+
+        .demo-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .trade-log {
+            .log-list {
+                .log-item {
+                    flex-wrap: wrap;
+                    gap: 8px;
+                }
+            }
+        }
+    }
+}

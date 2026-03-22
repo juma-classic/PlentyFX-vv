@@ -1,0 +1,13 @@
+<svg width="160" height="40" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#999;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#666;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#888;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <text x="50%" y="20" font-family="Arial, sans-serif" font-size="22" font-weight="bolder" fill="#666" text-anchor="middle">MkoreanWWN</text>
+  <text x="50%" y="35" font-family="Arial, sans-serif" font-size="12" fill="#eee" text-anchor="middle">
+    powered by <tspan font-style="italic" font-weight="bolder" fill="red">deriv</tspan>
+  </text>
+</svg>

@@ -1,0 +1,298 @@
+/**
+ * Position Size Calculator Styles
+ */
+
+.position-size-calculator {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+    border: 2px solid #e5e7eb;
+
+    // Header
+    .calculator-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .settings-button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background: #f3f4f6;
+            }
+        }
+    }
+
+    // Main Result
+    .size-result {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 8px;
+        color: #fff;
+
+        .recommended-stake {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .stake-label {
+                font-size: 12px;
+                opacity: 0.9;
+            }
+
+            .stake-value {
+                font-size: 24px;
+                font-weight: 700;
+            }
+        }
+
+        .risk-indicator {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgb(255 255 255 / 20%);
+
+            &.low {
+                background: rgb(16 185 129 / 20%);
+                border: 1px solid rgb(16 185 129 / 50%);
+            }
+
+            &.medium {
+                background: rgb(251 191 36 / 20%);
+                border: 1px solid rgb(251 191 36 / 50%);
+            }
+
+            &.high {
+                background: rgb(239 68 68 / 20%);
+                border: 1px solid rgb(239 68 68 / 50%);
+            }
+        }
+    }
+
+    // Kelly Information
+    .kelly-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding: 8px 12px;
+        background: #f0f9ff;
+        border-radius: 6px;
+        border-left: 3px solid #0ea5e9;
+
+        .kelly-percentage {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0369a1;
+        }
+
+        .kelly-note {
+            font-size: 11px;
+            color: #0369a1;
+            opacity: 0.8;
+        }
+    }
+
+    // Reasoning
+    .reasoning {
+        margin-bottom: 12px;
+
+        p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #4b5563;
+            padding: 10px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+    }
+
+    // Warnings
+    .warnings {
+        margin-bottom: 12px;
+
+        .warning-item {
+            font-size: 12px;
+            color: #92400e;
+            background: #fef3c7;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            border-left: 3px solid #fbbf24;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    // Settings Panel
+    .settings-panel {
+        border-top: 1px solid #e5e7eb;
+        padding-top: 16px;
+        margin-top: 16px;
+
+        h5 {
+            margin: 0 0 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .setting-item {
+            margin-bottom: 12px;
+
+            label {
+                display: block;
+                font-size: 13px;
+                font-weight: 500;
+                color: #4b5563;
+                margin-bottom: 6px;
+            }
+
+            input[type='number'] {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #d1d5db;
+                border-radius: 4px;
+                font-size: 13px;
+                margin-top: 4px;
+
+                &:focus {
+                    outline: none;
+                    border-color: #667eea;
+                }
+            }
+
+            input[type='range'] {
+                width: 100%;
+                margin-top: 6px;
+            }
+
+            &.checkbox-label {
+                label {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    cursor: pointer;
+
+                    input[type='checkbox'] {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+        .setting-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .setting-note {
+            font-size: 11px;
+            color: #6b7280;
+            margin-top: 4px;
+            font-style: italic;
+        }
+    }
+}
+
+// Dark theme
+.dark-theme {
+    .position-size-calculator {
+        background: #1f2937;
+        border-color: #374151;
+
+        .calculator-header {
+            h4 {
+                color: #f9fafb;
+            }
+
+            .settings-button:hover {
+                background: #374151;
+            }
+        }
+
+        .kelly-info {
+            background: #1e3a8a;
+            border-left-color: #3b82f6;
+
+            .kelly-percentage,
+            .kelly-note {
+                color: #dbeafe;
+            }
+        }
+
+        .reasoning p {
+            background: #374151;
+            color: #d1d5db;
+        }
+
+        .settings-panel {
+            border-top-color: #374151;
+
+            h5 {
+                color: #f9fafb;
+            }
+
+            .setting-item {
+                label {
+                    color: #d1d5db;
+                }
+
+                input[type='number'] {
+                    background: #374151;
+                    border-color: #4b5563;
+                    color: #f9fafb;
+                }
+            }
+
+            .setting-note {
+                color: #9ca3af;
+            }
+        }
+    }
+}
+
+// Responsive
+@media (width <= 768px) {
+    .position-size-calculator {
+        .size-result {
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
+        }
+
+        .kelly-info {
+            flex-direction: column;
+            gap: 4px;
+            text-align: center;
+        }
+
+        .settings-panel .setting-row {
+            grid-template-columns: 1fr;
+        }
+    }
+}

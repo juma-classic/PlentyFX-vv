@@ -1,0 +1,328 @@
+/**
+ * Integrated Trading Demo Styles
+ */
+
+.integrated-trading-demo {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+
+    // Header
+    .demo-header {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #fff;
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 32px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgb(0 0 0 / 30%);
+        }
+
+        p {
+            margin: 0 0 20px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+
+            .start-button {
+                padding: 12px 24px;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+
+                &.start {
+                    background: #10b981;
+                    color: #fff;
+
+                    &:hover {
+                        background: #059669;
+                        transform: translateY(-2px);
+                    }
+                }
+
+                &.stop {
+                    background: #ef4444;
+                    color: #fff;
+
+                    &:hover {
+                        background: #dc2626;
+                        transform: translateY(-2px);
+                    }
+                }
+            }
+
+            .current-tick {
+                background: rgb(255 255 255 / 20%);
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 14px;
+                backdrop-filter: blur(10px);
+
+                strong {
+                    font-family: 'Courier New', monospace;
+                }
+            }
+        }
+    }
+
+    // Main Content
+    .demo-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+
+        .left-column,
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgb(0 0 0 / 10%);
+
+            h3 {
+                margin: 0 0 16px;
+                font-size: 18px;
+                font-weight: 600;
+                color: #1a1a1a;
+                border-bottom: 2px solid #f0f0f0;
+                padding-bottom: 8px;
+            }
+        }
+    }
+
+    // System Status
+    .system-status {
+        background: rgb(255 255 255 / 95%);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px);
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+
+            .status-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px;
+                background: #f9fafb;
+                border-radius: 8px;
+                border-left: 4px solid #667eea;
+
+                .status-label {
+                    font-size: 14px;
+                    color: #6b7280;
+                    font-weight: 500;
+                }
+
+                .status-value {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+
+                    &.active {
+                        color: #10b981;
+                    }
+
+                    &.inactive {
+                        color: #ef4444;
+                    }
+                }
+            }
+        }
+    }
+
+    // Alert Container
+    .alert-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 400px;
+    }
+
+    // Feature Showcase
+    .feature-showcase {
+        background: rgb(255 255 255 / 95%);
+        border-radius: 12px;
+        padding: 30px;
+        backdrop-filter: blur(10px);
+
+        h3 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+
+            .feature-card {
+                background: #fff;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 2px 10px rgb(0 0 0 / 10%);
+                border-top: 4px solid #667eea;
+
+                h4 {
+                    margin: 0 0 12px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #667eea;
+                }
+
+                ul {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+
+                    li {
+                        padding: 4px 0;
+                        font-size: 14px;
+                        color: #4b5563;
+
+                        &:before {
+                            content: '';
+                            margin-right: 8px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Dark theme
+.dark-theme {
+    .integrated-trading-demo {
+        .demo-content .section {
+            background: #1f2937;
+
+            h3 {
+                color: #f9fafb;
+                border-bottom-color: #374151;
+            }
+        }
+
+        .system-status {
+            background: rgb(31 41 55 / 95%);
+
+            .status-grid .status-item {
+                background: #374151;
+
+                .status-label {
+                    color: #9ca3af;
+                }
+
+                .status-value {
+                    color: #f9fafb;
+                }
+            }
+        }
+
+        .feature-showcase {
+            background: rgb(31 41 55 / 95%);
+
+            h3 {
+                color: #f9fafb;
+            }
+
+            .features-grid .feature-card {
+                background: #374151;
+
+                h4 {
+                    color: #93c5fd;
+                }
+
+                ul li {
+                    color: #d1d5db;
+                }
+            }
+        }
+    }
+}
+
+// Responsive Design
+@media (width <= 1200px) {
+    .integrated-trading-demo {
+        .demo-content {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (width <= 768px) {
+    .integrated-trading-demo {
+        padding: 15px;
+
+        .demo-header {
+            h1 {
+                font-size: 24px;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        .system-status .status-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .feature-showcase .features-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .alert-container {
+            left: 15px;
+            right: 15px;
+            max-width: none;
+        }
+    }
+}
+
+// Animations
+@keyframes pulse-glow {
+    0%,
+    100% {
+        box-shadow: 0 4px 20px rgb(0 0 0 / 10%);
+    }
+
+    50% {
+        box-shadow: 0 4px 30px rgb(102 126 234 / 30%);
+    }
+}
+
+.integrated-trading-demo .demo-content .section {
+    animation: pulse-glow 4s ease-in-out infinite;
+}

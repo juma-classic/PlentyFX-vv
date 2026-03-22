@@ -1,0 +1,1762 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Metatron Analysis Tool - Advanced Trading Analytics</title>
+        <link rel="stylesheet" href="/ai/index-enhanced.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    </head>
+    <body>
+        <!-- Skip Link for Accessibility -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+
+        <!-- Loading Skeleton -->
+        <div id="loading-skeleton" class="loading-skeleton">
+            <div class="skeleton-header"></div>
+            <div class="skeleton-grid">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="app" class="app" style="display: none;">
+            <!-- Compact Header -->
+            <header class="header-compact">
+                <div class="container">
+                    <div class="header-row">
+                        <h1 class="title-compact">🔮 Metatron Analysis Tool</h1>
+                        <div class="header-status">
+                            <div id="connection-status" class="connection-status">
+                                <span class="status-dot status-connecting"></span>
+                                <span class="status-text">Connecting...</span>
+                            </div>
+                            <button id="theme-toggle" class="theme-toggle-compact" aria-label="Toggle theme">
+                                <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </svg>
+                                <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="controls-compact">
+                        <select id="symbol-select" class="control-input-compact">
+                            <option value="R_10">Volatility 10</option>
+                            <option value="1HZ10V">Volatility 10 (1s)</option>
+                            <option value="1HZ15V">Volatility 15 (1s)</option>
+                            <option value="R_25">Volatility 25</option>
+                            <option value="1HZ25V">Volatility 25 (1s)</option>
+                            <option value="1HZ30V">Volatility 30 (1s)</option>
+                            <option value="R_50" selected>Volatility 50</option>
+                            <option value="1HZ50V">Volatility 50 (1s)</option>
+                            <option value="R_75">Volatility 75</option>
+                            <option value="1HZ75V">Volatility 75 (1s)</option>
+                            <option value="1HZ90V">Volatility 90 (1s)</option>
+                            <option value="R_100">Volatility 100</option>
+                            <option value="1HZ100V">Volatility 100 (1s)</option>
+                        </select>
+                        <input type="number" id="tick-count-input" class="control-input-compact" value="" min="100" max="5000" placeholder="Ticks" />
+                        <button id="reconnect-btn" class="btn-compact btn-secondary" title="Force reconnection">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <polyline points="1 20 1 14 7 14"></polyline>
+                                <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                            </svg>
+                            Reconnect
+                        </button>
+                        <div class="dropdown-container">
+                            <button id="modes-btn" class="btn-compact btn-primary dropdown-toggle" title="Select trading mode" onclick="toggleModesDropdown()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M9 12l2 2 4-4"></path>
+                                    <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                                    <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                                </svg>
+                                🎯 Modes
+                                <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <div id="modes-dropdown" class="dropdown-menu">
+                                <button class="dropdown-item" onclick="selectTradingMode('patel')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M9 12l2 2 4-4"></path>
+                                        <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                                        <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                                    </svg>
+                                    🎯 Patel Mode
+                                </button>
+                                <button class="dropdown-item" onclick="selectTradingMode('matches')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M9 19c-5 0-8-3-8-8s3-8 8-8 8 3 8 8-3 8-8 8z"></path>
+                                        <path d="M17 17l4.5 4.5"></path>
+                                    </svg>
+                                    🔍 Matches Mode
+                                </button>
+                                <button class="dropdown-item" onclick="selectTradingMode('evenodd')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M8 12h8"></path>
+                                    </svg>
+                                    ⚪⚫ Even Odd Mode
+                                </button>
+                            </div>
+                        </div>
+                        <div class="dropdown-container">
+                            <button id="more-btn" class="btn-compact btn-secondary dropdown-toggle" title="More options" onclick="toggleMoreDropdown()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="12" cy="12" r="1"></circle>
+                                    <circle cx="12" cy="5" r="1"></circle>
+                                    <circle cx="12" cy="19" r="1"></circle>
+                                </svg>
+                                More
+                                <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <div id="more-dropdown" class="dropdown-menu">
+                                <button class="dropdown-item" onclick="openSettingsModal()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1m17-4a4 4 0 0 1-8 0 4 4 0 0 1 8 0zM7 21a4 4 0 0 1-8 0 4 4 0 0 1 8 0z"></path>
+                                    </svg>
+                                    Settings
+                                </button>
+                                <button class="dropdown-item" id="export-btn-dropdown">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    Export Data
+                                </button>
+                                <button class="dropdown-item" onclick="window.location.href='/ai/copy-trading.html'">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                    </svg>
+                                    Copy Trading
+                                </button>
+                                <button class="dropdown-item" onclick="window.location.href='/ai/smart-analysis.html'">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M9 19c-5 0-8-3-8-8s3-8 8-8 8 3 8 8-3 8-8 8z"></path>
+                                        <path d="M17 17l4.5 4.5"></path>
+                                    </svg>
+                                    Smart Analysis
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main id="main-content" class="main">
+                <div class="container">
+                    <!-- Analytics Grid -->
+                    <div class="analytics-grid">
+                        <!-- Digit Distribution -->
+                        <section class="card glass-card" id="digit-section">
+                            <div class="card-header">
+                                <h2 class="card-title">🎯 Digit Distribution</h2>
+                                <button class="card-action" onclick="toggleSection('digit-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="digit-display-container" class="digit-grid"></div>
+                                
+                                <div class="chart-container">
+                                    <canvas id="digit-chart"></canvas>
+                                </div>
+                                <div class="stat-row">
+                                    <span id="digit-percentage">Highest: N/A% | Lowest: N/A%</span>
+                                </div>
+                                
+                                <!-- Advanced Analysis Sections -->
+                                <div class="advanced-analysis">
+                                    <!-- Streak Analysis -->
+                                    <div class="analysis-section">
+                                        <h3>🔥 Streak Analysis</h3>
+                                        <div id="streak-display" class="streak-container"></div>
+                                    </div>
+                                    
+                                    <!-- Hot/Cold Analysis -->
+                                    <div class="analysis-section">
+                                        <h3>🌡️ Temperature Analysis</h3>
+                                        <div id="hot-cold-display" class="hot-cold-container"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Pattern Recognition -->
+                        <section class="card glass-card" id="pattern-section">
+                            <div class="card-header">
+                                <h2 class="card-title">🧩 Pattern Recognition</h2>
+                                <button class="card-action" onclick="toggleSection('pattern-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="pattern-display" class="pattern-container"></div>
+                            </div>
+                        </section>
+
+                        <!-- Statistical Analysis -->
+                        <section class="card glass-card" id="statistics-section">
+                            <div class="card-header">
+                                <h2 class="card-title">📊 Statistical Analysis</h2>
+                                <button class="card-action" onclick="toggleSection('statistics-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="statistics-display" class="statistics-container"></div>
+                            </div>
+                        </section>
+
+                        <!-- Even/Odd Analysis -->
+                        <section class="card glass-card" id="evenodd-section">
+                            <div class="card-header">
+                                <h2 class="card-title">⚪⚫ Even/Odd Analysis</h2>
+                                <button class="card-action" onclick="toggleSection('evenodd-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="last-50-oe-container" class="oe-grid"></div>
+                                <div class="chart-container">
+                                    <canvas id="even-odd-chart"></canvas>
+                                </div>
+                                <div class="stat-row">
+                                    <span id="even-odd-percentage">Even: N/A% | Odd: N/A%</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Rise/Fall Analysis -->
+                        <section class="card glass-card" id="risefall-section">
+                            <div class="card-header">
+                                <h2 class="card-title">📈📉 Rise/Fall Analysis</h2>
+                                <button class="card-action" onclick="toggleSection('risefall-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="last-50-rf-container" class="rf-grid"></div>
+                                <div class="chart-container">
+                                    <canvas id="rise-fall-chart"></canvas>
+                                </div>
+                                <div class="stat-row">
+                                    <span id="rise-fall-percentage">Rise: N/A% | Fall: N/A%</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Technical Analysis -->
+                        <section class="card glass-card" id="technical-section">
+                            <div class="card-header">
+                                <h2 class="card-title">⚡ Technical Analysis</h2>
+                                <button class="card-action" onclick="toggleSection('technical-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="technical-analysis-container">
+                                    <!-- Tab Navigation -->
+                                    <div class="technical-tabs">
+                                        <button class="technical-tab active" onclick="switchTechnicalTab('velocity')">
+                                            <span class="tab-icon">🚀</span>
+                                            <span>Velocity</span>
+                                        </button>
+                                        <button class="technical-tab" onclick="switchTechnicalTab('momentum')">
+                                            <span class="tab-icon">📊</span>
+                                            <span>Momentum</span>
+                                        </button>
+                                        <button class="technical-tab" onclick="switchTechnicalTab('volatility')">
+                                            <span class="tab-icon">⚡</span>
+                                            <span>Volatility</span>
+                                        </button>
+                                        <button class="technical-tab" onclick="switchTechnicalTab('overview')">
+                                            <span class="tab-icon">📈</span>
+                                            <span>Overview</span>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Tab Content -->
+                                    <div class="technical-tab-content">
+                                        <!-- Velocity Tab -->
+                                        <div id="velocity-tab" class="technical-tab-panel active">
+                                            <div class="section-header">
+                                                <div class="section-title">
+                                                    <div class="section-icon">🚀</div>
+                                                    <span>Tick Velocity Metrics</span>
+                                                    <div class="info-tooltip" data-tooltip="Analyzes tick arrival patterns and velocity changes">?</div>
+                                                </div>
+                                                <div class="status-indicator normal">
+                                                    <div class="status-dot"></div>
+                                                    <span>Active</span>
+                                                </div>
+                                            </div>
+                                            <div class="section-content">
+                                                <div id="tick-velocity-display" class="technical-display"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Momentum Tab -->
+                                        <div id="momentum-tab" class="technical-tab-panel">
+                                            <div class="section-header">
+                                                <div class="section-title">
+                                                    <div class="section-icon">📊</div>
+                                                    <span>Price Movement Momentum</span>
+                                                    <div class="info-tooltip" data-tooltip="Detects momentum shifts and trend changes">?</div>
+                                                </div>
+                                                <div class="status-indicator normal">
+                                                    <div class="status-dot"></div>
+                                                    <span>Tracking</span>
+                                                </div>
+                                            </div>
+                                            <div class="section-content">
+                                                <div id="price-movement-display" class="technical-display"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Volatility Tab -->
+                                        <div id="volatility-tab" class="technical-tab-panel">
+                                            <div class="section-header">
+                                                <div class="section-title">
+                                                    <div class="section-icon">⚡</div>
+                                                    <span>Volatility Regime Detection</span>
+                                                    <div class="info-tooltip" data-tooltip="Real-time volatility classification and clustering">?</div>
+                                                </div>
+                                                <div class="status-indicator normal">
+                                                    <div class="status-dot"></div>
+                                                    <span>Monitoring</span>
+                                                </div>
+                                            </div>
+                                            <div class="section-content">
+                                                <div id="volatility-regime-display" class="technical-display"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Overview Tab -->
+                                        <div id="overview-tab" class="technical-tab-panel">
+                                            <div class="section-header">
+                                                <div class="section-title">
+                                                    <div class="section-icon">📈</div>
+                                                    <span>Technical Overview</span>
+                                                    <div class="info-tooltip" data-tooltip="Summary of all technical indicators">?</div>
+                                                </div>
+                                                <div class="status-indicator normal">
+                                                    <div class="status-dot"></div>
+                                                    <span>Live</span>
+                                                </div>
+                                            </div>
+                                            <div class="section-content">
+                                                <!-- Quick Stats Bar -->
+                                                <div class="quick-stats-bar">
+                                                    <div class="quick-stat">
+                                                        <div class="quick-stat-value" id="overview-velocity">--</div>
+                                                        <div class="quick-stat-label">TPS</div>
+                                                    </div>
+                                                    <div class="quick-stat">
+                                                        <div class="quick-stat-value" id="overview-trend">--</div>
+                                                        <div class="quick-stat-label">Trend</div>
+                                                    </div>
+                                                    <div class="quick-stat">
+                                                        <div class="quick-stat-value" id="overview-volatility">--</div>
+                                                        <div class="quick-stat-label">Vol</div>
+                                                    </div>
+                                                    <div class="quick-stat">
+                                                        <div class="quick-stat-value" id="overview-regime">--</div>
+                                                        <div class="quick-stat-label">Regime</div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="visual-separator"></div>
+                                                
+                                                <div class="highlight-box">
+                                                    <h4 style="margin: 0 0 0.5rem 0; color: var(--text-primary);">Market Summary</h4>
+                                                    <div id="technical-overview-summary" style="font-size: 0.875rem; color: var(--text-secondary);">
+                                                        Analyzing market conditions...
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Transition Matrix -->
+                        <section class="card glass-card" id="transition-section">
+                            <div class="card-header">
+                                <h2 class="card-title">🎯 Transition Probability Matrix</h2>
+                                <button class="card-action" onclick="toggleSection('transition-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="technical-subsection">
+                                    <div class="section-header">
+                                        <div class="section-title">
+                                            <div class="section-icon">🎯</div>
+                                            <span>Markov Chain Analysis</span>
+                                            <div class="info-tooltip" data-tooltip="Digit-to-digit transition probabilities using Markov chain analysis">?</div>
+                                        </div>
+                                        <div class="status-indicator normal">
+                                            <div class="status-dot"></div>
+                                            <span>Computing</span>
+                                        </div>
+                                    </div>
+                                    <div class="section-content">
+                                        <div id="transition-matrix-display" class="transition-display"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Fractals & Anomalies -->
+                        <section class="card glass-card" id="fractals-section">
+                            <div class="card-header">
+                                <h2 class="card-title">🔍 Fractals & Anomalies</h2>
+                                <button class="card-action" onclick="toggleSection('fractals-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <!-- Fractals -->
+                                <div class="technical-subsection">
+                                    <div class="section-header" onclick="toggleSubsection('fractals-subsection')">
+                                        <div class="section-title">
+                                            <div class="section-icon">🔍</div>
+                                            <span>Support & Resistance Levels</span>
+                                            <div class="info-tooltip" data-tooltip="Fractal-based support and resistance level detection">?</div>
+                                        </div>
+                                        <button class="section-toggle">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="section-content" id="fractals-subsection">
+                                        <div id="fractals-display" class="fractals-container"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Anomalies -->
+                                <div class="technical-subsection">
+                                    <div class="section-header" onclick="toggleSubsection('anomalies-subsection')">
+                                        <div class="section-title">
+                                            <div class="section-icon">🚨</div>
+                                            <span>Anomaly Detection</span>
+                                            <div class="info-tooltip" data-tooltip="Statistical anomaly detection using 3-sigma analysis">?</div>
+                                        </div>
+                                        <button class="section-toggle">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="section-content" id="anomalies-subsection">
+                                        <div id="anomalies-display" class="anomalies-container"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Data Sync Status -->
+                        <section class="card glass-card" id="sync-section">
+                            <div class="card-header">
+                                <h2 class="card-title">🔄 Data Synchronization</h2>
+                                <button class="card-action" onclick="toggleSection('sync-section')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="sync-status" class="sync-status">Initializing...</div>
+                                <div class="button-group">
+                                    <button onclick="backfillGaps()" class="btn btn-sm">Detect Gaps</button>
+                                    <button onclick="compareWithRestApi()" class="btn btn-sm">Compare API</button>
+                                </div>
+                                <div id="diff-results" class="diff-results"></div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Keyboard Shortcuts Help -->
+            <div id="shortcuts-modal" class="modal">
+                <div class="modal-content">
+                    <h3>⌨️ Keyboard Shortcuts</h3>
+                    <ul class="shortcuts-list">
+                        <li><kbd>T</kbd> - Toggle theme</li>
+                        <li><kbd>E</kbd> - Export data</li>
+                        <li><kbd>?</kbd> - Show this help</li>
+                        <li><kbd>Esc</kbd> - Close modal</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
+                        🔄 Data auto-refreshes every 30 seconds
+                    </p>
+                    <button onclick="closeShortcutsModal()" class="btn btn-primary">Got it!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script src="/ai/robust-websocket-manager.js"></script>
+        <script src="/ai/advanced-digit-analysis.js"></script>
+        <script src="/ai/technical-analysis.js"></script>
+        <script src="/ai/index.js"></script>
+        <script>
+            // Show shortcuts on ? key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    document.getElementById('shortcuts-modal').classList.add('active');
+                }
+                
+                // Export data on E key
+                if (e.key === 'E' && !e.ctrlKey && !e.metaKey && !e.target.matches('input, textarea, select')) {
+                    e.preventDefault();
+                    exportAnalysisData();
+                }
+            });
+
+            function closeShortcutsModal() {
+                document.getElementById('shortcuts-modal').classList.remove('active');
+            }
+
+            function toggleSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                section.classList.toggle('collapsed');
+            }
+
+            // Technical Analysis Tab Switching
+            function switchTechnicalTab(tabName) {
+                // Remove active class from all tabs and panels
+                document.querySelectorAll('.technical-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelectorAll('.technical-tab-panel').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab and corresponding panel
+                event.target.closest('.technical-tab').classList.add('active');
+                document.getElementById(tabName + '-tab').classList.add('active');
+            }
+
+            // Subsection Toggle
+            function toggleSubsection(subsectionId) {
+                const subsection = document.getElementById(subsectionId);
+                const header = event.target.closest('.section-header');
+                const parentSection = header.closest('.technical-subsection');
+                
+                if (subsection.style.display === 'none' || !subsection.style.display) {
+                    subsection.style.display = 'block';
+                    parentSection.classList.remove('section-collapsed');
+                } else {
+                    subsection.style.display = 'none';
+                    parentSection.classList.add('section-collapsed');
+                }
+            }
+
+            // Enhanced PATEL Bot Settings Modal Functions
+            function createSettingsModal() {
+                const modal = document.createElement('div');
+                modal.id = 'settings-modal';
+                modal.className = 'modal enhanced-settings-modal';
+                modal.innerHTML = `
+                    <div class="modal-content enhanced-modal-content">
+                        <div class="modal-header enhanced-modal-header">
+                            <h3 class="enhanced-modal-title">🎯 PATEL Bot Configuration</h3>
+                            <button onclick="closeSettingsModal()" class="modal-close enhanced-modal-close">×</button>
+                        </div>
+                        <div class="enhanced-modal-body">
+                            <!-- Tab Navigation -->
+                            <div class="tab-navigation">
+                                <button class="tab-button active" onclick="switchSettingsTab('profiles')" data-tab="profiles">
+                                    <span class="tab-icon">🎯</span>
+                                    <span>Profiles</span>
+                                </button>
+                                <button class="tab-button" onclick="switchSettingsTab('bot')" data-tab="bot">
+                                    <span class="tab-icon">🤖</span>
+                                    <span>Bot Settings</span>
+                                </button>
+                                <button class="tab-button" onclick="switchSettingsTab('strategy')" data-tab="strategy">
+                                    <span class="tab-icon">📊</span>
+                                    <span>Strategy</span>
+                                </button>
+                                <button class="tab-button" onclick="switchSettingsTab('risk')" data-tab="risk">
+                                    <span class="tab-icon">🛡️</span>
+                                    <span>Risk Mgmt</span>
+                                </button>
+                                <button class="tab-button" onclick="switchSettingsTab('interface')" data-tab="interface">
+                                    <span class="tab-icon">🎨</span>
+                                    <span>Interface</span>
+                                </button>
+                                <button class="tab-button" onclick="switchSettingsTab('connection')" data-tab="connection">
+                                    <span class="tab-icon">🔗</span>
+                                    <span>Connection</span>
+                                </button>
+                            </div>
+
+                            <!-- Tab Content -->
+                            <div class="tab-content">
+                                <!-- Profiles Tab -->
+                                <div id="profiles-tab" class="tab-panel active">
+                                    <h4 style="margin-bottom: 16px; color: var(--text-primary);">Choose a Trading Profile</h4>
+                                    <div class="preset-profiles">
+                                        <div class="preset-card" onclick="selectSettingsPreset('conservative')" data-preset="conservative">
+                                            <div class="risk-badge risk-low">Low Risk</div>
+                                            <div class="preset-title">
+                                                <span>🛡️</span>
+                                                <span>Conservative</span>
+                                            </div>
+                                            <div class="preset-description">
+                                                Safe settings for beginners with minimal risk exposure
+                                            </div>
+                                            <div class="preset-details">
+                                                <div class="preset-detail">
+                                                    <span>Stake:</span>
+                                                    <span>$1.00</span>
+                                                </div>
+                                                <div class="preset-detail">
+                                                    <span>Martingale:</span>
+                                                    <span>1.5x</span>
+                                                </div>
+                                                <div class="preset-detail">
+                                                    <span>Max Steps:</span>
+                                                    <span>3</span>
+                                                </div>
+                                                <div class="preset-detail">
+                                                    <span>Risk Score:</span>
+                                                    <span>2/10</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="preset-card" onclick="selectSettingsPreset('balanced')" data-preset="balanced">
+                                            <div class="risk-badge risk-medium">Medium Risk</div>
+                                            <div class="preset-title">
+                                                <span>⚖️</span>
+                                                <span>Balanced</span>
+                                            </div>
+                                            <div class="preset-description">
+                                                Balanced approach with moderate risk and reward potential
+                                            </div>
+                                            <div class="preset-details">
+                                                <div class="preset-detail">
+                                                    <span>Stake:</span>
+                                                    <span>$2.00</span>
+                                                </div>
+                                                <div class="preset-detail">
+                                                    <span>Martingale:</span>
+                                                    <span>2.0x</span>
+                                                </div>
+                                                <div class="preset-detail">
+                                                    <span>Max Steps:</span>
+                                                    <span>5</span>
+                                                </div>
+                                                <div class="preset-detail">
+                                                    <span>Risk Score:</span>
+                                                    <span>5/10</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="preset-card" onclick="selectSettingsPreset('aggressive')" data-preset="aggressive">
+                                            <div class="risk-badge risk-high">High Risk</div>
+                                            <div class="preset-title">
+                                                <span>🚀</span>
+                                                <span>Aggressive</span>
+                                            </div>
+                                            <div class="preset-description">
+                                                High-risk strategy for experienced traders seeking maximum returns
+                                            </div>
+                                            <div class="preset-details">
+                                                <div class="preset-detail">
+                                                    <span>Stake:</span>
+                                                    <span>$5.00</span>
+                                                </div>
+                                                <div class="preset-detail">
+                                                    <span>Martingale:</span>
+                                                    <span>3.0x</span>
+                                                </div>
+                                                <div class="preset-detail">
+                                                    <span>Max Steps:</span>
+                                                    <span>7</span>
+                                                </div>
+                                                <div class="preset-detail">
+                                                    <span>Risk Score:</span>
+                                                    <span>8/10</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="risk-calculator">
+                                        <h5 style="margin: 0 0 12px 0; color: var(--text-primary);">Risk Assessment</h5>
+                                        <div class="risk-score">
+                                            <span style="font-weight: 600; color: var(--text-primary);">Risk Level:</span>
+                                            <div class="risk-meter">
+                                                <div id="settings-risk-fill" class="risk-fill low" style="width: 20%;"></div>
+                                            </div>
+                                            <span id="settings-risk-text" style="font-weight: 600; color: var(--success);">Low (2/10)</span>
+                                        </div>
+                                        <div style="font-size: 12px; color: var(--text-secondary);">
+                                            <div id="settings-risk-description">Conservative settings with minimal risk exposure. Suitable for beginners.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bot Settings Tab -->
+                                <div id="bot-tab" class="tab-panel">
+                                    <h4 style="margin-bottom: 16px; color: var(--text-primary);">Bot Configuration</h4>
+                                        <div class="form-group">
+                                            <label class="form-label">Stake Amount ($)</label>
+                                            <input type="number" class="form-input" id="patel-stake" value="1.00" min="0.35" max="10000" step="0.01" onchange="updateSettingsRiskCalculation()">
+                                            <div class="form-help">Amount to stake per trade (minimum $0.35)</div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label">Martingale Multiplier</label>
+                                            <select class="form-input" id="patel-martingale" onchange="updateSettingsRiskCalculation()">
+                                                <option value="1.5">1.5x (Conservative)</option>
+                                                <option value="2" selected>2.0x (Standard)</option>
+                                                <option value="2.5">2.5x (Aggressive)</option>
+                                                <option value="3">3.0x (High Risk)</option>
+                                                <option value="4">4.0x (Very High Risk)</option>
+                                                <option value="5">5.0x (Extreme Risk)</option>
+                                            </select>
+                                            <div class="form-help">Multiplier applied after each loss</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">Maximum Martingale Steps</label>
+                                            <input type="number" class="form-input" id="max-martingale-steps" value="5" min="1" max="10" onchange="updateSettingsRiskCalculation()">
+                                            <div class="form-help">Maximum number of consecutive losses before stopping</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Strategy Tab -->
+                                <div id="strategy-tab" class="tab-panel">
+                                    <h4 style="margin-bottom: 16px; color: var(--text-primary);">Trading Strategy</h4>
+                                    <div class="settings-form">
+                                        <div class="form-grid">
+                                            <div class="form-group">
+                                                <label class="form-label">OVER Prediction Before Loss</label>
+                                                <input type="number" class="form-input" id="over-prediction-before" value="1" min="1" max="50">
+                                                <div class="form-help">Predictions for digits 5-9</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">UNDER Prediction Before Loss</label>
+                                                <input type="number" class="form-input" id="under-prediction-before" value="8" min="1" max="50">
+                                                <div class="form-help">Predictions for digits 0-4</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-grid">
+                                            <div class="form-group">
+                                                <label class="form-label">OVER Prediction After Loss</label>
+                                                <input type="number" class="form-input" id="over-prediction-after" value="2" min="1" max="50">
+                                                <div class="form-help">Predictions after a loss</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">UNDER Prediction After Loss</label>
+                                                <input type="number" class="form-input" id="under-prediction-after" value="6" min="1" max="50">
+                                                <div class="form-help">Predictions after a loss</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                                <input type="checkbox" id="auto-apply-global" checked>
+                                                <span class="form-label" style="margin: 0;">Auto-Apply Global Settings</span>
+                                            </label>
+                                            <div class="form-help">Automatically apply global settings to all bot configurations</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Risk Management Tab -->
+                                <div id="risk-tab" class="tab-panel">
+                                    <h4 style="margin-bottom: 16px; color: var(--text-primary);">Risk Management</h4>
+                                    <div class="settings-form">
+                                        <div class="form-group">
+                                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                                <input type="checkbox" id="enable-risk-limits" checked>
+                                                <span class="form-label" style="margin: 0;">Enable Risk Limits</span>
+                                            </label>
+                                            <div class="form-help">Automatically limit extreme configurations</div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                                <input type="checkbox" id="show-risk-warnings" checked>
+                                                <span class="form-label" style="margin: 0;">Show Risk Warnings</span>
+                                            </label>
+                                            <div class="form-help">Display warnings for high-risk configurations</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">Daily Loss Limit ($)</label>
+                                            <input type="number" class="form-input" value="100" min="10" max="10000">
+                                            <div class="form-help">Stop trading after reaching this loss amount</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">Daily Profit Target ($)</label>
+                                            <input type="number" class="form-input" value="50" min="5" max="5000">
+                                            <div class="form-help">Stop trading after reaching this profit amount</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Interface Tab -->
+                                <div id="interface-tab" class="tab-panel">
+                                    <h4 style="margin-bottom: 16px; color: var(--text-primary);">Interface Settings</h4>
+                                    <div class="settings-form">
+                                        <div class="form-group">
+                                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                                <input type="checkbox" id="show-bot-indicators" checked>
+                                                <span class="form-label" style="margin: 0;">Show Bot Indicators</span>
+                                            </label>
+                                            <div class="form-help">Display U/O badges on hot digits (temperature ≥ 70°)</div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                                <input type="checkbox" id="enable-animations">
+                                                <span class="form-label" style="margin: 0;">Enable Animations</span>
+                                            </label>
+                                            <div class="form-help">Enable hover effects and transitions</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">Theme</label>
+                                            <select class="form-input">
+                                                <option value="light">Light Theme</option>
+                                                <option value="dark">Dark Theme</option>
+                                                <option value="auto">Auto (System)</option>
+                                            </select>
+                                            <div class="form-help">Choose your preferred color scheme</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">Notification Sound</label>
+                                            <select class="form-input">
+                                                <option value="none">None</option>
+                                                <option value="beep">Beep</option>
+                                                <option value="chime">Chime</option>
+                                                <option value="alert">Alert</option>
+                                            </select>
+                                            <div class="form-help">Sound to play for important events</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Connection Tab -->
+                                <div id="connection-tab" class="tab-panel">
+                                    <h4 style="margin-bottom: 16px; color: var(--text-primary);">Connection Settings</h4>
+                                    <div class="settings-form">
+                                        <div class="form-group">
+                                            <label class="form-label">Auto-reconnect Attempts</label>
+                                            <input type="number" class="form-input" id="reconnect-attempts" value="5" min="1" max="20">
+                                            <div class="form-help">Number of automatic reconnection attempts</div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="form-label">Connection Timeout (ms)</label>
+                                            <input type="number" class="form-input" id="connection-timeout" value="10000" min="1000" max="60000" step="1000">
+                                            <div class="form-help">Timeout for WebSocket connections</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="form-label">Server Region</label>
+                                            <select class="form-input">
+                                                <option value="auto">Auto (Recommended)</option>
+                                                <option value="us-east">US East</option>
+                                                <option value="eu-west">EU West</option>
+                                                <option value="asia-pacific">Asia Pacific</option>
+                                            </select>
+                                            <div class="form-help">Choose the server region closest to you</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                                <input type="checkbox" checked>
+                                                <span class="form-label" style="margin: 0;">Enable Connection Monitoring</span>
+                                            </label>
+                                            <div class="form-help">Monitor connection quality and performance</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="enhanced-modal-footer">
+                            <button class="btn btn-secondary" onclick="resetSettings()">Reset to Defaults</button>
+                            <button class="btn btn-secondary" onclick="exportSettingsConfig()">Export Settings</button>
+                            <button class="btn btn-primary" onclick="validateAndSaveSettings()">Save Configuration</button>
+                        </div>
+                    </div>
+                `;
+                return modal;
+            }
+
+            function closeSettingsModal() {
+                const modal = document.getElementById('settings-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+            }
+
+            // Enhanced Settings Modal Functions
+            const settingsPresets = {
+                conservative: {
+                    stake: 1.00,
+                    martingale: 1.5,
+                    maxSteps: 3,
+                    riskScore: 2,
+                    riskLevel: 'low',
+                    description: 'Conservative settings with minimal risk exposure. Suitable for beginners.'
+                },
+                balanced: {
+                    stake: 2.00,
+                    martingale: 2.0,
+                    maxSteps: 5,
+                    riskScore: 5,
+                    riskLevel: 'medium',
+                    description: 'Balanced approach with moderate risk and reward potential.'
+                },
+                aggressive: {
+                    stake: 5.00,
+                    martingale: 3.0,
+                    maxSteps: 7,
+                    riskScore: 8,
+                    riskLevel: 'high',
+                    description: 'High-risk strategy for experienced traders seeking maximum returns.'
+                }
+            };
+
+            let currentSettingsPreset = 'conservative';
+
+            function switchSettingsTab(tabName) {
+                // Remove active class from all tabs and panels
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+                
+                // Add active class to selected tab and panel
+                document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+            }
+
+            function selectSettingsPreset(presetName) {
+                currentSettingsPreset = presetName;
+                const preset = settingsPresets[presetName];
+                
+                // Update visual selection
+                document.querySelectorAll('.preset-card').forEach(card => card.classList.remove('selected'));
+                document.querySelector(`[data-preset="${presetName}"]`).classList.add('selected');
+                
+                // Update form values
+                document.getElementById('patel-stake').value = preset.stake;
+                document.getElementById('patel-martingale').value = preset.martingale;
+                document.getElementById('max-martingale-steps').value = preset.maxSteps;
+                
+                // Update risk calculation
+                updateSettingsRiskCalculation();
+            }
+
+            function updateSettingsRiskCalculation() {
+                const stake = parseFloat(document.getElementById('patel-stake').value) || 1;
+                const martingale = parseFloat(document.getElementById('patel-martingale').value) || 2;
+                const maxSteps = parseInt(document.getElementById('max-martingale-steps').value) || 5;
+                
+                // Calculate risk score (simplified algorithm)
+                let riskScore = 0;
+                riskScore += Math.min(stake / 10, 3); // Stake contribution (max 3 points)
+                riskScore += (martingale - 1) * 2; // Martingale contribution
+                riskScore += Math.min(maxSteps / 2, 3); // Max steps contribution (max 3 points)
+                
+                riskScore = Math.min(Math.round(riskScore), 10);
+                
+                // Determine risk level
+                let riskLevel, riskClass, riskDescription;
+                if (riskScore <= 3) {
+                    riskLevel = 'Low';
+                    riskClass = 'low';
+                    riskDescription = 'Conservative settings with minimal risk exposure. Suitable for beginners.';
+                } else if (riskScore <= 6) {
+                    riskLevel = 'Medium';
+                    riskClass = 'medium';
+                    riskDescription = 'Balanced approach with moderate risk and reward potential.';
+                } else {
+                    riskLevel = 'High';
+                    riskClass = 'high';
+                    riskDescription = 'High-risk strategy for experienced traders. Use with caution.';
+                }
+                
+                // Update UI
+                const riskFill = document.getElementById('settings-risk-fill');
+                const riskText = document.getElementById('settings-risk-text');
+                const riskDesc = document.getElementById('settings-risk-description');
+                
+                if (riskFill && riskText && riskDesc) {
+                    riskFill.className = `risk-fill ${riskClass}`;
+                    riskFill.style.width = `${(riskScore / 10) * 100}%`;
+                    riskText.textContent = `${riskLevel} (${riskScore}/10)`;
+                    riskText.className = `risk-${riskClass}`;
+                    riskDesc.textContent = riskDescription;
+                }
+            }
+
+            function exportSettingsConfig() {
+                const settings = {
+                    preset: currentSettingsPreset,
+                    stake: parseFloat(document.getElementById('patel-stake').value),
+                    martingale: parseFloat(document.getElementById('patel-martingale').value),
+                    maxSteps: parseInt(document.getElementById('max-martingale-steps').value),
+                    overPredictionBefore: parseInt(document.getElementById('over-prediction-before').value),
+                    underPredictionBefore: parseInt(document.getElementById('under-prediction-before').value),
+                    overPredictionAfter: parseInt(document.getElementById('over-prediction-after').value),
+                    underPredictionAfter: parseInt(document.getElementById('under-prediction-after').value),
+                    timestamp: new Date().toISOString()
+                };
+                
+                const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `patel-bot-settings-${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                console.log('⬇️ Settings exported successfully!');
+            }
+
+            function validateAndSaveSettings() {
+                // Get all settings values
+                const settings = {
+                    // PATEL Bot Settings
+                    patelStake: parseFloat(document.getElementById('patel-stake').value) || 1.00,
+                    patelMartingale: parseFloat(document.getElementById('patel-martingale').value) || 2.0,
+                    
+                    // Global Prediction Settings
+                    globalOverPredictionBefore: parseInt(document.getElementById('global-over-prediction-before').value) || 1,
+                    globalUnderPredictionBefore: parseInt(document.getElementById('global-under-prediction-before').value) || 8,
+                    
+                    // Global Trading Settings
+                    globalTradingOverBefore: parseInt(document.getElementById('global-trading-over-before').value) || 1,
+                    globalTradingUnderBefore: parseInt(document.getElementById('global-trading-under-before').value) || 8,
+                    autoApplyGlobal: document.getElementById('auto-apply-global').checked,
+                    overrideAdvanced: document.getElementById('override-advanced').checked,
+                    
+                    // OVER Market Settings
+                    overPredictionBefore: parseInt(document.getElementById('over-prediction-before').value) || 1,
+                    overPredictionAfter: parseInt(document.getElementById('over-prediction-after').value) || 2,
+                    
+                    // UNDER Market Settings
+                    underPredictionBefore: parseInt(document.getElementById('under-prediction-before').value) || 8,
+                    underPredictionAfter: parseInt(document.getElementById('under-prediction-after').value) || 6,
+                    
+                    // Risk Management
+                    enableRiskLimits: document.getElementById('enable-risk-limits').checked,
+                    maxMartingaleSteps: parseInt(document.getElementById('max-martingale-steps').value) || 5,
+                    
+                    // Display Settings
+                    showRiskWarnings: document.getElementById('show-risk-warnings').checked,
+                    showBotIndicators: document.getElementById('show-bot-indicators').checked,
+                    enableAnimations: document.getElementById('enable-animations').checked,
+                    
+                    // Connection Settings
+                    reconnectAttempts: parseInt(document.getElementById('reconnect-attempts').value) || 5,
+                    connectionTimeout: parseInt(document.getElementById('connection-timeout').value) || 10000
+                };
+                
+                // Validate settings
+                const validation = validateSettings(settings);
+                if (!validation.isValid) {
+                    showValidationErrors(validation.errors);
+                    return;
+                }
+                
+                // Apply risk limits if enabled
+                if (settings.enableRiskLimits) {
+                    settings = applyRiskLimits(settings);
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('patelBotSettings', JSON.stringify(settings));
+                console.log('💾 PATEL Bot Settings saved:', settings);
+                
+                // Apply settings immediately
+                applySettings(settings);
+                
+                // Show success feedback
+                const saveBtn = event.target;
+                const originalText = saveBtn.textContent;
+                saveBtn.textContent = '✅ Saved!';
+                saveBtn.style.background = 'var(--success)';
+                
+                setTimeout(() => {
+                    saveBtn.textContent = originalText;
+                    saveBtn.style.background = '';
+                    closeSettingsModal();
+                }, 1500);
+            }
+
+            function validateSettings(settings) {
+                const errors = [];
+                
+                // Validate stake
+                if (settings.patelStake < 0.35 || settings.patelStake > 10000) {
+                    errors.push('Stake must be between $0.35 and $10,000');
+                }
+                
+                // Validate global predictions
+                if (settings.globalOverPredictionBefore < 1 || settings.globalOverPredictionBefore > 50) {
+                    errors.push('Global OVER Prediction Before Loss must be between 1 and 50');
+                }
+                if (settings.globalUnderPredictionBefore < 1 || settings.globalUnderPredictionBefore > 50) {
+                    errors.push('Global UNDER Prediction Before Loss must be between 1 and 50');
+                }
+                
+                // Validate global trading settings
+                if (settings.globalTradingOverBefore < 1 || settings.globalTradingOverBefore > 50) {
+                    errors.push('Global Trading OVER Prediction Before Loss must be between 1 and 50');
+                }
+                if (settings.globalTradingUnderBefore < 1 || settings.globalTradingUnderBefore > 50) {
+                    errors.push('Global Trading UNDER Prediction Before Loss must be between 1 and 50');
+                }
+                
+                // Validate advanced predictions
+                if (settings.overPredictionBefore < 1 || settings.overPredictionBefore > 50) {
+                    errors.push('OVER Prediction Before Loss must be between 1 and 50');
+                }
+                if (settings.overPredictionAfter < 1 || settings.overPredictionAfter > 50) {
+                    errors.push('OVER Prediction After Loss must be between 1 and 50');
+                }
+                if (settings.underPredictionBefore < 1 || settings.underPredictionBefore > 50) {
+                    errors.push('UNDER Prediction Before Loss must be between 1 and 50');
+                }
+                if (settings.underPredictionAfter < 1 || settings.underPredictionAfter > 50) {
+                    errors.push('UNDER Prediction After Loss must be between 1 and 50');
+                }
+                
+                // Risk warnings
+                if (settings.patelMartingale >= 4 && settings.showRiskWarnings) {
+                    errors.push('WARNING: Martingale 4x+ is extremely risky and can lead to significant losses');
+                }
+                
+                if ((settings.overPredictionBefore > 20 || settings.underPredictionBefore > 20 || 
+                     settings.globalOverPredictionBefore > 20 || settings.globalUnderPredictionBefore > 20 ||
+                     settings.globalTradingOverBefore > 20 || settings.globalTradingUnderBefore > 20) && settings.showRiskWarnings) {
+                    errors.push('WARNING: High prediction counts increase risk exposure');
+                }
+                
+                return {
+                    isValid: errors.length === 0,
+                    errors: errors
+                };
+            }
+
+            function applyRiskLimits(settings) {
+                // Apply conservative limits when risk limits are enabled
+                const limited = { ...settings };
+                
+                // Limit martingale to reasonable levels
+                if (limited.patelMartingale > 3) {
+                    limited.patelMartingale = 3;
+                    console.log('⚠️ Martingale limited to 3x for safety');
+                }
+                
+                // Limit prediction counts
+                if (limited.overPredictionBefore > 10) {
+                    limited.overPredictionBefore = 10;
+                    console.log('⚠️ OVER Prediction Before Loss limited to 10');
+                }
+                if (limited.underPredictionBefore > 20) {
+                    limited.underPredictionBefore = 20;
+                    console.log('⚠️ UNDER Prediction Before Loss limited to 20');
+                }
+                
+                return limited;
+            }
+
+            function showValidationErrors(errors) {
+                const errorContainer = document.createElement('div');
+                errorContainer.className = 'validation-errors';
+                errorContainer.innerHTML = `
+                    <div class="error-header">
+                        <span class="error-icon">⚠️</span>
+                        <span class="error-title">Configuration Issues</span>
+                        <button onclick="this.parentElement.parentElement.remove()" class="error-close">×</button>
+                    </div>
+                    <ul class="error-list">
+                        ${errors.map(error => `<li>${error}</li>`).join('')}
+                    </ul>
+                `;
+                
+                // Add to modal
+                const modalBody = document.querySelector('.modal-body');
+                modalBody.insertBefore(errorContainer, modalBody.firstChild);
+                
+                // Auto-remove after 10 seconds
+                setTimeout(() => {
+                    if (errorContainer.parentElement) {
+                        errorContainer.remove();
+                    }
+                }, 10000);
+            }
+
+            function resetSettings() {
+                // PATEL Bot Defaults
+                document.getElementById('patel-stake').value = '1.00';
+                document.getElementById('patel-martingale').value = '2';
+                
+                // Global Prediction Defaults
+                document.getElementById('global-over-prediction-before').value = '1';
+                document.getElementById('global-under-prediction-before').value = '8';
+                
+                // Global Trading Settings Defaults
+                document.getElementById('global-trading-over-before').value = '1';
+                document.getElementById('global-trading-under-before').value = '8';
+                document.getElementById('auto-apply-global').checked = true;
+                document.getElementById('override-advanced').checked = false;
+                
+                // OVER Market Defaults
+                document.getElementById('over-prediction-before').value = '1';
+                document.getElementById('over-prediction-after').value = '2';
+                
+                // UNDER Market Defaults
+                document.getElementById('under-prediction-before').value = '8';
+                document.getElementById('under-prediction-after').value = '6';
+                
+                // Risk Management Defaults
+                document.getElementById('enable-risk-limits').checked = true;
+                document.getElementById('max-martingale-steps').value = '5';
+                
+                // Display Settings Defaults
+                document.getElementById('show-risk-warnings').checked = true;
+                document.getElementById('show-bot-indicators').checked = true;
+                document.getElementById('enable-animations').checked = false;
+                
+                // Connection Settings Defaults
+                document.getElementById('reconnect-attempts').value = '5';
+                document.getElementById('connection-timeout').value = '10000';
+                
+                console.log('🔄 PATEL Bot Settings reset to defaults');
+                
+                // Show reset confirmation
+                const resetBtn = event.target;
+                const originalText = resetBtn.textContent;
+                resetBtn.textContent = '✅ Reset!';
+                resetBtn.style.background = 'var(--warning)';
+                
+                setTimeout(() => {
+                    resetBtn.textContent = originalText;
+                    resetBtn.style.background = '';
+                }, 1500);
+            }
+
+            function loadSettings() {
+                const saved = localStorage.getItem('patelBotSettings');
+                if (saved) {
+                    try {
+                        const settings = JSON.parse(saved);
+                        applySettings(settings);
+                        console.log('📂 PATEL Bot Settings loaded:', settings);
+                    } catch (e) {
+                        console.warn('⚠️ Failed to load PATEL bot settings:', e);
+                    }
+                }
+            }
+
+            function applySettings(settings) {
+                // Apply display settings
+                if (settings.enableAnimations) {
+                    document.body.classList.add('animations-enabled');
+                } else {
+                    document.body.classList.remove('animations-enabled');
+                }
+                
+                if (!settings.showBotIndicators) {
+                    document.body.classList.add('hide-bot-indicators');
+                } else {
+                    document.body.classList.remove('hide-bot-indicators');
+                }
+                
+                // Store global PATEL bot settings for use by other functions
+                window.patelBotSettings = {
+                    stake: settings.patelStake || 1.00,
+                    martingale: settings.patelMartingale || 2.0,
+                    globalOverPredictionBefore: settings.globalOverPredictionBefore || 1,
+                    globalUnderPredictionBefore: settings.globalUnderPredictionBefore || 8,
+                    globalTradingOverBefore: settings.globalTradingOverBefore || 1,
+                    globalTradingUnderBefore: settings.globalTradingUnderBefore || 8,
+                    autoApplyGlobal: settings.autoApplyGlobal !== false,
+                    overrideAdvanced: settings.overrideAdvanced || false,
+                    overPredictionBefore: settings.overPredictionBefore || 1,
+                    overPredictionAfter: settings.overPredictionAfter || 2,
+                    underPredictionBefore: settings.underPredictionBefore || 8,
+                    underPredictionAfter: settings.underPredictionAfter || 6,
+                    enableRiskLimits: settings.enableRiskLimits !== false,
+                    maxMartingaleSteps: settings.maxMartingaleSteps || 5,
+                    showRiskWarnings: settings.showRiskWarnings !== false
+                };
+                
+                console.log('⚙️ PATEL bot settings applied:', window.patelBotSettings);
+            }
+
+            // Function to get current PATEL bot settings
+            function getPatelBotSettings() {
+                return window.patelBotSettings || {
+                    stake: 1.00,
+                    martingale: 2.0,
+                    globalOverPredictionBefore: 1,
+                    globalUnderPredictionBefore: 8,
+                    globalTradingOverBefore: 1,
+                    globalTradingUnderBefore: 8,
+                    autoApplyGlobal: true,
+                    overrideAdvanced: false,
+                    overPredictionBefore: 1,
+                    overPredictionAfter: 2,
+                    underPredictionBefore: 8,
+                    underPredictionAfter: 6,
+                    enableRiskLimits: true,
+                    maxMartingaleSteps: 5,
+                    showRiskWarnings: true
+                };
+            }
+
+            // Enhanced openSettingsModal to populate fields with current values
+            function openSettingsModal() {
+                // Create settings modal if it doesn't exist
+                let settingsModal = document.getElementById('settings-modal');
+                if (!settingsModal) {
+                    settingsModal = createSettingsModal();
+                    document.body.appendChild(settingsModal);
+                }
+                
+                // Populate fields with current values from localStorage
+                const saved = localStorage.getItem('patelBotSettings');
+                if (saved) {
+                    try {
+                        const settings = JSON.parse(saved);
+                        
+                        // Populate PATEL bot configuration
+                        document.getElementById('patel-stake').value = settings.patelStake || 1.00;
+                        document.getElementById('patel-martingale').value = settings.patelMartingale || 2;
+                        
+                        // Populate global prediction settings
+                        document.getElementById('global-over-prediction-before').value = settings.globalOverPredictionBefore || 1;
+                        document.getElementById('global-under-prediction-before').value = settings.globalUnderPredictionBefore || 8;
+                        
+                        // Populate global trading settings
+                        document.getElementById('global-trading-over-before').value = settings.globalTradingOverBefore || 1;
+                        document.getElementById('global-trading-under-before').value = settings.globalTradingUnderBefore || 8;
+                        document.getElementById('auto-apply-global').checked = settings.autoApplyGlobal !== false;
+                        document.getElementById('override-advanced').checked = settings.overrideAdvanced || false;
+                        
+                        // Populate OVER market settings
+                        document.getElementById('over-prediction-before').value = settings.overPredictionBefore || 1;
+                        document.getElementById('over-prediction-after').value = settings.overPredictionAfter || 2;
+                        
+                        // Populate UNDER market settings
+                        document.getElementById('under-prediction-before').value = settings.underPredictionBefore || 8;
+                        document.getElementById('under-prediction-after').value = settings.underPredictionAfter || 6;
+                        
+                        // Populate risk management settings
+                        document.getElementById('enable-risk-limits').checked = settings.enableRiskLimits !== false;
+                        document.getElementById('max-martingale-steps').value = settings.maxMartingaleSteps || 5;
+                        
+                        // Populate display settings
+                        document.getElementById('show-risk-warnings').checked = settings.showRiskWarnings !== false;
+                        document.getElementById('show-bot-indicators').checked = settings.showBotIndicators !== false;
+                        document.getElementById('enable-animations').checked = settings.enableAnimations || false;
+                        
+                        // Populate connection settings
+                        document.getElementById('reconnect-attempts').value = settings.reconnectAttempts || 5;
+                        document.getElementById('connection-timeout').value = settings.connectionTimeout || 10000;
+                    } catch (e) {
+                        console.warn('⚠️ Failed to populate settings modal:', e);
+                    }
+                }
+                
+                settingsModal.classList.add('active');
+                console.log('⚙️ PATEL Bot Settings modal opened');
+            }
+
+            // Toggle More Dropdown Function
+            function toggleMoreDropdown() {
+                const dropdown = document.getElementById('more-dropdown');
+                const button = document.getElementById('more-btn');
+                
+                if (dropdown && button) {
+                    const isVisible = dropdown.classList.contains('show');
+                    
+                    if (isVisible) {
+                        dropdown.classList.remove('show');
+                        button.classList.remove('active');
+                    } else {
+                        dropdown.classList.add('show');
+                        button.classList.add('active');
+                    }
+                }
+            }
+
+            // Toggle Modes Dropdown Function
+            function toggleModesDropdown() {
+                const dropdown = document.getElementById('modes-dropdown');
+                const button = document.getElementById('modes-btn');
+                
+                if (dropdown && button) {
+                    const isVisible = dropdown.classList.contains('show');
+                    
+                    if (isVisible) {
+                        dropdown.classList.remove('show');
+                        button.classList.remove('active');
+                    } else {
+                        dropdown.classList.add('show');
+                        button.classList.add('active');
+                    }
+                }
+            }
+
+            // Function to select trading mode
+            function selectTradingMode(mode) {
+                currentTradingMode = mode;
+                
+                // Close dropdown
+                const dropdown = document.getElementById('modes-dropdown');
+                const button = document.getElementById('modes-btn');
+                if (dropdown && button) {
+                    dropdown.classList.remove('show');
+                    button.classList.remove('active');
+                }
+                
+                // Update button display
+                updateModesButtonDisplay();
+                
+                // Handle mode-specific logic
+                switch (mode) {
+                    case 'patel':
+                        console.log('🎯 Patel Mode activated - Traditional over/under trading');
+                        selectedTradingStrategy = 'traditional';
+                        break;
+                    case 'matches':
+                        console.log('🎯 Matches Mode activated - Digit matching predictions');
+                        selectedTradingStrategy = 'matches';
+                        break;
+                    case 'evenodd':
+                        console.log('⚪⚫ Even Odd Mode activated - Even/odd predictions');
+                        selectedTradingStrategy = 'enhanced_even_odd';
+                        break;
+                }
+                
+                // Update digit display to reflect new mode
+                updateDigitDisplay();
+            }
+
+            // Function to update Modes button display
+            function updateModesButtonDisplay() {
+                const modesBtn = document.getElementById('modes-btn');
+                if (!modesBtn) return;
+                
+                const modeIcons = {
+                    'patel': '🎯',
+                    'matches': '🔍',
+                    'evenodd': '⚪⚫'
+                };
+                
+                const modeNames = {
+                    'patel': 'Patel',
+                    'matches': 'Matches',
+                    'evenodd': 'Even Odd'
+                };
+                
+                const icon = modeIcons[currentTradingMode] || '🎯';
+                const name = modeNames[currentTradingMode] || 'Patel';
+                
+                modesBtn.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                    </svg>
+                    ${icon} ${name}
+                    <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                `;
+                modesBtn.title = `${name} mode active - Click digits for ${name.toLowerCase()} trading`;
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                // Handle More dropdown
+                const moreDropdown = document.getElementById('more-dropdown');
+                const moreButton = document.getElementById('more-btn');
+                const moreContainer = moreButton?.closest('.dropdown-container');
+                
+                if (moreDropdown && moreButton && moreContainer) {
+                    if (!moreContainer.contains(event.target)) {
+                        moreDropdown.classList.remove('show');
+                        moreButton.classList.remove('active');
+                    }
+                }
+
+                // Handle Modes dropdown
+                const modesDropdown = document.getElementById('modes-dropdown');
+                const modesButton = document.getElementById('modes-btn');
+                const modesContainer = modesButton?.closest('.dropdown-container');
+                
+                if (modesDropdown && modesButton && modesContainer) {
+                    if (!modesContainer.contains(event.target)) {
+                        modesDropdown.classList.remove('show');
+                        modesButton.classList.remove('active');
+                    }
+                }
+            });
+
+            // Export Data Function
+            function exportAnalysisData() {
+                try {
+                    const data = {
+                        timestamp: new Date().toISOString(),
+                        currentPrice: window.currentPrice || 0,
+                        tickData: window.tickData || [],
+                        digitAnalysis: window.digitAnalysis || {},
+                        oeAnalysis: window.oeAnalysis || {},
+                        rfAnalysis: window.rfAnalysis || {},
+                        settings: JSON.parse(localStorage.getItem('patelBotSettings') || '{}'),
+                        exportedBy: 'Zeus Analysis Tool'
+                    };
+                    
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `zeus-analysis-data-${Date.now()}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    console.log('📁 Analysis data exported successfully!');
+                } catch (error) {
+                    console.error('❌ Export failed:', error);
+                    alert('Export failed. Please try again.');
+                }
+            }
+
+            // Add event listener for export button in dropdown
+            document.addEventListener('DOMContentLoaded', function() {
+                const exportBtn = document.getElementById('export-btn-dropdown');
+                if (exportBtn) {
+                    exportBtn.addEventListener('click', exportAnalysisData);
+                }
+            });
+
+            // Hide loading skeleton after 1 second
+            setTimeout(() => {
+                document.getElementById('loading-skeleton').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+                
+                // Load saved PATEL bot settings
+                loadSettings();
+                
+                // Initialize default settings if none exist
+                if (!localStorage.getItem('patelBotSettings')) {
+                    const defaultSettings = {
+                        patelStake: 1.00,
+                        patelMartingale: 2.0,
+                        globalOverPredictionBefore: 1,
+                        globalUnderPredictionBefore: 8,
+                        globalTradingOverBefore: 1,
+                        globalTradingUnderBefore: 8,
+                        autoApplyGlobal: true,
+                        overrideAdvanced: false,
+                        overPredictionBefore: 1,
+                        overPredictionAfter: 2,
+                        underPredictionBefore: 8,
+                        underPredictionAfter: 6,
+                        enableRiskLimits: true,
+                        maxMartingaleSteps: 5,
+                        showRiskWarnings: true,
+                        showBotIndicators: true,
+                        enableAnimations: false,
+                        reconnectAttempts: 5,
+                        connectionTimeout: 10000
+                    };
+                    localStorage.setItem('patelBotSettings', JSON.stringify(defaultSettings));
+                    applySettings(defaultSettings);
+                    console.log('🎯 Default PATEL bot settings initialized');
+                }
+
+                // Enhanced Settings Modal Functions
+                window.settingsPresets = {
+                    conservative: {
+                        stake: 1.00,
+                        martingale: 1.5,
+                        maxSteps: 3,
+                        riskScore: 2,
+                        riskLevel: 'low',
+                        description: 'Conservative settings with minimal risk exposure. Suitable for beginners.'
+                    },
+                    balanced: {
+                        stake: 2.00,
+                        martingale: 2.0,
+                        maxSteps: 5,
+                        riskScore: 5,
+                        riskLevel: 'medium',
+                        description: 'Balanced approach with moderate risk and reward potential.'
+                    },
+                    aggressive: {
+                        stake: 5.00,
+                        martingale: 3.0,
+                        maxSteps: 7,
+                        riskScore: 8,
+                        riskLevel: 'high',
+                        description: 'High-risk strategy for experienced traders seeking maximum returns.'
+                    }
+                };
+
+                window.currentSettingsPreset = 'conservative';
+
+                window.switchSettingsTab = function(tabName) {
+                    // Remove active class from all tabs and panels
+                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+                    
+                    // Add active class to selected tab and panel
+                    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+                    document.getElementById(`${tabName}-tab`).classList.add('active');
+                };
+
+                window.selectSettingsPreset = function(presetName) {
+                    window.currentSettingsPreset = presetName;
+                    const preset = window.settingsPresets[presetName];
+                    
+                    // Update visual selection
+                    document.querySelectorAll('.preset-card').forEach(card => card.classList.remove('selected'));
+                    document.querySelector(`[data-preset="${presetName}"]`).classList.add('selected');
+                    
+                    // Update form values
+                    document.getElementById('patel-stake').value = preset.stake;
+                    document.getElementById('patel-martingale').value = preset.martingale;
+                    document.getElementById('max-martingale-steps').value = preset.maxSteps;
+                    
+                    // Update risk calculation
+                    updateSettingsRiskCalculation();
+                };
+
+                window.updateSettingsRiskCalculation = function() {
+                    const stake = parseFloat(document.getElementById('patel-stake').value) || 1;
+                    const martingale = parseFloat(document.getElementById('patel-martingale').value) || 2;
+                    const maxSteps = parseInt(document.getElementById('max-martingale-steps').value) || 5;
+                    
+                    // Calculate risk score (simplified algorithm)
+                    let riskScore = 0;
+                    riskScore += Math.min(stake / 10, 3); // Stake contribution (max 3 points)
+                    riskScore += (martingale - 1) * 2; // Martingale contribution
+                    riskScore += Math.min(maxSteps / 2, 3); // Max steps contribution (max 3 points)
+                    
+                    riskScore = Math.min(Math.round(riskScore), 10);
+                    
+                    // Determine risk level
+                    let riskLevel, riskClass, riskDescription;
+                    if (riskScore <= 3) {
+                        riskLevel = 'Low';
+                        riskClass = 'low';
+                        riskDescription = 'Conservative settings with minimal risk exposure. Suitable for beginners.';
+                    } else if (riskScore <= 6) {
+                        riskLevel = 'Medium';
+                        riskClass = 'medium';
+                        riskDescription = 'Balanced approach with moderate risk and reward potential.';
+                    } else {
+                        riskLevel = 'High';
+                        riskClass = 'high';
+                        riskDescription = 'High-risk strategy for experienced traders. Use with caution.';
+                    }
+                    
+                    // Update UI
+                    const riskFill = document.getElementById('settings-risk-fill');
+                    const riskText = document.getElementById('settings-risk-text');
+                    const riskDesc = document.getElementById('settings-risk-description');
+                    
+                    if (riskFill && riskText && riskDesc) {
+                        riskFill.className = `risk-fill ${riskClass}`;
+                        riskFill.style.width = `${(riskScore / 10) * 100}%`;
+                        riskText.textContent = `${riskLevel} (${riskScore}/10)`;
+                        riskText.className = `risk-${riskClass}`;
+                        riskDesc.textContent = riskDescription;
+                    }
+                };
+
+                window.exportSettingsConfig = function() {
+                    const settings = {
+                        preset: window.currentSettingsPreset,
+                        stake: document.getElementById('patel-stake').value,
+                        martingale: document.getElementById('patel-martingale').value,
+                        maxSteps: document.getElementById('max-martingale-steps').value,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    const blob = new Blob([JSON.stringify(settings, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `patel-bot-settings-${Date.now()}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    console.log('📁 Settings exported successfully!');
+                };
+            }, 1000);
+        </script>
+    </body>
+</html>

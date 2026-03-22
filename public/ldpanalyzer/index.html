@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Chart - Deriv Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+    <!-- Price Display Section -->
+    <div class="price-display">
+        <div class="price-display-content">
+            <!-- Symbol and Price Section -->
+            <div class="price-main-section">
+                <div>
+                    <h2 class="symbol-name" id="symbolName">Volatility 75 Index</h2>
+                    <p class="market-type">Synthetic Indices</p>
+                </div>
+                <div class="divider"></div>
+                <div class="price-info">
+                    <span class="price-value" id="priceValue">$50,234.56</span>
+                    <div class="price-change" id="priceChange">
+                        <svg class="change-icon" id="changeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                            <polyline points="17 6 23 6 23 12"></polyline>
+                        </svg>
+                        <span id="changeText">+342.18 (0.68%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="price-stats">
+                <div class="stat-item">
+                    <p class="stat-label">24h High</p>
+                    <p class="stat-value" id="highValue">$52,746.29</p>
+                </div>
+                <div class="stat-item">
+                    <p class="stat-label">24h Low</p>
+                    <p class="stat-value" id="lowValue">$47,722.83</p>
+                </div>
+                <div class="stat-item">
+                    <p class="stat-label">24h Volume</p>
+                    <p class="stat-value">$1.2M</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Controls Section -->
+    <div class="chart-controls">
+        <div class="controls-content">
+            <!-- Market Selector -->
+            <div class="market-selector">
+                <select id="symbolSelect" class="select-input">
+                    <option value="volatility-10">Volatility 10 Index</option>
+                    <option value="volatility-10-1s">Volatility 10 (1s) Index</option>
+                    <option value="volatility-25">Volatility 25 Index</option>
+                    <option value="volatility-25-1s">Volatility 25 (1s) Index</option>
+                    <option value="volatility-50">Volatility 50 Index</option>
+                    <option value="volatility-50-1s">Volatility 50 (1s) Index</option>
+                    <option value="volatility-75" selected>Volatility 75 Index</option>
+                    <option value="volatility-75-1s">Volatility 75 (1s) Index</option>
+                    <option value="volatility-100">Volatility 100 Index</option>
+                    <option value="volatility-100-1s">Volatility 100 (1s) Index</option>
+                    <option value="volatility-150">Volatility 150 Index</option>
+                    <option value="volatility-150-1s">Volatility 150 (1s) Index</option>
+                    <option value="volatility-200">Volatility 200 Index</option>
+                    <option value="volatility-200-1s">Volatility 200 (1s) Index</option>
+                    <option value="volatility-250">Volatility 250 Index</option>
+                    <option value="volatility-250-1s">Volatility 250 (1s) Index</option>
+                </select>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Chart Type Buttons -->
+            <div class="chart-type-buttons">
+                <button class="btn btn-active" id="candlestickBtn" data-type="candlestick">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 5v4M9 15v4M9 9h1.5a1.5 1.5 0 0 1 0 3H9M15 5v4M15 15v4M15 9h1.5a1.5 1.5 0 0 1 0 3H15"></path>
+                    </svg>
+                    <span class="btn-text">Candles</span>
+                </button>
+                <button class="btn" id="lineBtn" data-type="line">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                    <span class="btn-text">Line</span>
+                </button>
+                <button class="btn" id="areaBtn" data-type="area">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3v18h18"></path>
+                        <path d="M18 17V9"></path>
+                        <path d="M13 17V5"></path>
+                        <path d="M8 17v-3"></path>
+                    </svg>
+                    <span class="btn-text">Area</span>
+                </button>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Timeframe Buttons -->
+            <div class="timeframe-buttons">
+                <button class="btn-sm" data-timeframe="1m">1m</button>
+                <button class="btn-sm btn-active" data-timeframe="5m">5m</button>
+                <button class="btn-sm" data-timeframe="15m">15m</button>
+                <button class="btn-sm" data-timeframe="30m">30m</button>
+                <button class="btn-sm" data-timeframe="1H">1H</button>
+                <button class="btn-sm" data-timeframe="4H">4H</button>
+                <button class="btn-sm" data-timeframe="1D">1D</button>
+                <button class="btn-sm" data-timeframe="1W">1W</button>
+            </div>
+
+            <!-- Mobile Timeframe Selector -->
+            <div class="timeframe-select-mobile">
+                <select id="timeframeSelect" class="select-input">
+                    <option value="1m">1m</option>
+                    <option value="5m" selected>5m</option>
+                    <option value="15m">15m</option>
+                    <option value="30m">30m</option>
+                    <option value="1H">1H</option>
+                    <option value="4H">4H</option>
+                    <option value="1D">1D</option>
+                    <option value="1W">1W</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Container -->
+    <div class="chart-wrapper">
+        <div id="chart" class="chart-container"></div>
+    </div>
+
+    <!-- Digit Analysis Section -->
+    <div class="analysis-wrapper">
+        <!-- Price Display -->
+        <div class="current-price-section">
+            <div class="price-label">PRICE</div>
+            <div class="price-large" id="currentPrice">870.54</div>
+        </div>
+
+        <!-- Last Digits Display -->
+        <div class="last-digits-section">
+            <div class="digit-circle" data-digit="0">
+                <span class="digit-number">6</span>
+                <span class="digit-percent">8.5%</span>
+            </div>
+            <div class="digit-circle" data-digit="1">
+                <span class="digit-number">1</span>
+                <span class="digit-percent">11.8%</span>
+            </div>
+            <div class="digit-circle" data-digit="2">
+                <span class="digit-number">5</span>
+                <span class="digit-percent">14.3%</span>
+            </div>
+            <div class="digit-circle" data-digit="3">
+                <span class="digit-number">3</span>
+                <span class="digit-percent">9.2%</span>
+            </div>
+            <div class="digit-circle active" data-digit="4">
+                <span class="digit-number">4</span>
+                <span class="digit-percent">8.7%</span>
+            </div>
+            <div class="digit-circle" data-digit="5">
+                <span class="digit-number">6</span>
+                <span class="digit-percent">11.4%</span>
+            </div>
+            <div class="digit-circle" data-digit="6">
+                <span class="digit-number">8</span>
+                <span class="digit-percent">13.9%</span>
+            </div>
+            <div class="digit-circle" data-digit="7">
+                <span class="digit-number">7</span>
+                <span class="digit-percent">6.5%</span>
+            </div>
+            <div class="digit-circle" data-digit="8">
+                <span class="digit-number">0</span>
+                <span class="digit-percent">9.4%</span>
+            </div>
+            <div class="digit-circle" data-digit="9">
+                <span class="digit-number">9</span>
+                <span class="digit-percent">6.3%</span>
+            </div>
+        </div>
+
+        <!-- Over/Under Analysis -->
+        <div class="analysis-section">
+            <div class="analysis-header">
+                <h3 class="analysis-title">Over/Under Analysis</h3>
+                <span class="streak-info">Current Streak: 1</span>
+            </div>
+            <div class="analysis-bars">
+                <div class="bar-container">
+                    <div class="bar-fill over-bar" style="width: 40.5%"></div>
+                    <div class="bar-label">
+                        <span class="label-text">Over</span>
+                        <span class="label-percent">40.5%</span>
+                    </div>
+                </div>
+                <div class="bar-container">
+                    <div class="bar-fill under-bar" style="width: 59.5%"></div>
+                    <div class="bar-label">
+                        <span class="label-text">Under</span>
+                        <span class="label-percent">59.5%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="digit-grid">
+                <div class="digit-number-display">0</div>
+                <div class="digit-number-display">1</div>
+                <div class="digit-number-display">2</div>
+                <div class="digit-number-display">3</div>
+                <div class="digit-number-display active">4</div>
+                <div class="digit-number-display">5</div>
+                <div class="digit-number-display">6</div>
+                <div class="digit-number-display">7</div>
+                <div class="digit-number-display">8</div>
+                <div class="digit-number-display">9</div>
+            </div>
+            <div class="history-boxes">
+                <div class="history-box over">O</div>
+                <div class="history-box over">O</div>
+                <div class="history-box under">U</div>
+                <div class="history-box under">U</div>
+                <div class="history-box over">O</div>
+                <div class="history-box over">O</div>
+                <div class="history-box over">O</div>
+                <div class="history-box under">U</div>
+                <div class="history-box active">MORE</div>
+            </div>
+        </div>
+
+        <!-- Matches/Differs Analysis -->
+        <div class="analysis-section">
+            <div class="analysis-header">
+                <h3 class="analysis-title">Matches/Differs Analysis</h3>
+                <span class="streak-info">Current Streak: 1</span>
+            </div>
+            <div class="analysis-bars">
+                <div class="bar-container">
+                    <div class="bar-fill matches-bar" style="width: 10.4%"></div>
+                    <div class="bar-label">
+                        <span class="label-text">Matches</span>
+                        <span class="label-percent">10.4%</span>
+                    </div>
+                </div>
+                <div class="bar-container">
+                    <div class="bar-fill differs-bar" style="width: 89.6%"></div>
+                    <div class="bar-label">
+                        <span class="label-text">Differs</span>
+                        <span class="label-percent">89.6%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="digit-grid">
+                <div class="digit-number-display">0</div>
+                <div class="digit-number-display">1</div>
+                <div class="digit-number-display">2</div>
+                <div class="digit-number-display">3</div>
+                <div class="digit-number-display active">4</div>
+                <div class="digit-number-display">5</div>
+                <div class="digit-number-display">6</div>
+                <div class="digit-number-display">7</div>
+                <div class="digit-number-display">8</div>
+                <div class="digit-number-display">9</div>
+            </div>
+            <div class="history-boxes">
+                <div class="history-box differs">D</div>
+                <div class="history-box differs">D</div>
+                <div class="history-box differs">D</div>
+                <div class="history-box differs">D</div>
+                <div class="history-box differs">D</div>
+                <div class="history-box differs">D</div>
+                <div class="history-box differs">D</div>
+                <div class="history-box differs">D</div>
+                <div class="history-box active">MORE</div>
+            </div>
+        </div>
+
+        <!-- Even/Odd Analysis -->
+        <div class="analysis-section">
+            <div class="analysis-header">
+                <h3 class="analysis-title">Even/Odd Analysis</h3>
+                <span class="streak-info">Current Streak: 1</span>
+            </div>
+            <div class="analysis-bars">
+                <div class="bar-container">
+                    <div class="bar-fill even-bar" style="width: 48.2%"></div>
+                    <div class="bar-label">
+                        <span class="label-text">Even</span>
+                        <span class="label-percent">48.2%</span>
+                    </div>
+                </div>
+                <div class="bar-container">
+                    <div class="bar-fill odd-bar" style="width: 51.8%"></div>
+                    <div class="bar-label">
+                        <span class="label-text">Odd</span>
+                        <span class="label-percent">51.8%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="digit-grid">
+                <div class="digit-number-display">0</div>
+                <div class="digit-number-display">1</div>
+                <div class="digit-number-display">2</div>
+                <div class="digit-number-display">3</div>
+                <div class="digit-number-display active">4</div>
+                <div class="digit-number-display">5</div>
+                <div class="digit-number-display">6</div>
+                <div class="digit-number-display">7</div>
+                <div class="digit-number-display">8</div>
+                <div class="digit-number-display">9</div>
+            </div>
+            <div class="history-boxes">
+                <div class="history-box even">E</div>
+                <div class="history-box even">E</div>
+                <div class="history-box even">E</div>
+                <div class="history-box odd">O</div>
+                <div class="history-box odd">O</div>
+                <div class="history-box even">E</div>
+                <div class="history-box odd">O</div>
+                <div class="history-box even">E</div>
+                <div class="history-box active">MORE</div>
+            </div>
+        </div>
+
+        <!-- Rise/Fall Analysis -->
+        <div class="analysis-section">
+            <div class="analysis-header">
+                <h3 class="analysis-title">Rise/Fall Analysis</h3>
+                <span class="streak-info">Current Streak: 1</span>
+            </div>
+            <div class="analysis-bars">
+                <div class="bar-container">
+                    <div class="bar-fill rise-bar" style="width: 49.4%"></div>
+                    <div class="bar-label">
+                        <span class="label-text">Rise</span>
+                        <span class="label-percent">49.4%</span>
+                    </div>
+                </div>
+                <div class="bar-container">
+                    <div class="bar-fill fall-bar" style="width: 50.6%"></div>
+                    <div class="bar-label">
+                        <span class="label-text">Fall</span>
+                        <span class="label-percent">50.6%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="digit-grid">
+                <div class="digit-number-display">0</div>
+                <div class="digit-number-display">1</div>
+                <div class="digit-number-display">2</div>
+                <div class="digit-number-display">3</div>
+                <div class="digit-number-display active">4</div>
+                <div class="digit-number-display">5</div>
+                <div class="digit-number-display">6</div>
+                <div class="digit-number-display">7</div>
+                <div class="digit-number-display">8</div>
+                <div class="digit-number-display">9</div>
+            </div>
+            <div class="history-boxes">
+                <div class="history-box rise">R</div>
+                <div class="history-box fall">F</div>
+                <div class="history-box fall">F</div>
+                <div class="history-box rise">R</div>
+                <div class="history-box fall">F</div>
+                <div class="history-box fall">F</div>
+                <div class="history-box rise">R</div>
+                <div class="history-box rise">R</div>
+                <div class="history-box active">MORE</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="digits.js"></script>
+</body>
+</html>

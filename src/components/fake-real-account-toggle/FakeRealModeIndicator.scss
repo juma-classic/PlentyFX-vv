@@ -1,0 +1,116 @@
+.fake-real-mode-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    border: 2px solid #fff;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    box-shadow:
+        0 4px 12px rgb(0 0 0 / 30%),
+        0 0 20px rgb(59 130 246 / 40%);
+    cursor: default;
+    animation:
+        slide-in 0.5s ease-out,
+        glow 2s ease-in-out infinite;
+
+    .us-flag {
+        font-size: 24px;
+        line-height: 1;
+        filter: drop-shadow(0 2px 4px rgb(0 0 0 / 20%));
+    }
+
+    .indicator-text {
+        white-space: nowrap;
+        text-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+        letter-spacing: 0.5px;
+    }
+
+    @keyframes slide-in {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes glow {
+        0%,
+        100% {
+            box-shadow:
+                0 4px 12px rgb(0 0 0 / 30%),
+                0 0 20px rgb(59 130 246 / 40%);
+        }
+
+        50% {
+            box-shadow:
+                0 4px 12px rgb(0 0 0 / 30%),
+                0 0 30px rgb(59 130 246 / 60%);
+        }
+    }
+
+    @media (width <= 768px) {
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        font-size: 12px;
+
+        .us-flag {
+            font-size: 20px;
+        }
+    }
+}
+
+.fake-mode-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: rgb(255 168 0 / 15%);
+    border: 1px solid var(--status-warning);
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-prominent);
+    cursor: help;
+    animation: pulse 2s ease-in-out infinite;
+
+    .indicator-icon {
+        font-size: 14px;
+        line-height: 1;
+    }
+
+    .indicator-text {
+        white-space: nowrap;
+    }
+
+    @keyframes pulse {
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 1;
+        }
+    }
+
+    @media (width <= 768px) {
+        .indicator-text {
+            display: none;
+        }
+
+        padding: 4px 8px;
+    }
+}

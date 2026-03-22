@@ -1,0 +1,89 @@
+@use 'components/shared/styles/mixins' as *;
+
+.risk-disclaimer-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 10px;
+    background-color: #f44;
+    border: none;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 30%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    color: #000;
+
+    &:hover {
+        background-color: #f33;
+        transform: translateY(-2px);
+        box-shadow: 0 3px 8px rgb(0 0 0 / 40%);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    svg {
+        width: 10px;
+        height: 10px;
+        flex-shrink: 0;
+    }
+
+    &__text {
+        font-size: 7px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    @include mobile-or-tablet-screen {
+        bottom: 80px;
+        left: 16px;
+        height: 18px;
+        padding: 0 6px;
+        gap: 3px;
+
+        svg {
+            width: 9px;
+            height: 9px;
+        }
+
+        &__text {
+            font-size: 6px;
+        }
+    }
+}
+
+.risk-disclaimer-modal {
+    &__content {
+        padding: 16px 0;
+    }
+
+    &__text {
+        margin-bottom: 16px;
+        line-height: 1.6;
+        color: var(--text-general);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &--indent {
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+    }
+}
+
+.dc-modal__container_risk-disclaimer-modal {
+    max-width: 500px;
+
+    @include mobile-or-tablet-screen {
+        max-width: 90vw;
+    }
+}

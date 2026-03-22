@@ -1,0 +1,18 @@
+.main-body {
+    flex: 1;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: calc(100vh - 4.9rem); /* Full height minus header */
+    height: calc(100vh - 4.9rem);
+    display: flex;
+    flex-direction: column;
+
+    @media (width <= 768px) {
+        min-height: calc(100vh - 4rem); /* Mobile header height */
+        height: calc(100vh - 4rem);
+    }
+}

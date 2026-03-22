@@ -1,0 +1,91 @@
+.trading-calculator {
+    font-family: 'Arial', sans-serif;
+    background-color: #101128;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 120px);
+    margin: 0;
+    padding: 20px;
+    width: 100%;
+
+    .container {
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+        background-color: #252d40;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        border: 1px solid #5f05fc;
+        margin: 20px auto;
+
+        @media (max-width: 768px) {
+            padding: 20px;
+        }
+    }
+
+    h1 {
+        text-align: center;
+        color: #1f77d0;
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin: 15px 0 5px;
+        font-weight: bold;
+        color: #1f77d0;
+    }
+
+    input {
+        width: calc(100% - 24px);
+        padding: 12px;
+        border: 1px solid #2e0f4d;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        background-color: #1a1f2e;
+        color: #e0e0e0;
+        font-size: 16px;
+
+        &:hover,
+        &:focus {
+            border-color: #1f77d0;
+            box-shadow: 0 0 8px rgba(31, 119, 208, 0.5);
+            outline: none;
+        }
+
+        &::placeholder {
+            color: #888;
+        }
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: #f10505;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+        font-weight: bold;
+
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+
+    .result {
+        margin-top: 20px;
+        padding: 12px;
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        border-radius: 8px;
+        display: block;
+        line-height: 1.5;
+    }
+}

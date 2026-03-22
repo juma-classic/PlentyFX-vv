@@ -1,0 +1,441 @@
+.enhanced-countdown-timer {
+    background: linear-gradient(135deg, rgb(15 23 42 / 95%), rgb(30 41 59 / 95%));
+    border: 2px solid rgb(100 116 139 / 50%);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    // Size variations
+    &.small {
+        padding: 16px;
+
+        .timer-ring-container {
+            width: 80px;
+            height: 80px;
+        }
+
+        .timer-number {
+            font-size: 28px;
+        }
+    }
+
+    &.medium {
+        padding: 20px;
+
+        .timer-ring-container {
+            width: 100px;
+            height: 100px;
+        }
+
+        .timer-number {
+            font-size: 36px;
+        }
+    }
+
+    &.large {
+        padding: 24px;
+
+        .timer-ring-container {
+            width: 140px;
+            height: 140px;
+        }
+
+        .timer-number {
+            font-size: 48px;
+        }
+    }
+
+    // State colors
+    &.normal {
+        border-color: rgb(16 185 129 / 60%);
+        box-shadow: 0 0 20px rgb(16 185 129 / 20%);
+    }
+
+    &.warning {
+        border-color: rgb(245 158 11 / 60%);
+        box-shadow: 0 0 25px rgb(245 158 11 / 30%);
+    }
+
+    &.danger {
+        border-color: rgb(239 68 68 / 60%);
+        box-shadow: 0 0 30px rgb(239 68 68 / 35%);
+    }
+
+    &.critical {
+        border-color: rgb(220 38 38 / 80%);
+        box-shadow: 0 0 40px rgb(220 38 38 / 50%);
+    }
+
+    &.expired {
+        border-color: rgb(100 116 139 / 50%);
+        opacity: 0.8;
+    }
+
+    // Pulse animation
+    &.pulse {
+        animation: enhanced-pulse 1s ease-in-out infinite;
+    }
+
+    // Consecutive pattern info
+    .consecutive-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+        padding: 8px 12px;
+        background: linear-gradient(135deg, rgb(245 158 11 / 20%), rgb(251 191 36 / 20%));
+        border: 1px solid rgb(245 158 11 / 40%);
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fbbf24;
+
+        .consecutive-icon {
+            font-size: 16px;
+        }
+    }
+
+    // Main timer display
+    .timer-main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 24px;
+
+        .timer-ring-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+
+            .timer-ring {
+                width: 100%;
+                height: 100%;
+                transform: scaleX(-1);
+                filter: drop-shadow(0 0 8px rgb(59 130 246 / 30%));
+            }
+
+            .ring-background {
+                opacity: 0.3;
+            }
+
+            .ring-progress {
+                transition: stroke-dasharray 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .ring-glow {
+                animation: glow-pulse 1s ease-in-out infinite;
+            }
+
+            .timer-center {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+
+                .timer-number {
+                    font-size: 48px;
+                    font-weight: 800;
+                    color: #fff;
+                    line-height: 1;
+                    margin-bottom: 4px;
+                    text-shadow: 0 0 20px rgb(59 130 246 / 50%);
+                    transition: all 0.3s ease;
+                }
+
+                .timer-label {
+                    font-size: 12px;
+                    color: rgb(255 255 255 / 70%);
+                    text-transform: uppercase;
+                    letter-spacing: 0.8px;
+                    font-weight: 600;
+                    margin-bottom: 4px;
+                }
+
+                .timer-percentage {
+                    font-size: 10px;
+                    color: rgb(255 255 255 / 50%);
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .timer-status {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+
+            .status-active {
+                color: #10b981;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .status-paused {
+                color: #f59e0b;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .status-expired {
+                color: #94a3b8;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+        }
+    }
+
+    // Action buttons
+    .timer-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        .timer-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+
+            .btn-icon {
+                font-size: 16px;
+            }
+
+            .btn-text {
+                font-weight: 700;
+            }
+
+            // Button variants
+            &.start-btn,
+            &.resume-btn {
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: #fff;
+                box-shadow: 0 4px 15px rgb(16 185 129 / 30%);
+
+                &:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 25px rgb(16 185 129 / 40%);
+                }
+            }
+
+            &.pause-btn {
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: #fff;
+                box-shadow: 0 4px 15px rgb(245 158 11 / 30%);
+
+                &:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 25px rgb(245 158 11 / 40%);
+                }
+            }
+
+            &.continue-btn {
+                background: linear-gradient(135deg, #3b82f6, #2563eb);
+                color: #fff;
+                box-shadow: 0 4px 15px rgb(59 130 246 / 30%);
+                font-size: 16px;
+                padding: 14px 24px;
+                animation: continue-glow 2s ease-in-out infinite;
+
+                &:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 25px rgb(59 130 246 / 50%);
+                }
+            }
+
+            &.cancel-btn {
+                background: linear-gradient(135deg, #ef4444, #dc2626);
+                color: #fff;
+                box-shadow: 0 4px 15px rgb(239 68 68 / 30%);
+
+                &:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 25px rgb(239 68 68 / 40%);
+                }
+            }
+
+            &:active {
+                transform: translateY(-1px);
+            }
+
+            // Ripple effect
+            &:before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                border-radius: 50%;
+                background: rgb(255 255 255 / 30%);
+                transition:
+                    width 0.6s,
+                    height 0.6s;
+                transform: translate(-50%, -50%);
+            }
+
+            &:active:before {
+                width: 300px;
+                height: 300px;
+            }
+        }
+    }
+
+    // Progress bar alternative
+    .timer-progress-bar {
+        height: 8px;
+        background: rgb(100 116 139 / 30%);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 20px;
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    }
+}
+
+// State-specific number colors
+.enhanced-countdown-timer.normal .timer-number {
+    color: #10b981;
+    text-shadow: 0 0 20px rgb(16 185 129 / 50%);
+}
+
+.enhanced-countdown-timer.warning .timer-number {
+    color: #f59e0b;
+    text-shadow: 0 0 20px rgb(245 158 11 / 50%);
+}
+
+.enhanced-countdown-timer.danger .timer-number {
+    color: #ef4444;
+    text-shadow: 0 0 20px rgb(239 68 68 / 50%);
+}
+
+.enhanced-countdown-timer.critical .timer-number {
+    color: #dc2626;
+    text-shadow: 0 0 20px rgb(220 38 38 / 70%);
+    animation: number-pulse 0.5s ease-in-out infinite;
+}
+
+.enhanced-countdown-timer.expired .timer-number {
+    color: #64748b;
+    text-shadow: none;
+}
+
+// Animations
+@keyframes enhanced-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 30px rgb(239 68 68 / 35%);
+    }
+
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 40px rgb(239 68 68 / 50%);
+    }
+}
+
+@keyframes glow-pulse {
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes number-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes continue-glow {
+    0%,
+    100% {
+        box-shadow: 0 4px 15px rgb(59 130 246 / 30%);
+    }
+
+    50% {
+        box-shadow: 0 4px 25px rgb(59 130 246 / 50%);
+    }
+}
+
+// Responsive design
+@media (width <= 768px) {
+    .enhanced-countdown-timer {
+        padding: 20px;
+
+        &.large {
+            .timer-ring-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .timer-number {
+                font-size: 40px;
+            }
+        }
+
+        .timer-actions {
+            .timer-btn {
+                flex: 1;
+                min-width: 120px;
+                justify-content: center;
+            }
+        }
+    }
+}
+
+@media (width <= 480px) {
+    .enhanced-countdown-timer {
+        padding: 16px;
+
+        &.large {
+            .timer-ring-container {
+                width: 100px;
+                height: 100px;
+            }
+
+            .timer-number {
+                font-size: 32px;
+            }
+        }
+
+        .timer-actions {
+            flex-direction: column;
+
+            .timer-btn {
+                width: 100%;
+            }
+        }
+    }
+}

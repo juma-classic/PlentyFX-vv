@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Old Tokens - Zeus Trading Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .info {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        button {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #cc0000;
+        }
+        .success {
+            background: #00ff88;
+            color: #333;
+        }
+        .success:hover {
+            background: #00cc66;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .status.show {
+            display: block;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 App ID Update</h1>
+        <div class="info">
+            <p><strong>Why am I seeing this page?</strong></p>
+            <p>Zeus Trading Hub has updated its App ID from <code>119552</code> to <code>117918</code>.</p>
+            <p>Your stored authentication tokens are tied to the old App ID and need to be cleared.</p>
+        </div>
+        
+        <button onclick="clearTokens()">Clear Old Tokens</button>
+        <button class="success" onclick="redirectToLogin()">Go to Login</button>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="info" style="margin-top: 30px;">
+            <p><strong>What will be cleared?</strong></p>
+            <ul style="text-align: left;">
+                <li>Authentication tokens</li>
+                <li>Account information</li>
+                <li>Old app ID configuration</li>
+            </ul>
+            <p><strong>What will be kept?</strong></p>
+            <ul style="text-align: left;">
+                <li>Your account on Deriv (nothing is deleted)</li>
+                <li>Your trading history</li>
+                <li>Your preferences (after re-login)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function clearTokens() {
+            const status = document.getElementById('status');
+            
+            try {
+                // Clear all tokens and app ID related data
+                const keysToRemove = [];
+                
+                // Find all keys related to old app ID
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && (
+                        key.includes('token') || 
+                        key.includes('loginid') || 
+                        key.includes('119552') ||
+                        key.includes('config.app_id') ||
+                        key.includes('client') ||
+                        key.includes('active')
+                    )) {
+                        keysToRemove.push(key);
+                    }
+                }
+                
+                // Remove all identified keys
+                keysToRemove.forEach(key => {
+                    localStorage.removeItem(key);
+                    console.log('Removed:', key);
+                });
+                
+                // Set new app ID
+                localStorage.setItem('config.app_id', '117918');
+                
+                status.className = 'status show success';
+                status.innerHTML = `
+                    <strong>✅ Success!</strong><br>
+                    Cleared ${keysToRemove.length} items from storage.<br>
+                    New App ID (117918) has been set.<br>
+                    Click "Go to Login" to authenticate with the new App ID.
+                `;
+                
+            } catch (error) {
+                status.className = 'status show error';
+                status.innerHTML = `
+                    <strong>❌ Error!</strong><br>
+                    ${error.message}<br>
+                    Please try manually clearing your browser cache.
+                `;
+            }
+        }
+        
+        function redirectToLogin() {
+            window.location.href = 'https://oauth.deriv.com/oauth2/authorize?app_id=117918&l=EN&brand=global-trades';
+        }
+    </script>
+</body>
+</html>

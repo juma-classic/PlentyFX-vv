@@ -1,0 +1,20 @@
+{
+  "name": "deriv-trading-interface",
+  "version": "1.0.0",
+  "description": "A React + SCSS web application for Deriv third-party trading with **STRICT execution safety** and analysis-first design.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.9.5",
+    "web-vitals": "^5.1.0"
+  }
+}

@@ -1,0 +1,288 @@
+.countdown-timer {
+    background: linear-gradient(135deg, rgb(15 23 42 / 95%), rgb(30 41 59 / 95%));
+    border: 2px solid rgb(100 116 139 / 50%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+
+    &.warning {
+        border-color: rgb(245 158 11 / 60%);
+        box-shadow: 0 0 20px rgb(245 158 11 / 30%);
+    }
+
+    &.danger {
+        border-color: rgb(239 68 68 / 60%);
+        box-shadow: 0 0 20px rgb(239 68 68 / 30%);
+        animation: pulse-danger 1s ease-in-out infinite;
+    }
+
+    &.critical {
+        border-color: rgb(220 38 38 / 80%);
+        box-shadow: 0 0 30px rgb(220 38 38 / 50%);
+        animation: pulse-critical 0.5s ease-in-out infinite;
+    }
+
+    &.expired {
+        border-color: rgb(100 116 139 / 50%);
+        opacity: 0.7;
+    }
+
+    .countdown-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid rgb(100 116 139 / 30%);
+
+        .countdown-icon {
+            font-size: 24px;
+        }
+
+        .countdown-label {
+            flex: 1;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .countdown-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            &.active {
+                background: rgb(16 185 129 / 20%);
+                color: #10b981;
+            }
+
+            &.paused {
+                background: rgb(245 158 11 / 20%);
+                color: #f59e0b;
+            }
+
+            &.expired {
+                background: rgb(100 116 139 / 20%);
+                color: #94a3b8;
+            }
+        }
+    }
+
+    .countdown-main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 20px;
+
+        .countdown-ring {
+            position: relative;
+            width: 120px;
+            height: 120px;
+
+            .ring-svg {
+                width: 100%;
+                height: 100%;
+                transform: scaleX(-1);
+            }
+
+            .ring-progress {
+                transition:
+                    stroke-dasharray 0.5s ease,
+                    stroke 0.3s ease;
+            }
+
+            .ring-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+
+                .ticks-remaining {
+                    font-size: 48px;
+                    font-weight: 700;
+                    color: #fff;
+                    line-height: 1;
+                    margin-bottom: 4px;
+                }
+
+                .ticks-label {
+                    font-size: 12px;
+                    color: rgb(255 255 255 / 60%);
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+            }
+        }
+
+        .countdown-message {
+            text-align: center;
+            font-size: 16px;
+            color: rgb(255 255 255 / 90%);
+
+            .message-expired {
+                color: #94a3b8;
+                font-style: italic;
+            }
+
+            .message-active {
+                strong {
+                    color: #3b82f6;
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+
+    .countdown-controls {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+
+        .control-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+
+            &.start,
+            &.resume {
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: #fff;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgb(16 185 129 / 40%);
+                }
+            }
+
+            &.pause {
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: #fff;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgb(245 158 11 / 40%);
+                }
+            }
+
+            &.cancel {
+                background: linear-gradient(135deg, #ef4444, #dc2626);
+                color: #fff;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgb(239 68 68 / 40%);
+                }
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+
+    .countdown-progress-bar {
+        height: 8px;
+        background: rgb(100 116 139 / 30%);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 16px;
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+    }
+}
+
+// Color variations for ring progress
+.countdown-timer.normal .ring-progress {
+    stroke: #10b981;
+}
+
+.countdown-timer.warning .ring-progress {
+    stroke: #f59e0b;
+}
+
+.countdown-timer.danger .ring-progress {
+    stroke: #ef4444;
+}
+
+.countdown-timer.critical .ring-progress {
+    stroke: #dc2626;
+}
+
+.countdown-timer.expired .ring-progress {
+    stroke: #64748b;
+}
+
+// Animations
+@keyframes pulse-danger {
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgb(239 68 68 / 30%);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgb(239 68 68 / 50%);
+    }
+}
+
+@keyframes pulse-critical {
+    0%,
+    100% {
+        box-shadow: 0 0 30px rgb(220 38 38 / 50%);
+        transform: scale(1);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgb(220 38 38 / 70%);
+        transform: scale(1.02);
+    }
+}
+
+// Responsive
+@media (width <= 768px) {
+    .countdown-timer {
+        .countdown-main {
+            .countdown-ring {
+                width: 100px;
+                height: 100px;
+
+                .ring-content {
+                    .ticks-remaining {
+                        font-size: 36px;
+                    }
+                }
+            }
+
+            .countdown-message {
+                font-size: 14px;
+
+                .message-active strong {
+                    font-size: 18px;
+                }
+            }
+        }
+
+        .countdown-controls {
+            flex-wrap: wrap;
+
+            .control-btn {
+                flex: 1;
+                min-width: 100px;
+            }
+        }
+    }
+}

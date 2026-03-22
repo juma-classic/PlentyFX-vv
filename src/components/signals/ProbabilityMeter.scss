@@ -1,0 +1,312 @@
+.probability-meter {
+    background: linear-gradient(135deg, rgb(15 23 42 / 95%), rgb(30 41 59 / 95%));
+    border: 2px solid rgb(100 116 139 / 50%);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+
+    .meter-container {
+        .meter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+
+            .meter-label {
+                font-size: 16px;
+                font-weight: 700;
+                color: #fff;
+            }
+
+            .breakdown-toggle {
+                background: rgb(59 130 246 / 20%);
+                border: 1px solid rgb(59 130 246 / 40%);
+                color: #3b82f6;
+                padding: 6px 12px;
+                border-radius: 6px;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: rgb(59 130 246 / 30%);
+                }
+            }
+        }
+
+        .circular-meter {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+
+            &.animating {
+                .meter-progress {
+                    animation: progress-pulse 0.5s ease;
+                }
+            }
+
+            .meter-svg {
+                width: 100%;
+                height: 100%;
+            }
+
+            .meter-progress {
+                transition:
+                    stroke-dasharray 0.5s ease,
+                    stroke 0.3s ease;
+            }
+
+            &.high .meter-progress {
+                stroke: #10b981;
+            }
+
+            &.medium-high .meter-progress {
+                stroke: #3b82f6;
+            }
+
+            &.medium .meter-progress {
+                stroke: #f59e0b;
+            }
+
+            &.low .meter-progress {
+                stroke: #ef4444;
+            }
+
+            .meter-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+
+                .probability-value {
+                    font-size: 48px;
+                    font-weight: 700;
+                    color: #fff;
+                    line-height: 1;
+                    margin-bottom: 8px;
+                }
+
+                .probability-range {
+                    font-size: 12px;
+                    color: rgb(255 255 255 / 60%);
+                    margin-bottom: 12px;
+                }
+
+                .confidence-badge {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+
+                    .confidence-label {
+                        font-size: 10px;
+                        color: rgb(255 255 255 / 50%);
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                    }
+
+                    .confidence-value {
+                        font-size: 14px;
+                        font-weight: 700;
+                        color: #3b82f6;
+                    }
+                }
+            }
+        }
+
+        .recommendation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+
+            &.recommendation-strong_buy {
+                background: linear-gradient(135deg, rgb(16 185 129 / 30%), rgb(5 150 105 / 20%));
+                border: 2px solid #10b981;
+                color: #10b981;
+            }
+
+            &.recommendation-buy {
+                background: linear-gradient(135deg, rgb(59 130 246 / 30%), rgb(37 99 235 / 20%));
+                border: 2px solid #3b82f6;
+                color: #3b82f6;
+            }
+
+            &.recommendation-hold {
+                background: linear-gradient(135deg, rgb(245 158 11 / 30%), rgb(217 119 6 / 20%));
+                border: 2px solid #f59e0b;
+                color: #f59e0b;
+            }
+
+            &.recommendation-sell {
+                background: linear-gradient(135deg, rgb(239 68 68 / 30%), rgb(220 38 38 / 20%));
+                border: 2px solid #ef4444;
+                color: #ef4444;
+            }
+
+            &.recommendation-strong_sell {
+                background: linear-gradient(135deg, rgb(220 38 38 / 40%), rgb(185 28 28 / 30%));
+                border: 2px solid #dc2626;
+                color: #dc2626;
+            }
+
+            .recommendation-icon {
+                font-size: 24px;
+            }
+        }
+    }
+
+    .probability-breakdown {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 2px solid rgb(100 116 139 / 30%);
+        animation: slide-down 0.3s ease;
+
+        h4 {
+            margin: 0 0 16px;
+            font-size: 14px;
+            font-weight: 700;
+            color: rgb(255 255 255 / 90%);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .factor-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+
+            .factor-item {
+                display: grid;
+                grid-template-columns: 120px 1fr 80px;
+                align-items: center;
+                gap: 12px;
+
+                .factor-label {
+                    font-size: 13px;
+                    color: rgb(255 255 255 / 80%);
+                }
+
+                .factor-bar {
+                    height: 8px;
+                    background: rgb(100 116 139 / 30%);
+                    border-radius: 4px;
+                    overflow: hidden;
+
+                    .factor-fill {
+                        height: 100%;
+                        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+                        border-radius: 4px;
+                        transition: width 0.5s ease;
+                    }
+                }
+
+                .factor-value {
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #3b82f6;
+                    text-align: right;
+                }
+            }
+        }
+
+        .historical-accuracy {
+            background: rgb(0 0 0 / 30%);
+            border-radius: 8px;
+            padding: 16px;
+
+            h5 {
+                margin: 0 0 12px;
+                font-size: 13px;
+                font-weight: 700;
+                color: rgb(255 255 255 / 90%);
+            }
+
+            .accuracy-stats {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+
+                .accuracy-item {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+
+                    .accuracy-label {
+                        font-size: 11px;
+                        color: rgb(255 255 255 / 60%);
+                    }
+
+                    .accuracy-value {
+                        font-size: 18px;
+                        font-weight: 700;
+                        color: #3b82f6;
+
+                        &.success {
+                            color: #10b981;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes progress-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Responsive
+@media (width <= 768px) {
+    .probability-meter {
+        .probability-breakdown {
+            .factor-list {
+                .factor-item {
+                    grid-template-columns: 1fr;
+                    gap: 6px;
+
+                    .factor-bar {
+                        order: 2;
+                    }
+
+                    .factor-value {
+                        order: 3;
+                        text-align: left;
+                    }
+                }
+            }
+
+            .historical-accuracy {
+                .accuracy-stats {
+                    grid-template-columns: 1fr;
+                }
+            }
+        }
+    }
+}

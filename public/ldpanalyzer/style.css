@@ -1,0 +1,633 @@
+/* ======================================
+   RESET & BASE STYLES
+   ====================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors - Dark Theme */
+    --background: hsl(216, 28%, 7%);
+    --foreground: hsl(210, 20%, 98%);
+    --card: hsl(217, 28%, 10%);
+    --card-foreground: hsl(210, 20%, 98%);
+    --border: hsl(217, 28%, 18%);
+    --input: hsl(217, 28%, 18%);
+    --primary: hsl(158, 64%, 52%);
+    --primary-foreground: hsl(217, 28%, 7%);
+    --secondary: hsl(217, 28%, 15%);
+    --secondary-foreground: hsl(210, 20%, 98%);
+    --muted: hsl(217, 28%, 15%);
+    --muted-foreground: hsl(215, 16%, 65%);
+    --bullish: hsl(158, 64%, 52%);
+    --bearish: hsl(0, 72%, 51%);
+    
+    /* Spacing */
+    --spacing-1: 0.25rem;
+    --spacing-2: 0.5rem;
+    --spacing-3: 0.75rem;
+    --spacing-4: 1rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    
+    /* Border Radius */
+    --radius: 0.375rem;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--background);
+    color: var(--foreground);
+    min-height: 100vh;
+}
+
+/* ======================================
+   PRICE DISPLAY SECTION
+   ====================================== */
+.price-display {
+    background-color: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+.price-display-content {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-4);
+    gap: var(--spacing-4);
+}
+
+.price-main-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.symbol-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin-bottom: var(--spacing-1);
+}
+
+.market-type {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+.price-info {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-3);
+    flex-wrap: wrap;
+}
+
+.price-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--foreground);
+}
+
+.price-change {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.price-change.positive {
+    color: var(--bullish);
+}
+
+.price-change.negative {
+    color: var(--bearish);
+}
+
+.change-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.price-stats {
+    display: flex;
+    gap: var(--spacing-6);
+    font-size: 0.875rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.stat-label {
+    color: var(--muted-foreground);
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+/* ======================================
+   CHART CONTROLS SECTION
+   ====================================== */
+.chart-controls {
+    background-color: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+.controls-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+}
+
+.market-selector {
+    width: 100%;
+}
+
+.select-input {
+    width: 100%;
+    padding: var(--spacing-2) var(--spacing-3);
+    background-color: var(--secondary);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.select-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px hsla(158, 64%, 52%, 0.1);
+}
+
+.chart-type-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-4);
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.btn:hover {
+    background-color: var(--muted);
+}
+
+.btn.btn-active {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+}
+
+.btn-icon {
+    width: 1rem;
+    height: 1rem;
+}
+
+.btn-text {
+    display: none;
+}
+
+.timeframe-buttons {
+    display: none;
+    flex-wrap: wrap;
+    gap: var(--spacing-1);
+}
+
+.btn-sm {
+    padding: var(--spacing-2) var(--spacing-3);
+    background-color: transparent;
+    color: var(--foreground);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 50px;
+}
+
+.btn-sm:hover {
+    background-color: var(--muted);
+}
+
+.btn-sm.btn-active {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+}
+
+.timeframe-select-mobile {
+    width: 100%;
+}
+
+.divider {
+    display: none;
+}
+
+/* ======================================
+   CHART CONTAINER
+   ====================================== */
+.chart-wrapper {
+    padding: var(--spacing-4);
+    background-color: var(--background);
+}
+
+.chart-container {
+    width: 100%;
+    min-height: 500px;
+    height: 500px;
+    position: relative;
+    background-color: #0b1217;
+}
+
+/* ======================================
+   RESPONSIVE DESIGN
+   ====================================== */
+
+/* Small devices (≥640px) */
+@media (min-width: 640px) {
+    .btn-text {
+        display: inline;
+    }
+    
+    .btn {
+        flex: initial;
+    }
+    
+    .price-main-section {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .price-stats {
+        gap: var(--spacing-6);
+    }
+}
+
+/* Large devices (≥1024px) */
+@media (min-width: 1024px) {
+    .symbol-name {
+        font-size: 2rem;
+    }
+    
+    .price-value {
+        font-size: 2.5rem;
+    }
+    
+    .price-change {
+        font-size: 1.25rem;
+    }
+    
+    .price-display-content {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .controls-content {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .market-selector {
+        width: 16rem;
+    }
+    
+    .divider {
+        display: block;
+        width: 1px;
+        height: 1.5rem;
+        background-color: var(--border);
+    }
+    
+    .timeframe-buttons {
+        display: flex;
+    }
+    
+    .timeframe-select-mobile {
+        display: none;
+    }
+}
+
+/* ======================================
+   DIGIT ANALYSIS SECTION
+   ====================================== */
+.analysis-wrapper {
+    background-color: var(--background);
+    padding: var(--spacing-4);
+    max-width: 100%;
+}
+
+.current-price-section {
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+    padding: var(--spacing-4);
+    background-color: var(--card);
+    border-radius: var(--radius);
+}
+
+.price-label {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-2);
+}
+
+.price-large {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--bearish);
+}
+
+.last-digits-section {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-8);
+    flex-wrap: wrap;
+    padding: var(--spacing-4);
+    background-color: var(--card);
+    border-radius: var(--radius);
+}
+
+.digit-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: hsl(217, 28%, 12%);
+    border: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.digit-circle:hover {
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+.digit-circle.active {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.digit-circle[data-digit="0"] { border-color: var(--bearish); background-color: rgba(239, 68, 68, 0.1); }
+.digit-circle[data-digit="1"] { border-color: hsl(217, 91%, 60%); background-color: rgba(59, 130, 246, 0.1); }
+.digit-circle[data-digit="2"] { border-color: hsl(217, 28%, 25%); background-color: hsl(217, 28%, 12%); }
+.digit-circle[data-digit="7"] { border-color: hsl(45, 93%, 47%); background-color: rgba(234, 179, 8, 0.1); }
+.digit-circle[data-digit="8"] { border-color: hsl(217, 28%, 25%); background-color: hsl(217, 28%, 12%); }
+.digit-circle[data-digit="9"] { border-color: hsl(217, 28%, 25%); background-color: hsl(217, 28%, 12%); }
+
+.digit-number {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground);
+}
+
+.digit-percent {
+    font-size: 0.65rem;
+    color: var(--muted-foreground);
+}
+
+.analysis-section {
+    background-color: var(--card);
+    padding: var(--spacing-4);
+    border-radius: var(--radius);
+    margin-bottom: var(--spacing-4);
+    border-bottom: 1px solid var(--border);
+}
+
+.analysis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-4);
+}
+
+.analysis-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.streak-info {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+.analysis-bars {
+    margin-bottom: var(--spacing-4);
+}
+
+.bar-container {
+    margin-bottom: var(--spacing-3);
+    position: relative;
+}
+
+.bar-fill {
+    height: 32px;
+    border-radius: var(--radius);
+    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--spacing-3);
+}
+
+.over-bar {
+    background-color: var(--bullish);
+}
+
+.under-bar {
+    background-color: var(--bearish);
+}
+
+.matches-bar {
+    background-color: hsl(217, 91%, 60%);
+}
+
+.differs-bar {
+    background-color: hsl(39, 93%, 56%);
+}
+
+.even-bar {
+    background-color: var(--bullish);
+}
+
+.odd-bar {
+    background-color: var(--bearish);
+}
+
+.rise-bar {
+    background-color: var(--bullish);
+}
+
+.fall-bar {
+    background-color: var(--bearish);
+}
+
+.bar-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    padding: 0 var(--spacing-3);
+}
+
+.label-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.label-percent {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+.digit-grid {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-4);
+    flex-wrap: wrap;
+}
+
+.digit-number-display {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    background-color: var(--secondary);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--foreground);
+}
+
+.digit-number-display.active {
+    background-color: hsl(217, 91%, 60%);
+    border-color: hsl(217, 91%, 60%);
+    color: var(--foreground);
+}
+
+.history-boxes {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-1);
+    flex-wrap: wrap;
+}
+
+.history-box {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border: 2px solid transparent;
+}
+
+.history-box.over {
+    background-color: var(--bullish);
+    color: var(--background);
+}
+
+.history-box.under {
+    background-color: var(--bearish);
+    color: var(--foreground);
+}
+
+.history-box.matches {
+    background-color: hsl(217, 91%, 60%);
+    color: var(--foreground);
+}
+
+.history-box.differs {
+    background-color: hsl(39, 93%, 56%);
+    color: var(--background);
+}
+
+.history-box.even {
+    background-color: var(--bullish);
+    color: var(--background);
+}
+
+.history-box.odd {
+    background-color: var(--bearish);
+    color: var(--foreground);
+}
+
+.history-box.rise {
+    background-color: var(--bullish);
+    color: var(--background);
+}
+
+.history-box.fall {
+    background-color: var(--bearish);
+    color: var(--foreground);
+}
+
+.history-box.active {
+    background-color: hsl(217, 91%, 60%);
+    color: var(--foreground);
+    font-size: 0.75rem;
+    padding: 0 var(--spacing-2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.history-box.active:hover {
+    background-color: hsl(217, 91%, 70%);
+    transform: scale(1.05);
+}
+
+/* ======================================
+   UTILITY CLASSES
+   ====================================== */
+.hidden {
+    display: none !important;
+}
+
+.text-bullish {
+    color: var(--bullish);
+}
+
+.text-bearish {
+    color: var(--bearish);
+}

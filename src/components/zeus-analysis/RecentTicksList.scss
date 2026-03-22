@@ -1,0 +1,288 @@
+/**
+ * RecentTicksList Component Styles
+ */
+
+.recent-ticks-list {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 5%);
+    margin-bottom: 2rem;
+
+    .recent-ticks-title {
+        margin: 0 0 1rem;
+        color: #8b1538;
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+
+    .no-data-message {
+        padding: 2rem;
+        text-align: center;
+        color: #64748b;
+        font-size: 1rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 2px dashed #e2e8f0;
+    }
+}
+
+.ticks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ticks-header {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    > div {
+        text-align: center;
+    }
+
+    .header-time {
+        text-align: left;
+    }
+}
+
+.ticks-scrollable {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 8px;
+    scroll-behavior: smooth;
+    
+    // Custom scrollbar styling with enhanced design
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f8fafc;
+        border-radius: 5px;
+        margin: 4px 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #8b1538, #14b8a6);
+        border-radius: 5px;
+        border: 2px solid #f8fafc;
+        
+        &:hover {
+            background: linear-gradient(180deg, #14b8a6, #8b1538);
+        }
+
+        &:active {
+            background: #8b1538;
+        }
+    }
+
+    // Firefox scrollbar styling
+    scrollbar-width: thin;
+    scrollbar-color: #8b1538 #f8fafc;
+}
+
+.tick-row {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+
+    > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tick-time {
+        justify-content: flex-start;
+        color: #64748b;
+        font-size: 0.85rem;
+    }
+
+    .tick-quote {
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .tick-digit {
+        .digit-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #8b1538, #14b8a6);
+            color: #fff;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+    }
+
+    .tick-direction {
+        .direction-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: 700;
+
+            &.up {
+                background: rgb(16 185 129 / 10%);
+                color: #10b981;
+            }
+
+            &.down {
+                background: rgb(239 68 68 / 10%);
+                color: #ef4444;
+            }
+
+            &.neutral {
+                background: rgb(148 163 184 / 10%);
+                color: #94a3b8;
+            }
+        }
+    }
+
+    // Alternating row styling with smooth transitions
+    &.even {
+        background: #f8fafc;
+        
+        &:hover:not(.latest) {
+            background: linear-gradient(90deg, #f1f5f9, #e2e8f0);
+        }
+    }
+
+    &.odd {
+        background: #fff;
+        
+        &:hover:not(.latest) {
+            background: linear-gradient(90deg, #fefefe, #f8fafc);
+        }
+    }
+
+    // Latest tick highlighting
+    &.latest {
+        background: linear-gradient(90deg, rgb(139 21 56 / 8%), rgb(20 184 166 / 8%));
+        border: 2px solid #14b8a6;
+        box-shadow: 0 4px 12px rgb(20 184 166 / 15%);
+        animation: highlight-pulse 2s ease-in-out infinite;
+
+        .tick-quote {
+            color: #8b1538;
+            font-weight: 700;
+        }
+    }
+
+
+}
+
+@keyframes highlight-pulse {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgb(20 184 166 / 15%);
+    }
+
+    50% {
+        box-shadow: 0 6px 16px rgb(20 184 166 / 25%);
+    }
+}
+
+// Responsive design - Tablet
+@media (width <= 1024px) {
+    .recent-ticks-list {
+        padding: 1.25rem;
+    }
+
+    .ticks-header,
+    .tick-row {
+        gap: 0.75rem;
+    }
+}
+
+// Responsive design - Mobile
+@media (width <= 768px) {
+    .recent-ticks-list {
+        padding: 1rem;
+    }
+
+    .ticks-header,
+    .tick-row {
+        grid-template-columns: 0.8fr 1.2fr 0.8fr 0.8fr;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .ticks-header {
+        font-size: 0.75rem;
+    }
+
+    .tick-row {
+        .tick-digit .digit-badge {
+            width: 28px;
+            height: 28px;
+            font-size: 0.9rem;
+        }
+
+        .tick-direction .direction-arrow {
+            width: 28px;
+            height: 28px;
+            font-size: 1rem;
+        }
+    }
+
+    .ticks-scrollable {
+        max-height: 300px;
+    }
+}
+
+// Responsive design - Small Mobile
+@media (width <= 480px) {
+    .recent-ticks-list {
+        padding: 0.75rem;
+    }
+
+    .ticks-header,
+    .tick-row {
+        grid-template-columns: 0.7fr 1.3fr 0.7fr 0.7fr;
+        gap: 0.25rem;
+        padding: 0.4rem;
+        font-size: 0.75rem;
+    }
+
+    .tick-row {
+        .tick-digit .digit-badge {
+            width: 24px;
+            height: 24px;
+            font-size: 0.8rem;
+        }
+
+        .tick-direction .direction-arrow {
+            width: 24px;
+            height: 24px;
+            font-size: 0.9rem;
+        }
+    }
+
+    .ticks-scrollable {
+        max-height: 250px;
+    }
+}

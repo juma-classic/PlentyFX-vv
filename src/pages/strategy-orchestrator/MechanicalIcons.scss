@@ -1,0 +1,335 @@
+// Mechanical Icons with Animations
+.mechanical-icon {
+    display: inline-block;
+    vertical-align: middle;
+    
+    // Gear Icon
+    &.gear-icon {
+        .gear-rotate {
+            animation: rotate-clockwise 4s linear infinite;
+            transform-origin: 50% 50%;
+        }
+        
+        .gear-outer {
+            stroke: currentColor;
+        }
+        
+        .gear-center {
+            fill: currentColor;
+        }
+        
+        .gear-hole {
+            stroke: currentColor;
+        }
+    }
+    
+    // Clock Icon
+    &.clock-icon {
+        .clock-hand-hour {
+            animation: rotate-hour 43200s linear infinite;
+            transform-origin: 50% 50%;
+        }
+        
+        .clock-hand-minute {
+            animation: rotate-minute 3600s linear infinite;
+            transform-origin: 50% 50%;
+        }
+        
+        .clock-hand-second {
+            animation: rotate-second 60s linear infinite;
+            transform-origin: 50% 50%;
+            stroke: #ef4444;
+        }
+    }
+    
+    // Check Icon
+    &.check-icon {
+        .check-mark {
+            animation: draw-check 0.5s ease-in-out;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 0;
+        }
+        
+        .check-circle {
+            animation: pulse-green 2s ease-in-out infinite;
+        }
+        
+        .check-gears {
+            .check-gear-1 {
+                animation: rotate-clockwise 3s linear infinite;
+                transform-origin: 25% 25%;
+            }
+            
+            .check-gear-2 {
+                animation: rotate-counter-clockwise 3s linear infinite;
+                transform-origin: 75% 75%;
+            }
+        }
+    }
+    
+    // Cross Icon
+    &.cross-icon {
+        .cross-line-1,
+        .cross-line-2 {
+            animation: draw-cross 0.5s ease-in-out;
+            stroke-dasharray: 50;
+            stroke-dashoffset: 0;
+        }
+        
+        .cross-circle {
+            animation: pulse-red 2s ease-in-out infinite;
+        }
+    }
+    
+    // Chart Icon
+    &.chart-icon {
+        .chart-line {
+            animation: draw-line 2s ease-in-out infinite;
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+        }
+        
+        .chart-dot-1 {
+            animation: pulse-dot 2s ease-in-out infinite 0.2s;
+        }
+        
+        .chart-dot-2 {
+            animation: pulse-dot 2s ease-in-out infinite 0.4s;
+        }
+        
+        .chart-dot-3 {
+            animation: pulse-dot 2s ease-in-out infinite 0.6s;
+        }
+        
+        .chart-dot-4 {
+            animation: pulse-dot 2s ease-in-out infinite 0.8s;
+        }
+        
+        .chart-dot-5 {
+            animation: pulse-dot 2s ease-in-out infinite 1s;
+        }
+    }
+    
+    // Cogwheel Icon
+    &.cogwheel-icon {
+        .cogwheel-rotate {
+            animation: rotate-clockwise 3s linear infinite;
+            transform-origin: 50% 50%;
+        }
+    }
+    
+    // Bolt Icon
+    &.bolt-icon {
+        .bolt-flash {
+            animation: flash-bolt 1.5s ease-in-out infinite;
+        }
+    }
+    
+    // Arrow Up Icon
+    &.arrow-up-icon {
+        .arrow-up-path {
+            animation: slide-up 1.5s ease-in-out infinite;
+        }
+        
+        .arrow-up-dot {
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+    }
+    
+    // Arrow Down Icon
+    &.arrow-down-icon {
+        .arrow-down-path {
+            animation: slide-down 1.5s ease-in-out infinite;
+        }
+        
+        .arrow-down-dot {
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+    }
+    
+    // Target Icon
+    &.target-icon {
+        .target-ring-1 {
+            animation: pulse-ring 2s ease-in-out infinite;
+        }
+        
+        .target-ring-2 {
+            animation: pulse-ring 2s ease-in-out infinite 0.3s;
+        }
+        
+        .target-ring-3 {
+            animation: pulse-ring 2s ease-in-out infinite 0.6s;
+        }
+        
+        .target-crosshair-h,
+        .target-crosshair-v {
+            animation: fade-crosshair 2s ease-in-out infinite;
+        }
+    }
+    
+    // Spinner Icon
+    &.spinner-icon {
+        .spinner-rotate {
+            animation: rotate-clockwise 1s linear infinite;
+            transform-origin: 50% 50%;
+        }
+    }
+}
+
+// Animations
+@keyframes rotate-clockwise {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-counter-clockwise {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes rotate-hour {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-minute {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-second {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes draw-check {
+    from {
+        stroke-dashoffset: 100;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes draw-cross {
+    from {
+        stroke-dashoffset: 50;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes draw-line {
+    0% {
+        stroke-dashoffset: 200;
+    }
+    50% {
+        stroke-dashoffset: 0;
+    }
+    100% {
+        stroke-dashoffset: -200;
+    }
+}
+
+@keyframes pulse-green {
+    0%, 100% {
+        stroke: #10b981;
+        opacity: 1;
+    }
+    50% {
+        stroke: #34d399;
+        opacity: 0.7;
+    }
+}
+
+@keyframes pulse-red {
+    0%, 100% {
+        stroke: #ef4444;
+        opacity: 1;
+    }
+    50% {
+        stroke: #f87171;
+        opacity: 0.7;
+    }
+}
+
+@keyframes pulse-dot {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.6;
+    }
+}
+
+@keyframes pulse-ring {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.3;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes fade-crosshair {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes flash-bolt {
+    0%, 100% {
+        opacity: 1;
+        fill: #fbbf24;
+    }
+    50% {
+        opacity: 0.5;
+        fill: #fcd34d;
+    }
+}
+
+@keyframes slide-up {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes slide-down {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(5px);
+    }
+}

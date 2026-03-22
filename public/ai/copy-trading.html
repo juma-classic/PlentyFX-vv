@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Copy Trading - Advanced Trading Tools</title>
+        <link rel="stylesheet" href="/ai/index-enhanced.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+        <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script src="https://unpkg.com/react-modal@3.16.1/lib/index.js"></script>
+        <style>
+            /* Copy Trading Specific Styles */
+            .main_copy {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                font-family: 'Inter', sans-serif;
+            }
+
+            .ena_DC {
+                background: var(--bg-secondary);
+                border-radius: var(--radius-lg);
+                padding: 24px;
+                margin-bottom: 24px;
+                box-shadow: var(--shadow-md);
+                border: 1px solid var(--border);
+            }
+
+            .enable_disable {
+                display: flex;
+                gap: 16px;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .copy-trading-btn {
+                padding: 12px 24px;
+                border: none;
+                border-radius: var(--radius-md);
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 14px;
+            }
+
+            .copy-trading-btn.start {
+                background: var(--success);
+                color: white;
+            }
+
+            .copy-trading-btn.stop {
+                background: var(--error);
+                color: white;
+            }
+
+            .copy-trading-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+            .tutorial-button {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                padding: 12px;
+                background: var(--bg-primary);
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .tutorial-button:hover {
+                background: var(--bg-tertiary);
+            }
+
+            .realaccount-card {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+                color: white;
+                padding: 16px 20px;
+                border-radius: var(--radius-md);
+                margin-bottom: 16px;
+            }
+
+            .realaccount-label {
+                font-weight: 600;
+                font-size: 16px;
+            }
+
+            .realaccount-amount {
+                font-weight: 700;
+                font-size: 18px;
+            }
+
+            .success-message {
+                background: rgba(16, 185, 129, 0.1);
+                color: var(--success);
+                padding: 12px 16px;
+                border-radius: var(--radius-md);
+                border: 1px solid rgba(16, 185, 129, 0.2);
+                margin-bottom: 16px;
+                font-weight: 500;
+            }
+
+            .title {
+                text-align: center;
+                margin-bottom: 24px;
+                padding: 16px;
+                background: var(--bg-primary);
+                border-radius: var(--radius-md);
+            }
+
+            .title small {
+                color: var(--text-secondary);
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .copytrading {
+                background: var(--bg-secondary);
+                border-radius: var(--radius-lg);
+                padding: 24px;
+                box-shadow: var(--shadow-md);
+                border: 1px solid var(--border);
+            }
+
+            .input_content {
+                margin-bottom: 24px;
+            }
+
+            .input_items {
+                display: flex;
+                gap: 12px;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }
+
+            .tokens-input {
+                flex: 1;
+                min-width: 200px;
+                padding: 12px 16px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                font-size: 14px;
+                transition: border-color 0.3s ease;
+            }
+
+            .tokens-input:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
+            }
+
+            .token-action-btn {
+                padding: 12px 20px;
+                background: var(--primary);
+                color: white;
+                border: none;
+                border-radius: var(--radius-md);
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .token-action-btn:hover {
+                background: var(--primary-light);
+                transform: translateY(-1px);
+            }
+
+            .tokens_container {
+                background: var(--bg-primary);
+                border-radius: var(--radius-md);
+                padding: 20px;
+            }
+
+            .tokens-list h2 {
+                margin: 0 0 16px 0;
+                color: var(--text-primary);
+                font-size: 18px;
+            }
+
+            .tokens-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .token {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                background: var(--bg-secondary);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                margin-bottom: 8px;
+                transition: all 0.3s ease;
+            }
+
+            .token:hover {
+                box-shadow: var(--shadow-sm);
+                transform: translateY(-1px);
+            }
+
+            .token.fall {
+                animation: fallOut 0.5s ease-in forwards;
+            }
+
+            @keyframes fallOut {
+                to {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+            }
+
+            .token-number {
+                font-weight: 600;
+                color: var(--text-secondary);
+                min-width: 24px;
+            }
+
+            .token-item {
+                flex: 1;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 14px;
+                color: var(--text-primary);
+            }
+
+            .trash-btn {
+                background: var(--error);
+                color: white;
+                border: none;
+                padding: 8px;
+                border-radius: var(--radius-sm);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .trash-btn:hover {
+                background: #dc2626;
+                transform: scale(1.1);
+            }
+
+            .token_info {
+                text-align: center;
+                color: var(--text-secondary);
+                font-style: italic;
+                padding: 40px 20px;
+            }
+
+            /* Modal Styles */
+            .error-modal {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: var(--bg-secondary);
+                border-radius: var(--radius-lg);
+                padding: 24px;
+                box-shadow: var(--shadow-lg);
+                border: 1px solid var(--border);
+                z-index: 1000;
+                min-width: 300px;
+            }
+
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+
+            .modal-content h3 {
+                margin: 0 0 16px 0;
+                color: var(--error);
+                font-size: 18px;
+            }
+
+            .modal-content p {
+                margin: 0 0 20px 0;
+                color: var(--text-secondary);
+                line-height: 1.5;
+            }
+
+            .modal-content button {
+                background: var(--primary);
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                font-weight: 600;
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .main_copy {
+                    padding: 16px;
+                }
+
+                .input_items {
+                    flex-direction: column;
+                }
+
+                .tokens-input {
+                    min-width: auto;
+                }
+
+                .enable_disable {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+
+                .copy-trading-btn {
+                    text-align: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Skip Link for Accessibility -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+
+        <!-- Main App -->
+        <div id="app" class="app">
+            <!-- Compact Header -->
+            <header class="header-compact">
+                <div class="container">
+                    <div class="header-row">
+                        <h1 class="title-compact">📊 Copy Trading Dashboard</h1>
+                        <div class="header-status">
+                            <div class="header-actions">
+                                <button onclick="window.location.href='/ai/'" class="btn-compact btn-secondary">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                                    </svg>
+                                    Analysis Tool
+                                </button>
+                                <button onclick="window.location.href='/ai/smart-analysis.html'" class="btn-compact btn-secondary">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M9 19c-5 0-8-3-8-8s3-8 8-8 8 3 8 8-3 8-8 8z"></path>
+                                        <path d="M17 17l4.5 4.5"></path>
+                                    </svg>
+                                    Smart Analysis
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main id="main-content" class="main">
+                <div class="container">
+                    <div id="copy-trading-root"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Load Copy Trading Component -->
+        <script src="/ai/robust-websocket-manager.js"></script>
+        <script>
+            // Copy Trading Implementation with Real Deriv API Integration
+            class CopyTradingManager {
+                constructor() {
+                    this.wsManager = new RobustWebSocketManager();
+                    this.masterToken = null;
+                    this.followerTokens = [];
+                    this.isDemoTradingActive = false;
+                    this.isCopyTradingActive = false;
+                    this.activeContracts = new Map();
+                    this.followerConnections = new Map();
+                    this.realAccount = { loginid: '******', balance: 0, currency: 'USD' };
+                    this.showBalance = false;
+                    
+                    this.init();
+                }
+
+                async init() {
+                    // Setup WebSocket callbacks
+                    this.wsManager.onConnectedCallback = () => this.onMasterConnected();
+                    this.wsManager.onMessageCallback = (msg) => this.onMasterMessage(msg);
+                    this.wsManager.onErrorCallback = (error) => this.onError(error);
+                    
+                    // Load saved tokens
+                    this.loadTokens();
+                    
+                    // Listen for token from parent window (same as DTrader)
+                    window.addEventListener('message', (event) => {
+                        // Security check - only accept messages from same origin
+                        if (event.origin !== window.location.origin) return;
+                        
+                        if (event.data.type === 'INJECT_TOKEN') {
+                            console.log('✅ Received token from parent window');
+                            this.masterToken = event.data.token;
+                            this.connectMaster();
+                        }
+                    });
+                    
+                    // Request token from parent window
+                    if (window.parent !== window) {
+                        console.log('📤 Requesting token from parent window...');
+                        window.parent.postMessage({ type: 'REQUEST_TOKEN' }, window.location.origin);
+                    }
+                    
+                    // Also try to get master token from localStorage as fallback
+                    setTimeout(() => {
+                        if (!this.masterToken) {
+                            console.log('⏱️ No token received from parent, trying localStorage...');
+                            this.getMasterToken();
+                        }
+                    }, 2000);
+                }
+
+                getMasterToken() {
+                    // Try multiple token sources
+                    const token = localStorage.getItem('active_loginid_token') || 
+                                  localStorage.getItem('deriv_token') ||
+                                  this.getTokenFromCookies();
+                    
+                    if (token && token.length > 10) {
+                        this.masterToken = token;
+                        console.log('✅ Master token found, connecting...');
+                        this.connectMaster();
+                    } else {
+                        console.warn('⚠️ No master token found. Please login to Deriv first.');
+                        this.updateConnectionStatus(false);
+                        this.showError('Please login to your Deriv account first');
+                    }
+                }
+
+                getTokenFromCookies() {
+                    // Try to get token from cookies as fallback
+                    const cookies = document.cookie.split(';');
+                    for (let cookie of cookies) {
+                        const [name, value] = cookie.trim().split('=');
+                        if (name === 'deriv_token' || name === 'token') {
+                            return value;
+                        }
+                    }
+                    return null;
+                }
+
+                async connectMaster() {
+                    if (!this.masterToken) {
+                        console.error('❌ Cannot connect: No master token');
+                        return;
+                    }
+                    
+                    try {
+                        console.log('🔌 Connecting to Deriv WebSocket...');
+                        await this.wsManager.connect();
+                        
+                        // Wait for connection to be established
+                        await new Promise((resolve) => {
+                            const checkConnection = setInterval(() => {
+                                if (this.wsManager.isConnected) {
+                                    clearInterval(checkConnection);
+                                    resolve();
+                                }
+                            }, 100);
+                            
+                            // Timeout after 10 seconds
+                            setTimeout(() => {
+                                clearInterval(checkConnection);
+                                resolve();
+                            }, 10000);
+                        });
+                        
+                        if (!this.wsManager.isConnected) {
+                            throw new Error('Connection timeout');
+                        }
+                        
+                        console.log('🔐 Authorizing with token...');
+                        await this.authorize(this.wsManager, this.masterToken);
+                        console.log('✅ Authorization successful');
+                        
+                    } catch (error) {
+                        console.error('❌ Failed to connect master:', error);
+                        this.showError('Failed to connect to Deriv API: ' + error.message);
+                        this.updateConnectionStatus(false);
+                    }
+                }
+
+                async authorize(wsManager, token) {
+                    return new Promise((resolve, reject) => {
+                        const authMsg = { authorize: token };
+                        
+                        let timeoutId;
+                        const authCallback = (msg) => {
+                            if (msg.authorize) {
+                                clearTimeout(timeoutId);
+                                console.log('✅ Authorization successful:', msg.authorize.loginid);
+                                resolve(msg.authorize);
+                            } else if (msg.error) {
+                                clearTimeout(timeoutId);
+                                console.error('❌ Authorization failed:', msg.error.message);
+                                reject(new Error(msg.error.message));
+                            }
+                        };
+                        
+                        // Set timeout for authorization
+                        timeoutId = setTimeout(() => {
+                            reject(new Error('Authorization timeout'));
+                        }, 10000);
+                        
+                        const originalCallback = wsManager.onMessageCallback;
+                        wsManager.onMessageCallback = (msg) => {
+                            authCallback(msg);
+                            if (msg.authorize || msg.error) {
+                                wsManager.onMessageCallback = originalCallback;
+                            }
+                        };
+                        
+                        wsManager.send(authMsg);
+                    });
+                }
+
+                onMasterConnected() {
+                    console.log('✅ Master account connected');
+                    this.updateConnectionStatus(true);
+                    this.fetchAccountInfo();
+                }
+
+                async fetchAccountInfo() {
+                    if (!this.wsManager.isConnected) return;
+                    
+                    // Get balance
+                    this.wsManager.send({ balance: 1, subscribe: 1 });
+                    
+                    // Get account status
+                    this.wsManager.send({ get_account_status: 1 });
+                }
+
+                onMasterMessage(msg) {
+                    // Handle balance updates
+                    if (msg.balance) {
+                        this.realAccount.balance = msg.balance.balance;
+                        this.realAccount.currency = msg.balance.currency;
+                        this.realAccount.loginid = msg.balance.loginid;
+                        this.updateAccountDisplay();
+                    }
+
+                    // Handle authorization
+                    if (msg.authorize) {
+                        this.realAccount.loginid = msg.authorize.loginid;
+                        this.realAccount.currency = msg.authorize.currency;
+                        this.updateAccountDisplay();
+                    }
+
+                    // Handle open contracts (for monitoring)
+                    if (msg.proposal_open_contract) {
+                        this.handleOpenContract(msg.proposal_open_contract);
+                    }
+
+                    // Handle buy response
+                    if (msg.buy) {
+                        this.handleBuyResponse(msg.buy);
+                    }
+                }
+
+                handleOpenContract(contract) {
+                    const contractId = contract.contract_id;
+                    
+                    // Store contract info
+                    this.activeContracts.set(contractId, contract);
+                    
+                    // If copy trading is active, copy this trade to followers
+                    if (this.isCopyTradingActive && contract.status === 'open') {
+                        this.copyTradeToFollowers(contract);
+                    }
+
+                    // If contract is closed, remove from active contracts
+                    if (contract.status !== 'open') {
+                        this.activeContracts.delete(contractId);
+                    }
+                }
+
+                handleBuyResponse(buy) {
+                    // Subscribe to contract updates
+                    if (buy.contract_id) {
+                        this.wsManager.send({
+                            proposal_open_contract: 1,
+                            contract_id: buy.contract_id,
+                            subscribe: 1
+                        });
+                    }
+                }
+
+                async copyTradeToFollowers(contract) {
+                    if (this.followerTokens.length === 0) {
+                        console.warn('No follower tokens to copy to');
+                        return;
+                    }
+
+                    console.log(`📋 Copying trade to ${this.followerTokens.length} followers:`, {
+                        contract_type: contract.contract_type,
+                        symbol: contract.underlying,
+                        stake: contract.buy_price
+                    });
+
+                    // Copy to each follower
+                    for (const token of this.followerTokens) {
+                        try {
+                            await this.executeCopyTrade(token, contract);
+                        } catch (error) {
+                            console.error(`Failed to copy to token ${token.substring(0, 10)}...`, error);
+                            this.showError(`Failed to copy trade to one follower: ${error.message}`);
+                        }
+                    }
+                }
+
+                async executeCopyTrade(followerToken, masterContract) {
+                    // Get or create WebSocket connection for this follower
+                    let followerWs = this.followerConnections.get(followerToken);
+                    
+                    if (!followerWs) {
+                        followerWs = new RobustWebSocketManager();
+                        await followerWs.connect();
+                        await this.authorize(followerWs, followerToken);
+                        this.followerConnections.set(followerToken, followerWs);
+                    }
+
+                    // Build buy parameters from master contract
+                    const buyParams = {
+                        buy: 1,
+                        price: masterContract.buy_price, // Copy exact stake
+                        parameters: {
+                            contract_type: masterContract.contract_type,
+                            symbol: masterContract.underlying,
+                            duration: masterContract.duration,
+                            duration_unit: masterContract.duration_unit,
+                            basis: 'stake',
+                            amount: masterContract.buy_price
+                        }
+                    };
+
+                    // Add barrier if present
+                    if (masterContract.barrier) {
+                        buyParams.parameters.barrier = masterContract.barrier;
+                    }
+
+                    // Add barrier2 if present (for spread contracts)
+                    if (masterContract.barrier2) {
+                        buyParams.parameters.barrier2 = masterContract.barrier2;
+                    }
+
+                    // Send buy request
+                    return new Promise((resolve, reject) => {
+                        const originalCallback = followerWs.onMessageCallback;
+                        
+                        followerWs.onMessageCallback = (msg) => {
+                            if (msg.buy) {
+                                console.log('✅ Trade copied successfully:', msg.buy.contract_id);
+                                resolve(msg.buy);
+                            } else if (msg.error) {
+                                console.error('❌ Copy trade failed:', msg.error.message);
+                                reject(msg.error);
+                            }
+                            followerWs.onMessageCallback = originalCallback;
+                        };
+                        
+                        followerWs.send(buyParams);
+                    });
+                }
+
+                // Token Management
+                loadTokens() {
+                    const saved = localStorage.getItem('copyTradingTokens');
+                    if (saved) {
+                        this.followerTokens = JSON.parse(saved);
+                        this.updateTokensList();
+                    }
+                }
+
+                addToken(token) {
+                    if (!token || token.length < 10) {
+                        this.showError('Invalid token format. Token must be at least 10 characters.');
+                        return;
+                    }
+
+                    if (this.followerTokens.includes(token)) {
+                        this.showError('Token already added');
+                        return;
+                    }
+
+                    this.followerTokens.unshift(token);
+                    this.saveTokens();
+                    this.updateTokensList();
+                }
+
+                removeToken(token) {
+                    // Close connection if exists
+                    const ws = this.followerConnections.get(token);
+                    if (ws) {
+                        ws.disconnect();
+                        this.followerConnections.delete(token);
+                    }
+
+                    this.followerTokens = this.followerTokens.filter(t => t !== token);
+                    this.saveTokens();
+                    this.updateTokensList();
+                }
+
+                saveTokens() {
+                    localStorage.setItem('copyTradingTokens', JSON.stringify(this.followerTokens));
+                }
+
+                async syncTokens() {
+                    const syncBtn = document.getElementById('sync-text');
+                    syncBtn.textContent = 'Syncing...';
+                    
+                    // Reconnect all followers
+                    for (const token of this.followerTokens) {
+                        const ws = this.followerConnections.get(token);
+                        if (ws) {
+                            await ws.disconnect();
+                            this.followerConnections.delete(token);
+                        }
+                    }
+                    
+                    setTimeout(() => {
+                        syncBtn.textContent = 'Sync';
+                        this.showSuccess('Tokens synced successfully');
+                    }, 2000);
+                }
+
+                // Copy Trading Controls
+                toggleCopyTrading() {
+                    // Check if connected
+                    if (!this.wsManager.isConnected) {
+                        this.showError('Not connected to Deriv API. Please wait or refresh the page.');
+                        return;
+                    }
+                    
+                    // Check if authorized
+                    if (!this.masterToken) {
+                        this.showError('Please login to your Deriv account first');
+                        return;
+                    }
+                    
+                    // Check if there are follower tokens
+                    if (this.followerTokens.length === 0) {
+                        this.showError('Please add at least one follower token first');
+                        return;
+                    }
+                    
+                    this.isCopyTradingActive = !this.isCopyTradingActive;
+                    
+                    const btn = document.getElementById('copy-trading-btn');
+                    const message = document.getElementById('success-message');
+                    
+                    if (this.isCopyTradingActive) {
+                        btn.textContent = 'Stop Copy Trading';
+                        btn.className = 'copy-trading-btn stop';
+                        message.textContent = `✅ Copy trading started for ${this.followerTokens.length} followers!`;
+                        message.style.background = 'rgba(16, 185, 129, 0.1)';
+                        message.style.color = '#10b981';
+                        
+                        // Start monitoring master account trades
+                        this.startMonitoring();
+                    } else {
+                        btn.textContent = 'Start Copy Trading';
+                        btn.className = 'copy-trading-btn start';
+                        message.textContent = `⏹️ Copy trading stopped for ${this.followerTokens.length} followers!`;
+                        message.style.background = 'rgba(239, 68, 68, 0.1)';
+                        message.style.color = '#ef4444';
+                        
+                        // Stop monitoring
+                        this.stopMonitoring();
+                    }
+                    
+                    message.style.display = 'block';
+                    setTimeout(() => {
+                        message.style.display = 'none';
+                    }, 5000);
+                }
+
+                startMonitoring() {
+                    if (!this.wsManager.isConnected) {
+                        console.warn('⚠️ Cannot start monitoring: Not connected');
+                        this.showError('Please wait for connection to establish');
+                        return;
+                    }
+                    
+                    if (!this.masterToken) {
+                        console.warn('⚠️ Cannot start monitoring: Not authorized');
+                        this.showError('Please login to your Deriv account first');
+                        return;
+                    }
+                    
+                    console.log('👁️ Starting trade monitoring...');
+                    
+                    // Subscribe to portfolio to monitor all open positions
+                    try {
+                        this.wsManager.send({ 
+                            portfolio: 1, 
+                            subscribe: 1 
+                        });
+                        console.log('✅ Portfolio monitoring started');
+                    } catch (error) {
+                        console.error('❌ Failed to start monitoring:', error);
+                        this.showError('Failed to start trade monitoring');
+                    }
+                }
+
+                stopMonitoring() {
+                    if (!this.wsManager.isConnected) {
+                        console.log('⚠️ Not connected, nothing to stop');
+                        return;
+                    }
+                    
+                    console.log('🛑 Stopping trade monitoring...');
+                    
+                    // Unsubscribe from portfolio
+                    try {
+                        this.wsManager.send({ forget_all: 'portfolio' });
+                        console.log('✅ Portfolio monitoring stopped');
+                    } catch (error) {
+                        console.error('❌ Failed to stop monitoring:', error);
+                    }
+                }
+
+                toggleDemoTrading() {
+                    this.isDemoTradingActive = !this.isDemoTradingActive;
+                    
+                    const btn = document.getElementById('demo-trading-btn');
+                    const message = document.getElementById('demo-success-message');
+                    
+                    if (this.isDemoTradingActive) {
+                        btn.textContent = 'Stop Demo to Real Copy Trading';
+                        btn.className = 'copy-trading-btn stop';
+                        message.textContent = '⚠️ Demo to Real copy trading started - REAL MONEY AT RISK!';
+                        message.style.background = 'rgba(239, 68, 68, 0.1)';
+                        message.style.color = '#ef4444';
+                    } else {
+                        btn.textContent = 'Start Demo to Real Copy Trading';
+                        btn.className = 'copy-trading-btn start';
+                        message.textContent = '✅ Demo to Real copy trading stopped';
+                        message.style.background = 'rgba(16, 185, 129, 0.1)';
+                        message.style.color = '#10b981';
+                    }
+                    
+                    message.style.display = 'block';
+                    setTimeout(() => {
+                        message.style.display = 'none';
+                    }, 5000);
+                }
+
+                // UI Updates
+                updateAccountDisplay() {
+                    const loginidEl = document.querySelector('.realaccount-label');
+                    const balanceEl = document.querySelector('.realaccount-amount');
+                    
+                    if (this.showBalance) {
+                        loginidEl.textContent = this.realAccount.loginid;
+                        balanceEl.textContent = `${this.realAccount.balance.toFixed(2)} ${this.realAccount.currency}`;
+                    } else {
+                        loginidEl.textContent = this.realAccount.loginid.substring(0, 2) + '*****';
+                        balanceEl.textContent = '****** ' + this.realAccount.currency;
+                    }
+                }
+
+                toggleBalanceVisibility() {
+                    this.showBalance = !this.showBalance;
+                    this.updateAccountDisplay();
+                }
+
+                updateTokensList() {
+                    const container = document.getElementById('tokens-list-container');
+                    const countElement = document.getElementById('token-count');
+                    
+                    countElement.textContent = this.followerTokens.length;
+                    
+                    if (this.followerTokens.length === 0) {
+                        container.innerHTML = '<div class="token_info">No tokens added yet</div>';
+                        return;
+                    }
+
+                    container.innerHTML = this.followerTokens.map((token, index) => `
+                        <li class="token">
+                            <span class="token-number">${index + 1}.</span>
+                            <span class="token-item">${token}</span>
+                            <button class="trash-btn" onclick="copyTradingManager.removeToken('${token}')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <polyline points="3,6 5,6 21,6"></polyline>
+                                    <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                                </svg>
+                            </button>
+                        </li>
+                    `).join('');
+                }
+
+                updateConnectionStatus(connected) {
+                    const statusEl = document.getElementById('connection-status');
+                    if (statusEl) {
+                        statusEl.textContent = connected ? '🟢 Connected' : '🔴 Disconnected';
+                        statusEl.style.color = connected ? '#10b981' : '#ef4444';
+                    }
+                }
+
+                showError(message) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: rgba(239, 68, 68, 0.9);
+                        color: white;
+                        padding: 16px 24px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                        z-index: 10000;
+                        max-width: 400px;
+                    `;
+                    errorDiv.textContent = message;
+                    document.body.appendChild(errorDiv);
+                    
+                    setTimeout(() => {
+                        errorDiv.remove();
+                    }, 5000);
+                }
+
+                showSuccess(message) {
+                    const successDiv = document.createElement('div');
+                    successDiv.className = 'success-message';
+                    successDiv.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: rgba(16, 185, 129, 0.9);
+                        color: white;
+                        padding: 16px 24px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                        z-index: 10000;
+                        max-width: 400px;
+                    `;
+                    successDiv.textContent = message;
+                    document.body.appendChild(successDiv);
+                    
+                    setTimeout(() => {
+                        successDiv.remove();
+                    }, 5000);
+                }
+
+                onError(error) {
+                    console.error('WebSocket error:', error);
+                    this.showError('Connection error: ' + error.message);
+                }
+            }
+
+            // Initialize Copy Trading Manager
+            let copyTradingManager;
+
+            function createCopyTradingApp() {
+                const container = document.getElementById('copy-trading-root');
+                
+                // Create the main structure
+                container.innerHTML = `
+                    <div class="main_copy">
+                        <!-- Connection Status -->
+                        <div style="text-align: center; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 8px; margin-bottom: 16px;">
+                            <span id="connection-status">🔴 Connecting...</span>
+                        </div>
+
+                        <!-- Demo to Real Copy Trading Section -->
+                        <div class="ena_DC">
+                            <div class="enable_disable">
+                                <button id="demo-trading-btn" class="copy-trading-btn start">
+                                    Start Demo to Real Copy Trading
+                                </button>
+                                
+                                <div class="tutorial-button" onclick="openTutorial('https://www.youtube.com/embed/gsWzKmslEnY')">
+                                    <svg width="30" height="30" viewBox="0 0 24 24" fill="#FF0000">
+                                        <polygon points="5,3 19,12 5,21"></polygon>
+                                    </svg>
+                                    <div style="font-size: 12px; color: #333;">Tutorial</div>
+                                </div>
+                            </div>
+
+                            <!-- Real Account Card -->
+                            <div class="realaccount-card" onclick="copyTradingManager.toggleBalanceVisibility()" style="cursor: pointer;" title="Click to show/hide balance">
+                                <span class="realaccount-label">CR*****</span>
+                                <span class="realaccount-amount">****** USD</span>
+                            </div>
+
+                            <div id="demo-success-message" class="success-message" style="display: none;"></div>
+                        </div>
+
+                        <!-- Section Title -->
+                        <header class="title">
+                            <small>Add Follower Tokens to Copy Trades To</small>
+                        </header>
+
+                        <!-- Main Copy Trading Section -->
+                        <div class="copytrading">
+                            <div class="input_content">
+                                <!-- Token Input Section -->
+                                <div class="input_items">
+                                    <input type="text" id="token-input" class="tokens-input" placeholder="Enter Follower API token" />
+                                    <button class="token-action-btn" onclick="addToken()">Add</button>
+                                    <button class="token-action-btn" onclick="copyTradingManager.syncTokens()">
+                                        <span id="sync-text">Sync</span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <polyline points="23 4 23 10 17 10"></polyline>
+                                            <polyline points="1 20 1 14 7 14"></polyline>
+                                            <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <!-- Copy Trading Control -->
+                                <div class="enable_disable">
+                                    <button id="copy-trading-btn" class="copy-trading-btn start">
+                                        Start Copy Trading
+                                    </button>
+                                    <button onclick="openTutorial('https://www.youtube.com/embed/gsWzKmslEnY')">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF0000">
+                                            <polygon points="5,3 19,12 5,21"></polygon>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div id="success-message" class="success-message" style="display: none;"></div>
+                            </div>
+
+                            <!-- Tokens List -->
+                            <div class="tokens_container">
+                                <ul class="tokens-list">
+                                    <h2>Total Followers: <span id="token-count">0</span></h2>
+                                    <div id="tokens-list-container">
+                                        <div class="token_info">No follower tokens added yet</div>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Initialize Copy Trading Manager
+                copyTradingManager = new CopyTradingManager();
+                
+                // Setup event listeners
+                document.getElementById('demo-trading-btn').addEventListener('click', () => {
+                    copyTradingManager.toggleDemoTrading();
+                });
+                
+                document.getElementById('copy-trading-btn').addEventListener('click', () => {
+                    copyTradingManager.toggleCopyTrading();
+                });
+            }
+
+            function addToken() {
+                const input = document.getElementById('token-input');
+                const token = input.value.trim();
+                
+                if (token) {
+                    copyTradingManager.addToken(token);
+                    input.value = '';
+                }
+            }
+
+            function openTutorial(url) {
+                window.open(url, '_blank', 'width=800,height=600');
+            }
+
+            // Initialize the app when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', createCopyTradingApp);
+            } else {
+                createCopyTradingApp();
+            }
+        </script>
+    </body>
+</html>

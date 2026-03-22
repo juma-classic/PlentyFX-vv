@@ -1,0 +1,438 @@
+.enhanced-trade-button {
+    position: relative;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    font-family: inherit;
+    background: linear-gradient(135deg, rgb(15 23 42 / 95%), rgb(30 41 59 / 95%));
+    border: 2px solid var(--type-color, #3b82f6);
+    box-shadow:
+        0 4px 20px rgb(0 0 0 / 30%),
+        0 0 0 0 var(--type-color, #3b82f6);
+
+    // Size variations
+    &.small {
+        padding: 12px 16px;
+        min-height: 80px;
+
+        .button-content {
+            gap: 8px;
+        }
+
+        .action-text {
+            font-size: 14px;
+        }
+
+        .stake-amount {
+            font-size: 16px;
+        }
+    }
+
+    &.medium {
+        padding: 16px 20px;
+        min-height: 100px;
+
+        .button-content {
+            gap: 12px;
+        }
+
+        .action-text {
+            font-size: 16px;
+        }
+
+        .stake-amount {
+            font-size: 18px;
+        }
+    }
+
+    &.large {
+        padding: 20px 24px;
+        min-height: 120px;
+        width: 100%;
+
+        .button-content {
+            gap: 16px;
+        }
+
+        .action-text {
+            font-size: 18px;
+        }
+
+        .stake-amount {
+            font-size: 24px;
+        }
+    }
+
+    // Confidence-based variants
+    &.ultra-high {
+        --glow-color: #10b981;
+
+        border-color: #10b981;
+        box-shadow:
+            0 4px 20px rgb(0 0 0 / 30%),
+            0 0 30px rgb(16 185 129 / 40%);
+    }
+
+    &.high {
+        --glow-color: #3b82f6;
+
+        border-color: #3b82f6;
+        box-shadow:
+            0 4px 20px rgb(0 0 0 / 30%),
+            0 0 25px rgb(59 130 246 / 30%);
+    }
+
+    &.medium-confidence {
+        --glow-color: #f59e0b;
+
+        border-color: #f59e0b;
+        box-shadow:
+            0 4px 20px rgb(0 0 0 / 30%),
+            0 0 20px rgb(245 158 11 / 30%);
+    }
+
+    &.low {
+        --glow-color: #ef4444;
+
+        border-color: #ef4444;
+        box-shadow:
+            0 4px 20px rgb(0 0 0 / 30%),
+            0 0 15px rgb(239 68 68 / 30%);
+    }
+
+    &.very-low {
+        --glow-color: #64748b;
+
+        border-color: #64748b;
+        box-shadow: 0 4px 20px rgb(0 0 0 / 30%);
+    }
+
+    // Highlighted state
+    &.highlighted {
+        animation: highlight-pulse 2s ease-in-out infinite;
+        transform: scale(1.02);
+    }
+
+    // Hover effects
+    &:hover:not(.disabled, .loading) {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow:
+            0 8px 30px rgb(0 0 0 / 40%),
+            0 0 40px var(--glow-color, #3b82f6);
+    }
+
+    // Active/pressed state
+    &.pressed:not(.disabled, .loading) {
+        transform: translateY(-2px) scale(0.98);
+    }
+
+    // Disabled state
+    &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+
+        .button-content {
+            opacity: 0.7;
+        }
+    }
+
+    // Loading state
+    &.loading {
+        cursor: wait;
+
+        .button-content {
+            opacity: 0.7;
+        }
+    }
+
+    // Background glow
+    .button-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at center, var(--glow-color, #3b82f6) 0%, transparent 70%);
+        opacity: 0.1;
+        transition: opacity 0.3s ease;
+    }
+
+    &:hover .button-glow {
+        opacity: 0.2;
+    }
+
+    // Loading spinner
+    .loading-spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgb(255 255 255 / 30%);
+            border-top: 3px solid var(--glow-color, #3b82f6);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    }
+
+    // Button content
+    .button-content {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        height: 100%;
+
+        // Header with confidence
+        .button-header {
+            display: flex;
+            justify-content: center;
+
+            .confidence-badge {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 4px 12px;
+                background: linear-gradient(135deg, var(--glow-color, #3b82f6), var(--glow-color, #3b82f6));
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: #fff;
+                box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+
+                .confidence-icon {
+                    font-size: 12px;
+                }
+
+                .confidence-percent {
+                    font-weight: 800;
+                }
+            }
+        }
+
+        // Main action area
+        .button-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+
+            .action-info {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+
+                .type-icon {
+                    font-size: 24px;
+                    filter: drop-shadow(0 0 8px var(--type-color, #3b82f6));
+                }
+
+                .action-details {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+
+                    .action-text {
+                        font-size: 18px;
+                        font-weight: 800;
+                        color: #fff;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        text-shadow: 0 0 10px var(--type-color, #3b82f6);
+                    }
+
+                    .type-text {
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: var(--type-color, #3b82f6);
+                        text-transform: uppercase;
+                        letter-spacing: 0.3px;
+                    }
+                }
+            }
+
+            .stake-info {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 2px;
+
+                .stake-label {
+                    font-size: 11px;
+                    color: rgb(255 255 255 / 70%);
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    font-weight: 600;
+                }
+
+                .stake-amount {
+                    font-size: 24px;
+                    font-weight: 800;
+                    color: #fff;
+                    text-shadow: 0 0 10px var(--type-color, #3b82f6);
+                }
+            }
+        }
+
+        // Footer with additional info
+        .button-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: rgb(255 255 255 / 60%);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 500;
+
+            .expected-return {
+                color: #10b981;
+                font-weight: 600;
+            }
+        }
+    }
+
+    // Ripple effect
+    .ripple-effect {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgb(255 255 255 / 30%);
+        transform: translate(-50%, -50%);
+        transition:
+            width 0.6s,
+            height 0.6s;
+        pointer-events: none;
+    }
+
+    &:active .ripple-effect {
+        width: 300px;
+        height: 300px;
+    }
+
+    // Pulse ring for highlighted buttons
+    .pulse-ring {
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border: 2px solid var(--glow-color, #3b82f6);
+        border-radius: 20px;
+        animation: pulse-ring 2s ease-in-out infinite;
+        pointer-events: none;
+    }
+}
+
+// Animations
+@keyframes highlight-pulse {
+    0%,
+    100% {
+        box-shadow:
+            0 4px 20px rgb(0 0 0 / 30%),
+            0 0 30px var(--glow-color, #3b82f6);
+    }
+
+    50% {
+        box-shadow:
+            0 8px 30px rgb(0 0 0 / 40%),
+            0 0 50px var(--glow-color, #3b82f6);
+    }
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.1);
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Responsive design
+@media (width <= 768px) {
+    .enhanced-trade-button {
+        &.large {
+            padding: 16px 20px;
+            min-height: 100px;
+
+            .action-text {
+                font-size: 16px;
+            }
+
+            .stake-amount {
+                font-size: 20px;
+            }
+        }
+
+        .button-main {
+            .action-info {
+                .type-icon {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
+
+@media (width <= 480px) {
+    .enhanced-trade-button {
+        &.large {
+            padding: 14px 16px;
+            min-height: 90px;
+
+            .action-text {
+                font-size: 14px;
+            }
+
+            .stake-amount {
+                font-size: 18px;
+            }
+        }
+
+        .button-content {
+            gap: 12px;
+        }
+
+        .button-main {
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
+
+            .stake-info {
+                align-items: center;
+            }
+        }
+
+        .button-footer {
+            flex-direction: column;
+            gap: 4px;
+            text-align: center;
+        }
+    }
+}

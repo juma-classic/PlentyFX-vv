@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE analysis TOOL</title>
+    <style>
+        /* Base styles */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .main {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar styles */
+
+        .side-navbar {
+            width: 180px;
+            background: linear-gradient(145deg, #2c3e50, #3498db);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .side-navbar ul {
+            list-style: none;
+            padding: 30px 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-navbar li {
+            padding: 20px 30px;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: slideInLeft 0.5s forwards;
+            animation-delay: calc(0.1s * var(--i, 1));
+        }
+
+        .side-navbar li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #ecf0f1;
+        }
+
+        .side-navbar li a {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .side-navbar .icon {
+            display: inline-block;
+            margin-right: 10px;
+            font-weight: 500;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .side-navbar .text {
+            flex: 1;
+        }
+
+        #close-icon {
+            cursor: pointer;
+            font-weight: bold;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        #close-icon::after {
+            content: "×";
+            font-size: 28px;
+        }
+
+        /* Content area */
+
+        .content {
+            flex: 1;
+            transition: all 0.3s ease;
+            margin-left: 170px;
+            position: relative;
+        }
+
+        /* Menu toggle button */
+
+        #menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        #menu-toggle:hover {
+            background: #2980b9;
+            transform: scale(1.1) !important;
+        }
+
+        #menu-toggle.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        #menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        #menu-toggle span::before,
+        #menu-toggle span::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        #menu-toggle span::before {
+            transform: translateY(-8px);
+        }
+
+        #menu-toggle span::after {
+            transform: translateY(8px);
+        }
+
+        /* iframe container */
+
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            transition: all 0.5s ease;
+        }
+
+        /* Active states for menu toggle */
+
+        .side-navbar.active {
+            transform: translateX(-280px);
+        }
+
+        .content.active {
+            margin-left: 0;
+        }
+
+        .content.active #menu-toggle {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Animations */
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .side-navbar li:nth-child(1) {
+            --i: 1;
+        }
+
+        .side-navbar li:nth-child(2) {
+            --i: 2;
+        }
+
+        .side-navbar li:nth-child(3) {
+            --i: 3;
+        }
+
+        .side-navbar li:nth-child(4) {
+            --i: 4;
+        }
+
+        .side-navbar li:nth-child(5) {
+            --i: 5;
+        }
+
+        /* Hidden elements that we need to preserve */
+
+        .balance,
+        .status,
+        #accountSelect,
+        .top-navbar,
+        .animate-charcter,
+        .row,
+        .inner-nav,
+        .profile,
+        #menu-icon,
+        #websocket-status-indicator,
+        #auth-status-indicator {
+            display: none;
+        }
+
+        /* Media Queries */
+
+        @media only screen and (max-width: 992px) {
+            .side-navbar {
+                width: 250px;
+            }
+            .content {
+                margin-left: 250px;
+            }
+            .side-navbar.active {
+                transform: translateX(-250px);
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .side-navbar {
+                width: 100%;
+                transform: translateX(-100%);
+            }
+            .content {
+                margin-left: 0;
+            }
+            .side-navbar.active {
+                transform: translateX(0);
+            }
+            #menu-toggle {
+                transform: scale(1);
+                opacity: 1;
+            }
+            .side-navbar li a {
+                font-size: 20px;
+            }
+        }
+
+        /* Add this to your CSS */
+
+        #close-icon {
+            cursor: pointer;
+            font-weight: bold;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            /* Hide the close icon by default */
+            visibility: hidden;
+        }
+
+        #close-icon::after {
+            content: "×";
+            font-size: 28px;
+        }
+
+        /* Inside your existing media query for mobile */
+
+        @media only screen and (max-width: 768px) {
+            /* Your existing mobile styles here */
+            /* Make close icon visible in mobile view only */
+            #close-icon {
+                visibility: visible;
+            }
+        }
+
+        /* Mobile bottom offset to prevent overlay */
+
+        @media (max-width: 576px) {
+            /* Adjust body to have bottom padding */
+            body {
+                padding-bottom: 80px;
+                /* Adjust this value as needed */
+            }
+            /* Ensure main content has some bottom margin */
+            .main {
+                margin-bottom: 80px;
+                /* Match the body padding */
+            }
+            /* If you have a specific content area */
+            .content {
+                padding-bottom: 80px;
+                /* Additional bottom padding */
+            }
+            /* Ensure any iframe doesn't get cut off */
+            iframe {
+                height: calc(100vh - 80px);
+                /* Reduce height to account for bottom offset */
+            }
+        }
+
+        /* Slightly larger offset for very small screens */
+
+        @media (max-width: 375px) {
+            body {
+                padding-bottom: 100px;
+            }
+            .main {
+                margin-bottom: 100px;
+            }
+            .content {
+                padding-bottom: 100px;
+            }
+            iframe {
+                height: calc(100vh - 100px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <!-- Side Navigation -->
+        <div class="side-navbar">
+            <ul>
+                <li>
+                    <a>
+              <span class="icon" id="close-icon">Analysis Tool</span>           
+            </a>
+                </li>
+                <li>
+                    <a onclick="navigateTo('index.html')" style="cursor: pointer;">
+              <span class="icon">Even/odd</span>
+              <span class="text"></span>
+            </a>
+                </li>
+                <li>
+                    <a onclick="navigateTo('2over.html')" style="cursor: pointer;">
+              <span class="icon">Over/under</span>
+              <span class="text"></span>
+            </a>
+                </li>
+                <li>
+                    <a onclick="navigateTo('3differs.html')" style="cursor: pointer;">
+              <span class="icon">Match/differ</span>
+              <span class="text"></span>
+            </a>
+                </li>
+                <li>
+                    <a onclick="navigateTo('4rise.html')" style="cursor: pointer;">
+              <span class="icon">Rise/fall</span>
+              <span class="text"></span>
+            </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Menu Toggle Button (Visible when sidebar is hidden) -->
+            <div id="menu-toggle" class="visible">
+                <span></span>
+            </div>
+
+            <!-- Hidden elements that need to be preserved -->
+            <div class="top-navbar" style="display:none;">
+                <img class="bx bx-menu" id="menu-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAUpJREFUSEuNVtsWgzAIA///m9cde5FEgu0etlqBYBPi3LYfN7dmbRunA9zNZvKmUASKSpjLgffV/MygeR/DPms/2WYNc2ENEPE0a2VWlc+dEgAAPzVS131DAIin7PVSqBtwULFYAdTAAXYf+4M8OPi11gVzfy2CcB1tzN3+ExHuvWc6dmq9JQCGara60rBbgIF2IiWW9RddrKIqEuV4MnSzTkkyDmBnJAHXMqXZemthcdCDBNOxxRysq4eDPGhjZwCIZBRNOqLbqwb57pd37yKAT0mf6T2OkUVKmj3hDudGc8MDPUhejIMtnxjcSUPfk6xnadatBw0VmI4oq6hCCWLp1P3ycOKwG22GcxffaDgOaY3xWUXihYNE6GrydUFpqUayBPSljWQF68ABG1wqdVJbJIFM0W6EUxbd5X8bL4/Seq+mgJ8yKUPc/gPLFL8gjI6pZAAAAABJRU5ErkJggg=="
+                />
+                <div class="inner-nav">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h1 class="animate-charcter"></h1>
+                        </div>
+                    </div>
+                    <div class="balance">
+                        <p id="acctValue"></p>
+                        <p id="balance"></p>
+                    </div>
+
+                    <select style="display: none;" id="accountSelect" class="custom-select" onchange="handleAccountSelection(acct1, acct2, token1, token2)">
+              <option value="acct1" selected>Real Account</option>
+              <option value="acct2">Demo Account</option>
+            </select>
+
+                    <div style="display: none;" class="status">
+                        <div class="status-item">
+                            <h>Linked:</h>
+                            <div id="auth-status-indicator" class="status-indicator"></div>
+                        </div>
+                        <div class="status-item">
+                            <h>Connected:</h>
+                            <div id="websocket-status-indicator" class="status-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile">
+                    <img src="img/belex.png" alt="">
+                </div>
+            </div>
+
+            <!-- Main content (iframe) -->
+            <iframe src="BAR2/index.html" allowtransparency="true"></iframe>
+        </div>
+    </div>
+
+    <!-- Simple script for toggling the menu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const closeIcon = document.getElementById('close-icon');
+            const sideNavbar = document.querySelector('.side-navbar');
+            const content = document.querySelector('.content');
+
+            // Menu toggle button click
+            menuToggle.addEventListener('click', function() {
+                sideNavbar.classList.toggle('active');
+                content.classList.toggle('active');
+            });
+
+            // Close icon click - make sure this is correctly targeting the element
+
+        });
+
+        // Preserve original navigateTo function
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+
+</html>
+<script src="main.js"></script>
+
+<script>
+    function navigateTo(url) {
+        window.location.href = url;
+    }
+
+    /1/ //////////////////////////////////////////////////////
+    //////////////////////////TEMPLATE CODE/////////////////
+    ////////////////////////////////////////////////////////
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const token1 = sessionStorage.getItem("token1");
+    const token2 = sessionStorage.getItem("token2");
+    const acct1 = sessionStorage.getItem("acct1");
+    const acct2 = sessionStorage.getItem("acct2");
+    const cur1 = sessionStorage.getItem("cur1");
+    const cur2 = sessionStorage.getItem("cur2");
+
+
+    ////STATUS INICATORS
+    // Update the authentication status indicator
+    // Update the authentication status indicator
+    function updateAuthStatusIndicator(isAuthenticated) {
+        const authStatusIndicator = document.getElementById('auth-status-indicator');
+        authStatusIndicator.classList.remove('success', 'error');
+        authStatusIndicator.classList.add(isAuthenticated ? 'success' : 'error');
+    }
+
+    // Update the WebSocket status indicator
+    function updateWebSocketStatusIndicator(isOpen) {
+        const websocketStatusIndicator = document.getElementById('websocket-status-indicator');
+        websocketStatusIndicator.classList.remove('success', 'error');
+        websocketStatusIndicator.classList.add(isOpen ? 'success' : 'error');
+    }
+
+    ////CONNECTION AND GET BALANCE////THERE ARE CHANGES IN CLOSE AND OPEN EVENT
+    const app_id = sessionStorage.getItem("app_id_session");
+    // Your app_id
+    let websocket = null; // Declare the websocket variable globally
+    let isConnectionClosed = false;
+    let auth_token = '';
+
+    // Check if selectedAccount is stored in session storage
+    const storedAccount = sessionStorage.getItem("selectedAccount");
+
+    // If storedAccount exists, set selectedAccount to its value
+    const selectedAccount = storedAccount ? storedAccount : "acct1";
+
+    // Update the account selection dropdown with the stored value
+    const accountSelect = document.getElementById("accountSelect");
+    accountSelect.value = selectedAccount;
+
+    // Save selectedAccount to session storage whenever it changes
+    accountSelect.addEventListener("change", function() {
+        const selectedAccount = accountSelect.value;
+        sessionStorage.setItem("selectedAccount", selectedAccount);
+    });
+
+    handleAccountSelection(acct1, acct2, token1, token2); ////////DO NOT REMOVE THIS SEMI COLON IT WILL MESS THE WHOLE CODE!!!!!!!!!!!!
+
+
+    function handleAccountSelection(acct1, acct2, token1, token2) {
+
+        const accountSelect = document.getElementById('accountSelect');
+        const selectedAccount = accountSelect.value;
+
+        if (websocket) {
+            isConnectionClosed = true; // Set the flag to true to indicate intentional closure
+            websocket.close();
+        }
+
+        // Open a new websocket connection with the respective auth token
+        let auth_token = '';
+        if (selectedAccount === 'acct1') {
+            auth_token = token1;
+        } else if (selectedAccount === 'acct2') {
+            auth_token = token2;
+        }
+
+        // Replace with your actual app ID
+        websocket = new WebSocket(`wss://ws.binaryws.com/websockets/v3?app_id=${app_id}`);
+        websocket.addEventListener('open', (event) => {
+            console.log('Websocket connection established:', event);
+            console.log('first token: ', auth_token);
+
+            const authPayload = JSON.stringify({
+                authorize: auth_token,
+            });
+
+            websocket.send(authPayload);
+            console.log('third token: ', auth_token);
+        });
+
+        // Function to update the current time and date
+        function updateTimeAndDate() {
+            const currentDateTime = new Date();
+            const currentHours = currentDateTime.getHours();
+            const currentMinutes = currentDateTime.getMinutes();
+            const formattedTime = `${currentHours % 12 || 12}:${currentMinutes < 10 ? '0' + currentMinutes : currentMinutes} ${currentHours >= 12 ? 'PM' : 'AM'}`;
+            const formattedDate = `${currentDateTime.getMonth() + 1}/${currentDateTime.getDate()}/${currentDateTime.getFullYear()}`;
+
+            document.getElementById("time").innerText = "TIME: " + formattedTime;
+            document.getElementById("date").innerText = formattedDate;
+        }
+
+        // Update time and date every minute
+        setInterval(updateTimeAndDate, 60000);
+        updateTimeAndDate();
+
+
+
+
+
+
+        ////////////////////////////////////////////////////////
+        //////////////////////////TEMPLATE CODE/////////////////
+        ////////////////////////////////////////////////////////
+
+
+
+
+
+        ///////////////////////////////////////////////////////////
+        //////HERE IS WHERE MOST OF THE SCRIPT ALGO  WILL GO///////
+        ///////////////////////////////////////////////////////////
+
+
+        websocket.addEventListener('message', (event) => {
+            const receivedMessage = JSON.parse(event.data);
+            if (receivedMessage.msg_type === 'authorize') {
+                console.log('Authorization successful:', receivedMessage);
+                // Subscribe to stream for open contracts
+                const balanceRequest = JSON.stringify({
+                    balance: 1,
+                    account: 'current',
+                    subscribe: 1,
+                    passthrough: {},
+                    req_id: 1
+                });
+                websocket.send(balanceRequest);
+                if (selectedAccount === 'acct1') {
+                    document.getElementById("acctValue").innerText = acct1 ? acct1 : "Not Linked";
+                } else if (selectedAccount === 'acct2') {
+                    document.getElementById("acctValue").innerText = acct2 ? +acct2 : "Not Linked";
+                }
+
+            } else if (receivedMessage.msg_type === 'balance') {
+                if (receivedMessage.error) {
+                    console.error('Balance request error:', receivedMessage.error);
+                    document.getElementById("balance").innerText = "Balance: ";
+                    document.getElementById("cardbalance").innerText = "BALANCE: ";
+                    if (selectedAccount === 'acct1') {
+                        if (acct1) {
+                            document.getElementById("acctValue").innerText = acct1 + cur1;
+                            document.getElementById("cardNumber").innerText = acct1 + cur1;
+                        } else if (acct2) {
+                            document.getElementById("acctValue").innerText = "create or/switch to demo";
+                            document.getElementById("cardNumber").innerText = "create or/switch to demo";
+                        }
+                    } else if (selectedAccount === 'acct2') {
+                        if (acct2) {
+                            document.getElementById("acctValue").innerText = acct2 + cur2;
+                            document.getElementById("cardNumber").innerText = acct2 + cur2;
+                        } else if (acct1) {
+                            document.getElementById("acctValue").innerText = "Demo Acct - No Account";
+                            document.getElementById("cardNumber").innerText = "Demo Acct - No Account";
+                        }
+                    }
+                } else {
+                    // Handle balance response here
+                    if (selectedAccount === 'acct1') {
+                        document.getElementById("acctValue").innerText = acct1;
+                        document.getElementById("balance").innerText = "Balance: " + receivedMessage.balance.balance + " " + cur1;
+                        document.getElementById("cardNumber").innerText = acct1 + cur1;
+                        document.getElementById("cardbalance").innerText = "BALANCE: " + receivedMessage.balance.balance + " " + cur1;
+                    } else if (selectedAccount === 'acct2') {
+                        document.getElementById("acctValue").innerText = acct2;
+                        document.getElementById("balance").innerText = "Balance: " + receivedMessage.balance.balance + " " + cur2;
+                        document.getElementById("cardNumber").innerText = acct2 + cur2;
+                        document.getElementById("cardbalance").innerText = "BALANCE: " + receivedMessage.balance.balance + " " + cur2;
+                    }
+
+                    // Update time and date
+                    updateTimeAndDate();
+
+                    // When WebSocket connection is open
+                    updateWebSocketStatusIndicator(true);
+                    // When authentication is successful
+                    updateAuthStatusIndicator(true);
+                }
+            } else {
+                console.log('received message: ', receivedMessage);
+            }
+        });
+
+        websocket.addEventListener('close', (event) => {
+            console.log('websocket connection closed: ', event);
+            // When authentication fails
+            updateAuthStatusIndicator(false);
+            // When WebSocket connection is closed
+            updateWebSocketStatusIndicator(false);
+            if (!isConnectionClosed) {
+                // Re-run the script with the new selected auth_token only if the closure was unexpected
+                handleAccountSelection(acct1, acct2, token1, token2);
+            } else {
+                isConnectionClosed = false; // Reset the flag for the next connection
+            }
+
+        });
+
+        websocket.addEventListener('error', (event) => {
+            console.log('an error happened in our websocket connection', event);
+        });
+
+
+        ///////////////////////////////////////////////////////////
+        //////HERE IS WHERE MOST OF THE SCRIPT ALGO  WILL GO///////
+        ///////////////////////////////////////////////////////////
+
+    }
+    //////REMEMBER TO CLOSE HERE SINCE IT IS IN "handleAccountSelection(acct1,acct2,token1,token2)"" FUNCTION
+
+
+
+
+
+
+
+
+
+    ///////MENU////////////////
+    let menu = document.querySelector('#menu-icon');
+    let sidenavbar = document.querySelector('.side-navbar');
+    let content = document.querySelector('.content');
+    let iframeContainer = document.querySelector('.iframe-container');
+    let toggleButton = document.querySelector('#toggle-button');
+
+
+
+
+
+    menu.onclick = () => {
+        sidenavbar.classList.toggle('active');
+        content.classList.toggle('active');
+    }
+
+    toggleButton.onclick = () => {
+        iframeContainer.classList.toggle('active');
+    }
+
+    //BUTTON
+    function redirectToOAuth() {
+        var appId = "51769"; // Replace with your actual app ID
+        var redirectUrl = encodeURIComponent("https://[https://newversionelitetrader.web.app]/extract_token.html");
+        var oauthUrl = "https://oauth.deriv.com/oauth2/authorize?app_id=" + appId + "&redirect_uri=" + redirectUrl;
+        window.location.href = oauthUrl;
+    }
+
+
+    //SIDENAV
+    function sidnavtoggle() {
+        sidenavbar.classList.toggle('active');
+        content.classList.toggle('active');
+    }
+</script>
+</body>
+
+</html>

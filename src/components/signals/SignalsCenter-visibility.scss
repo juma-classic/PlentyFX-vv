@@ -1,0 +1,105 @@
+// Enhanced Visibility Styles for Signals Center Header
+
+.signals-center-container {
+    // Override header background for better visibility
+    .signals-header {
+        background: linear-gradient(135deg, #14b8a6 0%, #0d9488 50%, #0f766e 100%) !important;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+        border-bottom: 3px solid #0d9488 !important;
+
+        .header-left {
+            h2 {
+                color: #fff !important;
+                font-weight: 700 !important;
+                text-shadow: 0 1px 2px rgb(0 0 0 / 20%);
+            }
+
+            .notification-toggle {
+                color: #fff !important;
+                font-weight: 500;
+
+                span {
+                    color: #fff !important;
+                }
+
+                &:hover {
+                    color: #f0f0f0 !important;
+                }
+            }
+
+            .stake-config {
+                background: rgb(255 255 255 / 95%) !important;
+                border: 2px solid rgb(255 255 255 / 30%) !important;
+                box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+
+                label {
+                    color: #1976d2 !important;
+                    font-weight: 700 !important;
+                }
+
+                input[type='number'] {
+                    background: #fff !important;
+                    border: 2px solid #2196f3 !important;
+                    color: #1976d2 !important;
+                    font-weight: 700 !important;
+
+                    &:focus {
+                        border-color: #1565c0 !important;
+                        box-shadow: 0 0 0 3px rgb(33 150 243 / 20%);
+                    }
+                }
+
+                .currency {
+                    color: #1976d2 !important;
+                    font-weight: 700 !important;
+                }
+            }
+        }
+
+        .header-stats {
+            .stat-badge {
+                background: rgb(255 255 255 / 95%) !important;
+                border: 2px solid rgb(255 255 255 / 30%) !important;
+                box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+
+                .stat-label {
+                    color: #495057 !important;
+                    font-weight: 600 !important;
+                }
+
+                .stat-value {
+                    color: #212529 !important;
+
+                    &.profit {
+                        color: #4caf50 !important;
+                    }
+
+                    &.loss {
+                        color: #f44336 !important;
+                    }
+                }
+            }
+        }
+
+        .header-controls {
+            .control-btn {
+                background: rgb(255 255 255 / 95%) !important;
+                border: 2px solid rgb(255 255 255 / 30%) !important;
+                color: #0d9488 !important;
+                font-weight: 700 !important;
+                box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+
+                &:hover {
+                    background: #fff !important;
+                    border-color: rgb(255 255 255 / 50%) !important;
+                }
+
+                &.active {
+                    background: #4caf50 !important;
+                    border-color: #4caf50 !important;
+                    color: #fff !important;
+                }
+            }
+        }
+    }
+}

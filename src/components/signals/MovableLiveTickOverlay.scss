@@ -1,0 +1,346 @@
+.movable-live-tick-overlay {
+    position: fixed;
+    z-index: 9999;
+    width: 320px;
+    background: linear-gradient(135deg, rgb(15 23 42 / 95%), rgb(30 41 59 / 95%));
+    border: 2px solid rgb(59 130 246 / 50%);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgb(0 0 0 / 40%);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    user-select: none;
+
+    &.dragging {
+        cursor: grabbing;
+        transform: scale(1.02);
+        box-shadow: 0 12px 40px rgb(0 0 0 / 60%);
+        border-color: rgb(59 130 246 / 80%);
+    }
+
+    &.minimized {
+        height: auto;
+        
+        .overlay-content {
+            display: none;
+        }
+    }
+
+    .overlay-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: linear-gradient(135deg, rgb(59 130 246 / 20%), rgb(99 102 241 / 10%));
+        border-radius: 10px 10px 0 0;
+        border-bottom: 1px solid rgb(59 130 246 / 30%);
+        cursor: grab;
+
+        &:active {
+            cursor: grabbing;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+
+            .drag-icon {
+                color: rgb(255 255 255 / 60%);
+                font-size: 16px;
+                cursor: grab;
+                padding: 2px;
+            }
+
+            h4 {
+                margin: 0;
+                font-size: 14px;
+                font-weight: 700;
+                color: #3b82f6;
+            }
+
+            .connection-status {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 11px;
+                font-weight: 600;
+
+                .status-dot {
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    animation: pulse-dot 2s ease-in-out infinite;
+                }
+
+                &.connected {
+                    color: #10b981;
+
+                    .status-dot {
+                        background: #10b981;
+                    }
+                }
+
+                &.disconnected {
+                    color: #ef4444;
+
+                    .status-dot {
+                        background: #ef4444;
+                    }
+                }
+            }
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 4px;
+
+            button {
+                width: 24px;
+                height: 24px;
+                border: none;
+                border-radius: 4px;
+                background: rgb(255 255 255 / 10%);
+                color: rgb(255 255 255 / 70%);
+                font-size: 14px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                    background: rgb(255 255 255 / 20%);
+                    color: #fff;
+                    transform: scale(1.1);
+                }
+
+                &.minimize-btn:hover {
+                    background: rgb(245 158 11 / 30%);
+                    color: #f59e0b;
+                }
+
+                &.close-btn:hover {
+                    background: rgb(239 68 68 / 30%);
+                    color: #ef4444;
+                }
+            }
+        }
+    }
+
+    .overlay-content {
+        padding: 16px;
+
+        .tick-movement-content {
+            .movement-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 12px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .row-label {
+                    min-width: 60px;
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: rgb(255 255 255 / 70%);
+                }
+
+                .movement-ticks {
+                    display: flex;
+                    gap: 3px;
+                    flex-wrap: wrap;
+
+                    .movement-tick {
+                        width: 28px;
+                        height: 28px;
+                        border-radius: 6px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 700;
+                        font-size: 11px;
+                        color: #fff;
+                        transition: all 0.3s ease;
+                        position: relative;
+
+                        &.rise {
+                            background: linear-gradient(135deg, #10b981, #059669);
+                        }
+
+                        &.fall {
+                            background: linear-gradient(135deg, #ef4444, #dc2626);
+                        }
+
+                        &.neutral {
+                            background: rgb(100 116 139);
+                        }
+
+                        &.digit {
+                            &.even {
+                                background: linear-gradient(135deg, #3b82f6, #2563eb);
+                            }
+
+                            &.odd {
+                                background: linear-gradient(135deg, #f59e0b, #d97706);
+                            }
+                        }
+
+                        &.price {
+                            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                            font-size: 9px;
+                        }
+
+                        &.latest {
+                            animation: pulse-latest 2s ease-in-out infinite;
+                            box-shadow: 0 0 12px rgb(59 130 246 / 60%);
+                        }
+                    }
+                }
+            }
+        }
+
+        .tick-movement-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px;
+            color: rgb(255 255 255 / 60%);
+            font-size: 12px;
+
+            .loading-spinner {
+                width: 16px;
+                height: 16px;
+                border: 2px solid rgb(255 255 255 / 20%);
+                border-top: 2px solid #3b82f6;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+        }
+    }
+}
+
+// Animations
+@keyframes pulse-dot {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes pulse-latest {
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 12px rgb(59 130 246 / 60%);
+    }
+
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgb(59 130 246 / 80%);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Responsive Design
+@media (width <= 768px) {
+    .movable-live-tick-overlay {
+        width: 280px;
+
+        .overlay-header {
+            padding: 10px 12px;
+
+            .header-left {
+                gap: 6px;
+
+                h4 {
+                    font-size: 13px;
+                }
+
+                .connection-status {
+                    font-size: 10px;
+                }
+            }
+
+            .header-controls {
+                button {
+                    width: 20px;
+                    height: 20px;
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .overlay-content {
+            padding: 12px;
+
+            .tick-movement-content {
+                .movement-row {
+                    gap: 6px;
+                    margin-bottom: 10px;
+
+                    .row-label {
+                        min-width: 50px;
+                        font-size: 10px;
+                    }
+
+                    .movement-ticks {
+                        gap: 2px;
+
+                        .movement-tick {
+                            width: 24px;
+                            height: 24px;
+                            font-size: 10px;
+
+                            &.price {
+                                font-size: 8px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (width <= 480px) {
+    .movable-live-tick-overlay {
+        width: 260px;
+
+        .overlay-content {
+            .tick-movement-content {
+                .movement-row {
+                    .movement-ticks {
+                        .movement-tick {
+                            width: 22px;
+                            height: 22px;
+                            font-size: 9px;
+
+                            &.price {
+                                font-size: 7px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digits & Percentage</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Roboto Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            /* Align to the top for better scrolling */
+            height: 100%;
+            margin: 0;
+            overflow-y: auto;
+            /* Allow vertical scrolling */
+            padding: 20px;
+            /* Add padding to prevent content from touching the edges */
+        }
+
+        .container {
+            text-align: center;
+            max-width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: changeContainerColor 10s infinite alternate;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 800px;
+            /* Limit container width for larger screens */
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #f0f0f0;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 0.15em solid orange;
+            animation: typing 3s steps(30, end) infinite, blink-caret 0.75s step-end infinite;
+            margin: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        @keyframes typing {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+            from,
+            to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: orange;
+            }
+        }
+
+        .table-container {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .digit-table {
+            display: inline-block;
+            padding: 10px;
+            margin: 20px;
+            border: 2px solid orange;
+            border-radius: 10px;
+            box-shadow: 0 0 10px orange;
+            width: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid orange;
+            padding: 8px;
+            color: white;
+        }
+
+        .dropdown-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            /* Allow dropdowns to wrap on smaller screens */
+            gap: 10px;
+            /* Add some space between dropdowns */
+        }
+
+        .dropdowny {
+            margin: 0 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: blue;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            min-width: 150px;
+            /* Minimum width for dropdown */
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.2rem;
+                /* Slightly smaller font for smaller screens */
+            }
+            .digit-table {
+                margin: 10px 0;
+            }
+            .dropdown-container {
+                flex-direction: column;
+                /* Stack dropdowns on top of each other */
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 id="title">Digits & Percentage</h1>
+
+        <div class="table-container">
+            <!-- Dropdown containers placed above the tables -->
+            <div class="dropdown-container">
+                <select class="dropdowny" id="time-interval">
+                    <option value="30">Past 30 min</option>
+                    <option value="20">Past 20 min</option>
+                    <option value="10">Past 10 min</option>
+                    <option value="5">Past 5 min</option>
+                    <option value="current">Current Time</option>
+                </select>
+
+                <select class="dropdowny" id="market">
+                    <!-- Dynamically populate with markets from Deriv API -->
+                </select>
+            </div>
+
+            <!-- Table for digits -->
+            <div class="digit-table" id="digitTable">
+                <table>
+                    <tr>
+                        <th>Digit</th>
+                        <th>Percentage</th>
+                        <th>Times Displayed</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td id="digit-0-percentage">--</td>
+                        <td id="digit-0-count">--</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td id="digit-1-percentage">--</td>
+                        <td id="digit-1-count">--</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td id="digit-2-percentage">--</td>
+                        <td id="digit-2-count">--</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td id="digit-3-percentage">--</td>
+                        <td id="digit-3-count">--</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td id="digit-4-percentage">--</td>
+                        <td id="digit-4-count">--</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td id="digit-5-percentage">--</td>
+                        <td id="digit-5-count">--</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td id="digit-6-percentage">--</td>
+                        <td id="digit-6-count">--</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td id="digit-7-percentage">--</td>
+                        <td id="digit-7-count">--</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td id="digit-8-percentage">--</td>
+                        <td id="digit-8-count">--</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td id="digit-9-percentage">--</td>
+                        <td id="digit-9-count">--</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Strong and Weak digits table -->
+            <div class="digit-table" id="strongWeakTable">
+                <table>
+                    <tr>
+                        <th>Strong Digit</th>
+                        <th>Weak Digit</th>
+                    </tr>
+                    <tr>
+                        <td id="strong-digit">--</td>
+                        <td id="weak-digit">--</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const appId = '63213'; // Deriv API token
+        let derivSocket = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const timeIntervalDropdown = document.getElementById('time-interval');
+            const marketDropdown = document.getElementById('market');
+
+            // Fetch markets from Deriv API on load
+            fetchMarkets();
+
+            // Event listener to handle dropdown changes
+            timeIntervalDropdown.addEventListener('change', updateData);
+            marketDropdown.addEventListener('change', updateData);
+
+            function fetchMarkets() {
+                // Open a WebSocket connection to the Deriv API
+                derivSocket = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=' + appId);
+
+                derivSocket.onopen = function() {
+                    // Send a request for active markets
+                    derivSocket.send(JSON.stringify({
+                        active_symbols: "brief",
+                        product_type: "basic"
+                    }));
+                };
+
+                derivSocket.onmessage = function(message) {
+                    const data = JSON.parse(message.data);
+
+                    if (data.active_symbols) {
+                        // Populate market dropdown with fetched symbols
+                        data.active_symbols.forEach(symbol => {
+                            const option = document.createElement('option');
+                            option.value = symbol.symbol;
+                            option.textContent = symbol.display_name;
+                            marketDropdown.appendChild(option);
+                        });
+                    }
+                };
+            }
+
+            function updateData() {
+                const timeInterval = timeIntervalDropdown.value;
+                const selectedMarket = marketDropdown.value;
+
+                if (selectedMarket) {
+                    fetchMarketData(selectedMarket, timeInterval);
+                }
+            }
+
+            function fetchMarketData(market, timeInterval) {
+                // Fetch data based on selected time interval and market
+                derivSocket.send(JSON.stringify({
+                    ticks_history: market,
+                    end: 'latest',
+                    count: parseInt(timeInterval) * 60,
+                    adjust_start_time: 1,
+                    style: 'ticks',
+                    granularity: 60
+                }));
+
+                derivSocket.onmessage = function(message) {
+                    const data = JSON.parse(message.data);
+                    if (data.history) {
+                        // Parse and display the digits and percentages in the tables
+                        updateTables(data.history.prices);
+                    }
+                };
+            }
+
+            function updateTables(prices) {
+                // Logic to calculate digit percentages, display counts, and strong/weak digits
+                let counts = Array(10).fill(0); // Digit counts (0-9)
+
+                prices.forEach(price => {
+                    const lastDigit = parseInt(price.toString().slice(-1));
+                    counts[lastDigit]++;
+                });
+
+                const total = prices.length;
+
+                counts.forEach((count, digit) => {
+                    document.getElementById(`digit-${digit}-percentage`).textContent = ((count / total) * 100).toFixed(2) + '%';
+                    document.getElementById(`digit-${digit}-count`).textContent = count;
+                });
+
+                // Determine strong and weak digits
+                const strongDigit = counts.indexOf(Math.max(...counts));
+                const weakDigit = counts.indexOf(Math.min(...counts));
+
+                document.getElementById('strong-digit').textContent = strongDigit;
+                document.getElementById('weak-digit').textContent = weakDigit;
+            }
+        });
+    </script>
+
+</body>
+
+</html>

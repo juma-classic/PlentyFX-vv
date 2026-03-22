@@ -1,0 +1,55 @@
+/**
+ * Signal Savvy Navigation Button Styles
+ */
+
+.signal-savvy-nav-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgb(102 126 234 / 30%);
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgb(102 126 234 / 50%);
+    }
+
+    &.active {
+        box-shadow: 0 4px 16px rgb(102 126 234 / 60%);
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #fff;
+        }
+    }
+
+    &__icon {
+        font-size: 1.2rem;
+    }
+
+    &__text {
+        flex: 1;
+    }
+
+    &__badge {
+        padding: 0.15rem 0.5rem;
+        background: rgb(255 255 255 / 20%);
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Over/Under Strategies & Entries</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #101128;
+            color: #0af822;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #252d40;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 4px solid transparent;
+            animation: glowing-border 3s linear infinite, border-move 5s linear infinite;
+        }
+
+        @keyframes glowing-border {
+            0% {
+                box-shadow: 0 0 15px #0000ff, 0 0 25px #0000ff, 0 0 35px #0000ff;
+            }
+            100% {
+                box-shadow: 0 0 25px #0000ff, 0 0 35px #0000ff, 0 0 45px #0000ff;
+            }
+        }
+
+        @keyframes border-move {
+            0% {
+                border-image-source: linear-gradient(to right, #0000ff, transparent);
+            }
+            25% {
+                border-image-source: linear-gradient(to bottom, #0000ff, transparent);
+            }
+            50% {
+                border-image-source: linear-gradient(to left, #0000ff, transparent);
+            }
+            75% {
+                border-image-source: linear-gradient(to top, #0000ff, transparent);
+            }
+            100% {
+                border-image-source: linear-gradient(to right, #0000ff, transparent);
+            }
+        }
+
+        h2 {
+            color: #0000ff;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            color: #0000ff;
+            margin: 20px 0 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        ul {
+            text-align: left;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Over/Under Strategies & Entries</h2>
+
+        <h3>Over 0 &amp; 1</h3>
+        <p><strong>Criteria:</strong></p>
+        <ul>
+            <li>Use 1 tick.</li>
+            <li>Green bar should have 10.5% and above.</li>
+            <li>Red bar should have 9% and below.</li>
+        </ul>
+        <p><strong>Entry Point:</strong> Wait for the moving cursor to hit 0 or 1 once or twice before trading Over 0 or 1.</p>
+
+        <hr>
+
+        <h3>Over 2</h3>
+        <p><strong>Criteria:</strong></p>
+        <ul>
+            <li>Any digit among 3, 4, 5, 6, 7, 8, or 9 should be at least 10% and above.</li>
+            <li>Use 1 tick or 2 ticks.</li>
+        </ul>
+        <p><strong>Entry Point:</strong> If the last trade ends in Under 2, it triggers a prediction of the next trade ending in Over. Trade Over when the cursor hits 0, 1, or 2.</p>
+
+        <hr>
+
+        <h3>Over 3</h3>
+        <p><strong>Criteria:</strong></p>
+        <ul>
+            <li>Use any volatility; avoid jump indices when trading Over 3.</li>
+            <li>Any digit among 4, 5, 6, 7, 8, or 9 should have 11% and above.</li>
+            <li>Use Expert Speed Bot or Dollar Printer Bot from Deriv Hub.</li>
+            <li>Red bar should be less than 9.5%.</li>
+        </ul>
+        <p><strong>Entry Point:</strong> Ensure the cursor hits 0, 1, 2, and 3 (in any order such as 3,2,0,1 or 2,3,0,1). Then run your bot when it hits any of 4, 5, 6, 7, 8, or 9.</p>
+
+        <hr>
+
+        <h3>Over 4</h3>
+        <p><strong>Criteria:</strong> When analyzing Over contract type prediction (4):</p>
+        <ul>
+            <li>Check if any of these numbers (5, 6, 7, 8, 9) have above 11.5%, especially even numbers (6 &amp; 8) when they are at 11.5% and above.</li>
+        </ul>
+        <p><strong>Entry Point:</strong> Wait for the moving cursor to show 4, 3, 2, 1, or 0, and then enter your trade. Ensure the highlighted digits do not decrease in percentage.</p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+// Signal Generator Toggles Styling
+
+.generator-toggles {
+    margin: 15px 0;
+    padding: 15px;
+    background: rgb(255 255 255 / 5%);
+    border-radius: 8px;
+    border: 1px solid rgb(255 255 255 / 10%);
+
+    .toggles-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-primary);
+
+        .toggles-hint {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+    }
+
+    .toggles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 8px;
+    }
+
+    .toggle-btn {
+        padding: 8px 12px;
+        border: 1px solid rgb(255 255 255 / 20%);
+        border-radius: 6px;
+        background: rgb(255 255 255 / 5%);
+        color: var(--text-primary);
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        &:hover {
+            background: rgb(255 255 255 / 10%);
+            transform: translateY(-1px);
+        }
+
+        &.active {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            border-color: #4caf50;
+            color: #fff;
+            box-shadow: 0 2px 8px rgb(76 175 80 / 30%);
+
+            &:hover {
+                background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+            }
+        }
+
+        &.inactive {
+            background: rgb(244 67 54 / 10%);
+            border-color: rgb(244 67 54 / 30%);
+            color: rgb(244 67 54 / 80%);
+
+            &:hover {
+                background: rgb(244 67 54 / 15%);
+                border-color: rgb(244 67 54 / 40%);
+            }
+        }
+    }
+}
+
+// Dark theme adjustments
+.dark-theme {
+    .generator-toggles {
+        background: rgb(0 0 0 / 20%);
+        border-color: rgb(255 255 255 / 5%);
+
+        .toggle-btn {
+            background: rgb(0 0 0 / 30%);
+            border-color: rgb(255 255 255 / 10%);
+
+            &:hover {
+                background: rgb(0 0 0 / 40%);
+            }
+
+            &.inactive {
+                background: rgb(244 67 54 / 5%);
+            }
+        }
+    }
+}
+
+// Mobile responsive
+@media (width <= 768px) {
+    .generator-toggles {
+        .toggles-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .toggle-btn {
+            font-size: 11px;
+            padding: 6px 10px;
+        }
+    }
+}

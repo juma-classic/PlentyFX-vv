@@ -1,0 +1,426 @@
+@use 'sass:string';
+@use 'components/shared/styles/mixins' as *;
+
+// Force text visibility in run-panel tabs - highest priority override
+.run-panel-tab__content,
+.run-panel-tab__content--mobile {
+    .transactions,
+    .journal {
+        // Override any white text in transactions and journal tabs
+        *,
+        .dc-text,
+        .dc-money,
+        span,
+        div,
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #333 !important;
+        }
+
+        // Specific overrides for datetime and secondary text
+        .transactions__text-datetime,
+        .journal__text-datetime {
+            &,
+            * {
+                color: #666 !important;
+            }
+        }
+
+        // Preserve profit/loss colors in transactions - these must come after the general override
+        .transactions__profit--win,
+        .transactions__profit--win *,
+        .transactions__profit--win .dc-text,
+        .transactions__profit--win .dc-money {
+            color: var(--text-profit-success) !important;
+        }
+
+        .transactions__profit--loss,
+        .transactions__profit--loss *,
+        .transactions__profit--loss .dc-text,
+        .transactions__profit--loss .dc-money {
+            color: var(--text-loss-danger) !important;
+        }
+    }
+}
+
+.transactions {
+    $transaction: &;
+    $grid-template-columns: 0.8fr 1fr 1.1fr;
+
+    flex-direction: column;
+
+    .ReactVirtualized__Grid__innerScrollContainer {
+        & > :first-child,
+        :before,
+        :after {
+            box-sizing: border-box;
+            animation: move-in 0.4s ease-in forwards;
+        }
+    }
+
+    .download__container {
+        &__view-detail-button {
+            margin-inline-start: 12px;
+        }
+    }
+
+    .transaction-details {
+        &__button-container {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &-empty {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &-box {
+            display: grid;
+            flex: 1;
+            height: 100%;
+        }
+
+        &__header {
+            padding: 0.8rem;
+
+            // Ensure empty state header text is visible
+            &,
+            * {
+                color: #333 !important;
+            }
+        }
+
+        &__icon-box {
+            display: flex;
+            justify-content: center;
+            margin-top: 0.3rem;
+
+            svg {
+                g {
+                    path {
+                        fill: var(--text-less-prominent);
+                    }
+                }
+            }
+        }
+
+        &__icon {
+            align-self: center;
+        }
+
+        &__message {
+            margin: 0 auto;
+            margin-bottom: 2rem;
+
+            & .dc-text {
+                line-height: var(--text-lh-xxl);
+
+                // Ensure message text is visible
+                &,
+                * {
+                    color: #666 !important;
+                }
+            }
+        }
+
+        &__list {
+            list-style-type: disc;
+            margin-left: 2rem;
+            font-size: var(--text-size-xxs);
+            line-height: var(--text-lh-xl);
+            color: var(--text-less-prominent);
+
+            // Ensure list text is visible
+            &,
+            * {
+                color: #666 !important;
+            }
+        }
+    }
+
+    &__header {
+        border-bottom: 1px solid var(--general-section-1);
+        width: 100%;
+        display: grid;
+
+        @include typeface(--small-left-bold-black, none);
+
+        grid-template-columns: $grid-template-columns;
+        grid-template-areas: 'type spot profit';
+        padding: 1.2rem 1.6rem; // Equal l+r with transaction__item padding.
+        height: 5rem;
+        align-items: center;
+
+        // Ensure header text is visible with high specificity
+        &,
+        *,
+        .dc-text,
+        span,
+        div {
+            color: #333 !important;
+        }
+
+        $header-grid-items: (string.unquote('type'), string.unquote('spot'), string.unquote('profit'));
+
+        @each $item in $header-grid-items {
+            &-#{$item} {
+                grid-column: $item;
+
+                @if $item == 'spot' {
+                    text-align: start;
+                }
+
+                @if $item == 'profit' {
+                    text-align: start;
+                }
+            }
+        }
+    }
+
+    &__content {
+        height: calc(100% - 11rem);
+
+        &--mobile {
+            height: calc(100% - 4.2rem);
+        }
+    }
+
+    &__scrollbar {
+        height: 100%;
+
+        & .dc-themed-scrollbars {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    &__item {
+        display: grid;
+        font-size: 12px;
+        grid-row-gap: 3px;
+        grid-template-columns: $grid-template-columns;
+        grid-template-rows: auto auto;
+        grid-template-areas: ('trade-type entry-spot stake' 'trade-type exit-spot  profit');
+        padding: 0.8rem 0;
+
+        @include rtl {
+            direction: rtl;
+        }
+
+        &-wrapper {
+            height: 5.2rem;
+            padding: 0 1.6rem;
+            cursor: pointer;
+            position: relative;
+            border-top: 1px solid var(--general-section-2);
+
+            &:hover {
+                background-color: var(--state-hover);
+            }
+        }
+    }
+
+    $grid-items: (
+        string.unquote('trade-type'),
+        string.unquote('entry-spot'),
+        string.unquote('exit-spot'),
+        string.unquote('stake'),
+        string.unquote('profit')
+    );
+
+    @each $item in $grid-items {
+        &__#{$item} {
+            grid-column: $item;
+            grid-row: $item;
+
+            @if $item == 'exit-spot' or $item == 'entry-spot' or $item == 'trade-type' {
+                justify-content: flex-start;
+            }
+
+            @if $item == 'stake' or $item == 'profit' {
+                justify-content: flex-end;
+            }
+        }
+    }
+
+    &__divider {
+        border-top: 1px solid var(--general-section-2);
+        padding: 8px 16px;
+
+        &-line {
+            height: 4px;
+            background-color: var(--general-section-2);
+        }
+    }
+
+    &__item-wrapper + &__divider {
+        border-top: none;
+    }
+
+    &__divider + &__item-wrapper {
+        border-top: none;
+    }
+
+    &__loader {
+        &-text {
+            width: 7.2rem;
+            height: 1rem;
+        }
+
+        &-container {
+            @include flex-center;
+
+            align-items: flex-start;
+            width: 2.4rem;
+            height: 2.4rem;
+            margin-right: 0.4rem;
+        }
+
+        &-icon {
+            width: 2.4rem;
+            height: 2.4rem;
+        }
+    }
+
+    &__icon {
+        margin-right: 0.8rem;
+        max-height: 1.6rem;
+        max-width: 1.6rem;
+        min-height: 1.6rem;
+        min-width: 1.6rem;
+    }
+
+    &__cell {
+        display: flex;
+        align-items: center;
+        color: var(--text-general);
+
+        // Ensure text is visible - override any white text issues with high specificity
+        &,
+        *,
+        .dc-text,
+        .dc-money,
+        span,
+        div {
+            color: #333 !important;
+        }
+    }
+
+    &__profit {
+        &--win {
+            color: var(--text-profit-success) !important;
+
+            &:before {
+                content: '+';
+            }
+
+            // Additional mobile-specific overrides with higher specificity
+            &,
+            *,
+            .dc-text,
+            .dc-money,
+            span,
+            div {
+                color: var(--text-profit-success) !important;
+            }
+        }
+
+        &--loss {
+            color: var(--text-loss-danger) !important;
+
+            &:before {
+                content: '-';
+            }
+
+            // Additional mobile-specific overrides with higher specificity
+            &,
+            *,
+            .dc-text,
+            .dc-money,
+            span,
+            div {
+                color: var(--text-loss-danger) !important;
+            }
+        }
+    }
+
+    &__info {
+        &-header {
+            font-weight: bold;
+        }
+    }
+
+    &__popover {
+        &-title {
+            @include typeface(--xsmall-left-normal-black, none);
+
+            // Ensure popover title text is visible
+            &,
+            * {
+                color: #333 !important;
+            }
+        }
+
+        &-item {
+            @include typeface(--small-left-bold-black, none);
+
+            // Ensure popover item text is visible
+            &,
+            * {
+                color: #333 !important;
+            }
+
+            &:not(:last-of-type) {
+                margin-bottom: 0.8rem;
+            }
+        }
+    }
+}
+
+// Mobile-specific profit/loss color overrides with maximum specificity
+.run-panel-tab__content--mobile {
+    .transactions {
+        .transactions__profit--win,
+        .transactions__profit--win *,
+        .transactions__profit--win .dc-text,
+        .transactions__profit--win .dc-money,
+        .transactions__profit--win span,
+        .transactions__profit--win div {
+            color: var(--text-profit-success) !important;
+        }
+
+        .transactions__profit--loss,
+        .transactions__profit--loss *,
+        .transactions__profit--loss .dc-text,
+        .transactions__profit--loss .dc-money,
+        .transactions__profit--loss span,
+        .transactions__profit--loss div {
+            color: var(--text-loss-danger) !important;
+        }
+
+        // Override any cell-level black text for profit/loss elements
+        .transactions__cell {
+            .transactions__profit--win,
+            .transactions__profit--win *,
+            .transactions__profit--win .dc-text,
+            .transactions__profit--win .dc-money {
+                color: var(--text-profit-success) !important;
+            }
+
+            .transactions__profit--loss,
+            .transactions__profit--loss *,
+            .transactions__profit--loss .dc-text,
+            .transactions__profit--loss .dc-money {
+                color: var(--text-loss-danger) !important;
+            }
+        }
+    }
+}

@@ -1,0 +1,446 @@
+.speed-trading-engine {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    color: #fff;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 30%);
+}
+
+.engine-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgb(20 184 166 / 30%);
+
+    h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.engine-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .status-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #64748b;
+
+        &.running {
+            background: #10b981;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        &.stopped {
+            background: #ef4444;
+        }
+    }
+
+    .status-text {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+}
+
+@keyframes pulse-dot {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgb(16 185 129 / 70%);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgb(16 185 129 / 0%);
+    }
+}
+
+.engine-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: rgb(255 255 255 / 5%);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    .stat-label {
+        font-size: 0.85rem;
+        color: rgb(255 255 255 / 70%);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        font-family: 'JetBrains Mono', monospace;
+
+        &.wins {
+            color: #10b981;
+        }
+
+        &.losses {
+            color: #ef4444;
+        }
+
+        &.profit {
+            color: #10b981;
+        }
+
+        &.loss {
+            color: #ef4444;
+        }
+    }
+}
+
+.current-tick {
+    background: rgb(20 184 166 / 10%);
+    border: 1px solid rgb(20 184 166 / 30%);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+
+    .tick-label {
+        font-size: 0.9rem;
+        color: rgb(255 255 255 / 70%);
+    }
+
+    .tick-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #14b8a6;
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    .tick-digit {
+        font-size: 1rem;
+        color: rgb(255 255 255 / 90%);
+        padding: 0.25rem 0.75rem;
+        background: rgb(255 255 255 / 10%);
+        border-radius: 8px;
+    }
+}
+
+.trade-waiting {
+    background: rgb(245 158 11 / 10%);
+    border: 1px solid rgb(245 158 11 / 30%);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    justify-content: center;
+    animation: pulse 2s ease-in-out infinite;
+
+    .waiting-icon {
+        font-size: 1.25rem;
+        animation: spin 2s linear infinite;
+    }
+
+    .waiting-text {
+        color: #fbbf24;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.engine-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    button {
+        flex: 1;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-start {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: #fff;
+        box-shadow: 0 4px 12px rgb(16 185 129 / 30%);
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgb(16 185 129 / 40%);
+        }
+    }
+
+    .btn-trade {
+        background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+        color: #fff;
+        box-shadow: 0 4px 12px rgb(20 184 166 / 30%);
+        font-size: 1.1rem;
+
+        &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgb(20 184 166 / 40%);
+        }
+    }
+
+    .btn-auto {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        color: #fff;
+        box-shadow: 0 4px 12px rgb(139 92 246 / 30%);
+        font-size: 1.1rem;
+
+        &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgb(139 92 246 / 40%);
+        }
+    }
+
+    .btn-stop-auto {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #fff;
+        box-shadow: 0 4px 12px rgb(245 158 11 / 30%);
+        font-size: 1.1rem;
+        flex: 2;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgb(245 158 11 / 40%);
+        }
+    }
+
+    .btn-stop {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: #fff;
+        box-shadow: 0 4px 12px rgb(239 68 68 / 30%);
+        flex: 0.5;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgb(239 68 68 / 40%);
+        }
+    }
+}
+
+.run-progress {
+    .progress-label {
+        font-size: 0.9rem;
+        color: rgb(255 255 255 / 80%);
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: rgb(255 255 255 / 10%);
+        border-radius: 4px;
+        overflow: hidden;
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #14b8a6 0%, #10b981 100%);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+    }
+}
+
+@media (width <= 768px) {
+    .speed-trading-engine {
+        padding: 1.5rem;
+    }
+
+    .engine-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .current-tick {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .engine-controls {
+        flex-direction: column;
+    }
+}
+
+.error-banner {
+    background: rgb(239 68 68 / 10%);
+    border: 1px solid rgb(239 68 68 / 30%);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .error-icon {
+        font-size: 1.25rem;
+    }
+
+    .error-text {
+        color: #fca5a5;
+        font-size: 0.9rem;
+        flex: 1;
+    }
+}
+
+.status-dot.connecting {
+    background: #f59e0b;
+    animation: pulse-dot 1s ease-in-out infinite;
+}
+
+.last-trade {
+    background: rgb(255 255 255 / 5%);
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+
+    &.success {
+        border-color: rgb(16 185 129 / 30%);
+        background: rgb(16 185 129 / 5%);
+    }
+
+    &.failed {
+        border-color: rgb(239 68 68 / 30%);
+        background: rgb(239 68 68 / 5%);
+    }
+
+    .trade-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgb(255 255 255 / 10%);
+
+        .trade-icon {
+            font-size: 1.25rem;
+        }
+
+        .trade-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+    }
+
+    .trade-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .trade-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+
+            span:first-child {
+                color: rgb(255 255 255 / 70%);
+            }
+
+            span:last-child {
+                font-weight: 600;
+                font-family: 'JetBrains Mono', monospace;
+            }
+
+            &.profit-detail {
+                margin-top: 0.25rem;
+                padding-top: 0.5rem;
+                border-top: 1px solid rgb(255 255 255 / 10%);
+
+                span:last-child {
+                    font-size: 1.1rem;
+
+                    &.profit {
+                        color: #10b981;
+                    }
+
+                    &.loss {
+                        color: #ef4444;
+                    }
+                }
+            }
+        }
+    }
+
+    .trade-error {
+        color: #fca5a5;
+        font-size: 0.85rem;
+    }
+}
+
+.auto-trading-status {
+    background: rgb(139 92 246 / 10%);
+    border: 1px solid rgb(139 92 246 / 30%);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    justify-content: center;
+    animation: pulse 2s ease-in-out infinite;
+
+    .status-icon {
+        font-size: 1.5rem;
+    }
+
+    .status-text {
+        color: #c4b5fd;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}

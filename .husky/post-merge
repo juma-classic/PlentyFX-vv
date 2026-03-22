@@ -1,0 +1,9 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run project post-merge hook if it exists (some environments may not include it)
+if [ -f "./hooks/post-merge.sh" ]; then
+	bash ./hooks/post-merge.sh
+else
+	echo "No ./hooks/post-merge.sh found; skipping post-merge script."
+fi

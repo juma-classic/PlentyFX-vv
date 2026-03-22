@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Debug Raziel Bot Loading</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background: #1a1a1a;
+                color: #fff;
+            }
+            .debug-section {
+                margin: 20px 0;
+                padding: 15px;
+                border: 1px solid #333;
+                border-radius: 8px;
+                background: #2a2a2a;
+            }
+            .error {
+                color: #ff6b6b;
+            }
+            .success {
+                color: #51cf66;
+            }
+            .warning {
+                color: #ffd43b;
+            }
+            button {
+                background: #4c6ef5;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin: 5px;
+            }
+            button:hover {
+                background: #364fc7;
+            }
+            pre {
+                background: #000;
+                padding: 10px;
+                border-radius: 5px;
+                overflow-x: auto;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🔧 Raziel Bot Loading Debugger</h1>
+
+        <div class="debug-section">
+            <h2>1. XML File Accessibility Test</h2>
+            <button onclick="testXMLFile()">Test XML File Loading</button>
+            <div id="xml-test-result"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>2. XML Structure Validation</h2>
+            <button onclick="validateXMLStructure()">Validate XML Structure</button>
+            <div id="xml-validation-result"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>3. Bot Configuration Test</h2>
+            <button onclick="testBotConfiguration()">Test Bot Configuration</button>
+            <div id="config-test-result"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>4. Bot Loading Methods Test</h2>
+            <button onclick="testBotLoadingMethods()">Test Loading Methods</button>
+            <div id="loading-methods-result"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>5. Console Logs</h2>
+            <div id="console-logs"></div>
+        </div>
+
+        <script>
+            // Capture console logs
+            const originalLog = console.log;
+            const originalError = console.error;
+            const originalWarn = console.warn;
+
+            const logs = [];
+
+            function captureLog(type, ...args) {
+                logs.push({ type, message: args.join(' '), timestamp: new Date().toISOString() });
+                updateConsoleLogs();
+            }
+
+            console.log = (...args) => {
+                originalLog(...args);
+                captureLog('log', ...args);
+            };
+
+            console.error = (...args) => {
+                originalError(...args);
+                captureLog('error', ...args);
+            };
+
+            console.warn = (...args) => {
+                originalWarn(...args);
+                captureLog('warn', ...args);
+            };
+
+            function updateConsoleLogs() {
+                const logsDiv = document.getElementById('console-logs');
+                logsDiv.innerHTML = logs
+                    .slice(-10)
+                    .map(
+                        log =>
+                            `<div class="${log.type}"><strong>[${log.type.toUpperCase()}]</strong> ${log.message}</div>`
+                    )
+                    .join('');
+            }
+
+            async function testXMLFile() {
+                const resultDiv = document.getElementById('xml-test-result');
+                resultDiv.innerHTML = '<div>Testing XML file accessibility...</div>';
+
+                try {
+                    console.log('🧪 Testing Raziel Over Under.xml file loading...');
+
+                    const response = await fetch('/Raziel Over Under.xml');
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const xmlContent = await response.text();
+
+                    if (!xmlContent || xmlContent.trim().length === 0) {
+                        throw new Error('XML file is empty');
+                    }
+
+                    if (!xmlContent.includes('<xml')) {
+                        throw new Error('File does not appear to be valid XML');
+                    }
+
+                    resultDiv.innerHTML = `
+                    <div class="success">✅ XML file loaded successfully</div>
+                    <div>File size: ${xmlContent.length} characters</div>
+                    <div>Contains XML root: ${xmlContent.includes('<xml') ? 'Yes' : 'No'}</div>
+                    <div>Contains variables: ${xmlContent.includes('<variables>') ? 'Yes' : 'No'}</div>
+                    <div>Contains blocks: ${xmlContent.includes('<block') ? 'Yes' : 'No'}</div>
+                `;
+
+                    console.log('✅ XML file test passed');
+                } catch (error) {
+                    console.error('❌ XML file test failed:', error);
+                    resultDiv.innerHTML = `<div class="error">❌ Failed to load XML file: ${error.message}</div>`;
+                }
+            }
+
+            async function validateXMLStructure() {
+                const resultDiv = document.getElementById('xml-validation-result');
+                resultDiv.innerHTML = '<div>Validating XML structure...</div>';
+
+                try {
+                    console.log('🧪 Validating XML structure...');
+
+                    const response = await fetch('/Raziel Over Under.xml');
+                    const xmlContent = await response.text();
+
+                    // Parse XML
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
+
+                    // Check for parsing errors
+                    const parseError = xmlDoc.querySelector('parsererror');
+                    if (parseError) {
+                        throw new Error(`XML parsing failed: ${parseError.textContent}`);
+                    }
+
+                    // Check for required elements
+                    const checks = {
+                        'Root XML element': xmlDoc.querySelector('xml') !== null,
+                        'Variables section': xmlDoc.querySelector('variables') !== null,
+                        'Trade definition block': xmlDoc.querySelector('block[type="trade_definition"]') !== null,
+                        'Market symbol field': xmlDoc.querySelector('field[name="SYMBOL_LIST"]') !== null,
+                        'Contract type field': xmlDoc.querySelector('field[name="TYPE_LIST"]') !== null,
+                        'Stake variable block': xmlDoc.querySelector('block[id="TDv/W;dNI84TFbp}8X8="]') !== null,
+                        'Initial stake variable block':
+                            xmlDoc.querySelector('block[id="9Z%4%dmqCp;/sSt8wGv#"]') !== null,
+                        'Martingale block': xmlDoc.querySelector('block[id="Ib,Krc`nUJzn1KMo9)`A"]') !== null,
+                        'Prediction before loss block':
+                            xmlDoc.querySelector('block[id="~]Q~lGg)3FCGB95VKA`b"]') !== null,
+                        'Prediction after loss block':
+                            xmlDoc.querySelector('block[id="(6)D~Nlfu/PCG*s5!9Qy"]') !== null,
+                    };
+
+                    const results = Object.entries(checks)
+                        .map(
+                            ([name, passed]) =>
+                                `<div class="${passed ? 'success' : 'error'}">${passed ? '✅' : '❌'} ${name}</div>`
+                        )
+                        .join('');
+
+                    const passedCount = Object.values(checks).filter(Boolean).length;
+                    const totalCount = Object.keys(checks).length;
+
+                    resultDiv.innerHTML = `
+                    <div><strong>Validation Results: ${passedCount}/${totalCount} passed</strong></div>
+                    ${results}
+                `;
+
+                    console.log(`✅ XML structure validation: ${passedCount}/${totalCount} checks passed`);
+                } catch (error) {
+                    console.error('❌ XML validation failed:', error);
+                    resultDiv.innerHTML = `<div class="error">❌ XML validation failed: ${error.message}</div>`;
+                }
+            }
+
+            async function testBotConfiguration() {
+                const resultDiv = document.getElementById('config-test-result');
+                resultDiv.innerHTML = '<div>Testing bot configuration...</div>';
+
+                try {
+                    console.log('🧪 Testing bot configuration...');
+
+                    const response = await fetch('/Raziel Over Under.xml');
+                    const xmlContent = await response.text();
+
+                    // Test configuration with sample values
+                    const testConfig = {
+                        market: 'R_50',
+                        contractType: 'DIGITOVER',
+                        stake: 5,
+                        parameters: {
+                            martingaleSplit: 2.5,
+                            predictionBeforeLoss: 3,
+                            predictionAfterLoss: 4,
+                        },
+                    };
+
+                    // Parse and configure XML
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
+
+                    // Test each configuration step
+                    const configSteps = [];
+
+                    // Update market symbol
+                    const symbolField = xmlDoc.querySelector('field[name="SYMBOL_LIST"]');
+                    if (symbolField) {
+                        const originalValue = symbolField.textContent;
+                        symbolField.textContent = testConfig.market;
+                        configSteps.push(`Market: ${originalValue} → ${testConfig.market} ✅`);
+                    } else {
+                        configSteps.push('Market: Field not found ❌');
+                    }
+
+                    // Update contract type
+                    const contractField = xmlDoc.querySelector('field[name="TYPE_LIST"]');
+                    if (contractField) {
+                        const originalValue = contractField.textContent;
+                        contractField.textContent = testConfig.contractType;
+                        configSteps.push(`Contract: ${originalValue} → ${testConfig.contractType} ✅`);
+                    } else {
+                        configSteps.push('Contract: Field not found ❌');
+                    }
+
+                    // Update stake
+                    const stakeBlock = xmlDoc.querySelector('block[id="TDv/W;dNI84TFbp}8X8="] field[name="NUM"]');
+                    if (stakeBlock) {
+                        const originalValue = stakeBlock.textContent;
+                        stakeBlock.textContent = testConfig.stake.toString();
+                        configSteps.push(`Stake: ${originalValue} → ${testConfig.stake} ✅`);
+                    } else {
+                        configSteps.push('Stake: Block not found ❌');
+                    }
+
+                    // Update initial stake
+                    const initialStakeBlock = xmlDoc.querySelector(
+                        'block[id="9Z%4%dmqCp;/sSt8wGv#"] field[name="NUM"]'
+                    );
+                    if (initialStakeBlock) {
+                        const originalValue = initialStakeBlock.textContent;
+                        initialStakeBlock.textContent = testConfig.stake.toString();
+                        configSteps.push(`Initial Stake: ${originalValue} → ${testConfig.stake} ✅`);
+                    } else {
+                        configSteps.push('Initial Stake: Block not found ❌');
+                    }
+
+                    resultDiv.innerHTML = `
+                    <div><strong>Configuration Test Results:</strong></div>
+                    ${configSteps.map(step => `<div>${step}</div>`).join('')}
+                `;
+
+                    console.log('✅ Bot configuration test completed');
+                } catch (error) {
+                    console.error('❌ Bot configuration test failed:', error);
+                    resultDiv.innerHTML = `<div class="error">❌ Configuration test failed: ${error.message}</div>`;
+                }
+            }
+
+            async function testBotLoadingMethods() {
+                const resultDiv = document.getElementById('loading-methods-result');
+                resultDiv.innerHTML = '<div>Testing bot loading methods...</div>';
+
+                try {
+                    console.log('🧪 Testing bot loading methods...');
+
+                    const methods = [];
+
+                    // Check for window globals
+                    if (typeof window !== 'undefined') {
+                        methods.push(`Window object: Available ✅`);
+
+                        if (window.load_modal) {
+                            methods.push(`load_modal: Available ✅`);
+                            if (window.load_modal.loadStrategyToBuilder) {
+                                methods.push(`loadStrategyToBuilder: Available ✅`);
+                            } else {
+                                methods.push(`loadStrategyToBuilder: Not available ❌`);
+                            }
+                        } else {
+                            methods.push(`load_modal: Not available ❌`);
+                        }
+
+                        if (window.load_modal_store) {
+                            methods.push(`load_modal_store: Available ✅`);
+                        } else {
+                            methods.push(`load_modal_store: Not available ❌`);
+                        }
+
+                        if (window.dashboard_store) {
+                            methods.push(`dashboard_store: Available ✅`);
+                        } else {
+                            methods.push(`dashboard_store: Not available ❌`);
+                        }
+
+                        if (window.Blockly) {
+                            methods.push(`Blockly: Available ✅`);
+                            if (window.Blockly.getMainWorkspace) {
+                                methods.push(`Blockly.getMainWorkspace: Available ✅`);
+                            } else {
+                                methods.push(`Blockly.getMainWorkspace: Not available ❌`);
+                            }
+                        } else {
+                            methods.push(`Blockly: Not available ❌`);
+                        }
+                    } else {
+                        methods.push(`Window object: Not available ❌`);
+                    }
+
+                    // Check for DOM elements
+                    const runButton = document.querySelector('button[data-testid="run-button"]');
+                    methods.push(`Run button: ${runButton ? 'Found ✅' : 'Not found ❌'}`);
+
+                    resultDiv.innerHTML = `
+                    <div><strong>Loading Methods Test Results:</strong></div>
+                    ${methods.map(method => `<div>${method}</div>`).join('')}
+                `;
+
+                    console.log('✅ Bot loading methods test completed');
+                } catch (error) {
+                    console.error('❌ Bot loading methods test failed:', error);
+                    resultDiv.innerHTML = `<div class="error">❌ Loading methods test failed: ${error.message}</div>`;
+                }
+            }
+
+            // Auto-run tests on page load
+            window.addEventListener('load', () => {
+                console.log('🚀 Raziel Bot Debugger loaded');
+                setTimeout(() => {
+                    testXMLFile();
+                    setTimeout(() => validateXMLStructure(), 1000);
+                    setTimeout(() => testBotConfiguration(), 2000);
+                    setTimeout(() => testBotLoadingMethods(), 3000);
+                }, 500);
+            });
+        </script>
+    </body>
+</html>

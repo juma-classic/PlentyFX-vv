@@ -1,0 +1,315 @@
+// Follow Signal Button Styles
+
+.follow-signal-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgb(102 126 234 / 30%);
+    position: relative;
+    overflow: hidden;
+
+    &:hover:not(.disabled, .executing) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgb(102 126 234 / 40%);
+    }
+
+    &:active:not(.disabled, .executing) {
+        transform: translateY(0);
+    }
+
+    .button-icon {
+        font-size: 18px;
+    }
+
+    .button-text {
+        flex: 1;
+    }
+
+    .confidence-badge {
+        padding: 2px 8px;
+        background: rgb(255 255 255 / 20%);
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    &.high-confidence {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 4px 12px rgb(16 185 129 / 30%);
+
+        &:hover:not(.disabled, .executing) {
+            box-shadow: 0 6px 16px rgb(16 185 129 / 40%);
+        }
+    }
+
+    &.executing {
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        cursor: wait;
+
+        .button-text {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+    }
+
+    &.success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        cursor: default;
+    }
+
+    &.error {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        cursor: default;
+    }
+
+    &.disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+        opacity: 0.6;
+
+        &:hover {
+            transform: none;
+            box-shadow: none;
+        }
+    }
+}
+
+.confirmation-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgb(0 0 0 / 50%);
+        backdrop-filter: blur(4px);
+        animation: fade-in 0.2s ease;
+    }
+
+    .modal-content {
+        position: relative;
+        background: #fff;
+        border-radius: 16px;
+        padding: 24px;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
+        animation: slide-up 0.3s ease;
+
+        h3 {
+            margin: 0 0 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-align: center;
+        }
+
+        .trade-details {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+
+            .detail-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px solid #e5e7eb;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .label {
+                    font-size: 13px;
+                    color: #6b7280;
+                    font-weight: 500;
+                }
+
+                .value {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+
+                    &.confidence {
+                        color: #667eea;
+                    }
+
+                    &.risk-low {
+                        color: #10b981;
+                    }
+
+                    &.risk-medium {
+                        color: #fbbf24;
+                    }
+
+                    &.risk-high {
+                        color: #ef4444;
+                    }
+                }
+            }
+        }
+
+        .prediction-info {
+            margin-bottom: 20px;
+
+            .reasoning {
+                font-size: 13px;
+                line-height: 1.6;
+                color: #4b5563;
+                margin: 0;
+                padding: 12px;
+                background: #fef3c7;
+                border-left: 3px solid #fbbf24;
+                border-radius: 6px;
+            }
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+
+            button {
+                flex: 1;
+                padding: 12px;
+                border: none;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .cancel-button {
+                background: #f3f4f6;
+                color: #6b7280;
+
+                &:hover {
+                    background: #e5e7eb;
+                }
+            }
+
+            .confirm-button {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: #fff;
+
+                &:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 12px rgb(102 126 234 / 30%);
+                }
+            }
+        }
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dark-theme {
+    .confirmation-modal {
+        .modal-content {
+            background: #1f2937;
+
+            h3 {
+                color: #f9fafb;
+            }
+
+            .trade-details {
+                background: #111827;
+
+                .detail-row {
+                    border-bottom-color: #374151;
+
+                    .label {
+                        color: #9ca3af;
+                    }
+
+                    .value {
+                        color: #f9fafb;
+                    }
+                }
+            }
+
+            .prediction-info .reasoning {
+                background: #374151;
+                border-left-color: #fbbf24;
+                color: #d1d5db;
+            }
+
+            .modal-actions .cancel-button {
+                background: #374151;
+                color: #d1d5db;
+
+                &:hover {
+                    background: #4b5563;
+                }
+            }
+        }
+    }
+}
+
+@media (width <= 768px) {
+    .follow-signal-button {
+        padding: 10px 16px;
+        font-size: 13px;
+
+        .button-icon {
+            font-size: 16px;
+        }
+    }
+
+    .confirmation-modal .modal-content {
+        padding: 20px;
+        max-width: 340px;
+    }
+}

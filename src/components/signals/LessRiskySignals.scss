@@ -1,0 +1,461 @@
+/* Less Risky Signals Styling */
+.signals-center.less-risky-mode {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 2px solid #10b981;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem;
+
+    .signals-header {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: #fff;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+
+        .signals-title h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .signals-subtitle {
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .signals-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+
+            .stat-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .stat-label {
+                    font-size: 0.8rem;
+                    opacity: 0.8;
+                }
+
+                .stat-value {
+                    font-size: 1.2rem;
+                    font-weight: 700;
+                    margin-top: 0.25rem;
+                }
+            }
+        }
+    }
+
+    .connection-status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f9fafb;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        border: 1px solid #e5e7eb;
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            .status-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #ef4444;
+            }
+
+            &.connected .status-dot {
+                background: #10b981;
+            }
+
+            .status-text {
+                font-size: 0.9rem;
+                font-weight: 500;
+            }
+        }
+
+        .signal-count {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+    }
+
+    .auto-trade-settings {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f9fafb;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        border: 1px solid #e5e7eb;
+
+        .setting-item {
+            .toggle-label {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                gap: 0.5rem;
+
+                input[type='checkbox'] {
+                    display: none;
+                }
+
+                .toggle-slider {
+                    width: 40px;
+                    height: 20px;
+                    background: #d1d5db;
+                    border-radius: 20px;
+                    position: relative;
+                    transition: background 0.3s;
+
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        width: 16px;
+                        height: 16px;
+                        background: #fff;
+                        border-radius: 50%;
+                        top: 2px;
+                        left: 2px;
+                        transition: transform 0.3s;
+                    }
+                }
+
+                input:checked + .toggle-slider {
+                    background: #10b981;
+
+                    &:before {
+                        transform: translateX(20px);
+                    }
+                }
+            }
+        }
+
+        .market-selection {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            label {
+                font-size: 0.9rem;
+                font-weight: 500;
+            }
+
+            select {
+                padding: 0.5rem;
+                border: 1px solid #d1d5db;
+                border-radius: 6px;
+                background: #fff;
+                font-size: 0.9rem;
+            }
+        }
+    }
+
+    .less-risky-notice {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border: 2px solid #f59e0b;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+
+        .notice-content {
+            h3 {
+                margin: 0 0 0.5rem;
+                color: #92400e;
+                font-size: 1.1rem;
+            }
+
+            p {
+                margin: 0.5rem 0;
+                color: #92400e;
+            }
+
+            ul {
+                margin: 0.5rem 0 0 1rem;
+                color: #92400e;
+
+                li {
+                    margin: 0.25rem 0;
+
+                    strong {
+                        color: #78350f;
+                    }
+                }
+            }
+        }
+    }
+
+    .signals-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .signal-card.less-risky {
+        background: linear-gradient(135deg, #fff 0%, #f9fafb 100%);
+        border: 2px solid #10b981;
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgb(16 185 129 / 15%);
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgb(16 185 129 / 25%);
+        }
+
+        &.won {
+            border-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+
+        &.lost {
+            border-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        }
+
+        &.trading {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+        }
+
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+
+            .signal-type {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                .signal-badge {
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 20px;
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+
+                    &.over2 {
+                        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                        color: #fff;
+                    }
+
+                    &.under7 {
+                        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                        color: #fff;
+                    }
+                }
+
+                .original-signal {
+                    font-size: 0.7rem;
+                    color: #6b7280;
+                    font-style: italic;
+                }
+            }
+
+            .confidence-badge {
+                padding: 0.25rem 0.5rem;
+                border-radius: 12px;
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+
+                &.conservative {
+                    background: #10b981;
+                    color: #fff;
+                }
+
+                &.high {
+                    background: #059669;
+                    color: #fff;
+                }
+
+                &.medium {
+                    background: #f59e0b;
+                    color: #fff;
+                }
+
+                &.low {
+                    background: #6b7280;
+                    color: #fff;
+                }
+            }
+        }
+
+        .signal-details {
+            margin-bottom: 1rem;
+
+            .signal-market {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+                color: #1f2937;
+            }
+
+            .signal-prediction {
+                font-size: 0.9rem;
+                color: #10b981;
+                font-weight: 600;
+                margin-bottom: 0.25rem;
+            }
+
+            .signal-duration {
+                font-size: 0.8rem;
+                color: #6b7280;
+                margin-bottom: 0.25rem;
+            }
+
+            .signal-reason {
+                font-size: 0.8rem;
+                color: #6b7280;
+                font-style: italic;
+                margin-top: 0.5rem;
+                padding: 0.5rem;
+                background: #f9fafb;
+                border-radius: 6px;
+            }
+        }
+
+        .signal-actions {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+
+            .trade-button.less-risky {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                color: #fff;
+                border: none;
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover:not(:disabled) {
+                    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 12px rgb(16 185 129 / 30%);
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            }
+
+            .trading-indicator {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: #3b82f6;
+                font-weight: 600;
+
+                .loading-spinner {
+                    width: 16px;
+                    height: 16px;
+                    border: 2px solid #e5e7eb;
+                    border-top: 2px solid #3b82f6;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                }
+            }
+
+            .result-indicator {
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                font-weight: 600;
+
+                &.won {
+                    background: #dcfce7;
+                    color: #166534;
+                }
+
+                &.lost {
+                    background: #fee2e2;
+                    color: #991b1b;
+                }
+            }
+        }
+
+        .signal-timestamp {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 0.5rem;
+        }
+    }
+
+    .no-signals {
+        text-align: center;
+        padding: 3rem;
+        color: #6b7280;
+
+        .no-signals-content {
+            h3 {
+                color: #10b981;
+                margin-bottom: 1rem;
+            }
+
+            p {
+                color: #6b7280;
+            }
+        }
+    }
+}
+
+/* Tab badge styling for Less Risky */
+.tab-badge.safe-badge {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    font-size: 0.6rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive design */
+@media (width <= 768px) {
+    .signals-center.less-risky-mode {
+        margin: 0.5rem;
+        padding: 1rem;
+
+        .signals-header .signals-stats {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .signals-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .auto-trade-settings {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+    }
+}
+
+/* Animation keyframes */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

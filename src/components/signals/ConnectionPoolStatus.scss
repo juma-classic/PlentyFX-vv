@@ -1,0 +1,498 @@
+/**
+ * Connection Pool Status Styles
+ */
+
+.connection-pool-status {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid #334155;
+
+    &.loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 40px 20px;
+        color: #64748b;
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #334155;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    }
+
+    &.compact {
+        padding: 12px 16px;
+        margin-bottom: 12px;
+
+        .compact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: rgb(51 65 85 / 30%);
+                border-radius: 6px;
+                padding: 4px 8px;
+                margin: -4px -8px;
+            }
+
+            .status-summary {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                font-size: 14px;
+
+                .pool-icon {
+                    font-size: 16px;
+                }
+
+                .connection-count {
+                    color: #10b981;
+                    font-weight: 600;
+                }
+
+                .subscription-count {
+                    color: #64748b;
+                    font-size: 12px;
+                }
+            }
+
+            .expand-button {
+                background: none;
+                border: none;
+                color: #64748b;
+                font-size: 12px;
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: rgb(100 116 139 / 20%);
+                    color: #94a3b8;
+                }
+            }
+        }
+
+        .compact-details {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .compact-connection {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 8px;
+                background: rgb(51 65 85 / 20%);
+                border-radius: 6px;
+                font-size: 12px;
+
+                .connection-icon {
+                    font-size: 14px;
+                }
+
+                .connection-type {
+                    font-weight: 600;
+                    color: #cbd5e1;
+                    min-width: 60px;
+                }
+
+                .app-id {
+                    font-family: monospace;
+                    color: #94a3b8;
+                    min-width: 50px;
+                }
+
+                .status-dot {
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+
+                    &.connected {
+                        background: #10b981;
+                    }
+
+                    &.disconnected {
+                        background: #ef4444;
+                    }
+                }
+
+                .load-info {
+                    margin-left: auto;
+                    color: #64748b;
+                    font-family: monospace;
+                }
+            }
+        }
+    }
+
+    .pool-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .pool-summary {
+            display: flex;
+            gap: 16px;
+
+            .summary-item {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 13px;
+
+                .label {
+                    color: #94a3b8;
+                }
+
+                .value {
+                    color: #10b981;
+                    font-weight: 600;
+                    font-family: monospace;
+                }
+            }
+        }
+    }
+
+    .connections-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+
+        .connection-card {
+            background: rgb(51 65 85 / 30%);
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid rgb(51 65 85 / 50%);
+            transition: all 0.3s ease;
+
+            &.connected {
+                border-color: rgb(16 185 129 / 30%);
+                box-shadow: 0 0 0 1px rgb(16 185 129 / 10%);
+            }
+
+            &.disconnected {
+                border-color: rgb(239 68 68 / 30%);
+                box-shadow: 0 0 0 1px rgb(239 68 68 / 10%);
+            }
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+            }
+
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 12px;
+
+                .connection-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    .connection-icon {
+                        font-size: 20px;
+                    }
+
+                    .connection-details {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2px;
+
+                        .connection-type {
+                            font-size: 14px;
+                            font-weight: 600;
+                            color: #cbd5e1;
+                        }
+
+                        .app-id {
+                            font-size: 11px;
+                            color: #94a3b8;
+                            font-family: monospace;
+                        }
+                    }
+                }
+
+                .status-indicator {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 11px;
+                    font-weight: 500;
+
+                    .status-dot {
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                    }
+
+                    &.connected {
+                        background: rgb(16 185 129 / 10%);
+                        color: #10b981;
+                        border: 1px solid rgb(16 185 129 / 20%);
+
+                        .status-dot {
+                            background: #10b981;
+                        }
+                    }
+
+                    &.disconnected {
+                        background: rgb(239 68 68 / 10%);
+                        color: #ef4444;
+                        border: 1px solid rgb(239 68 68 / 20%);
+
+                        .status-dot {
+                            background: #ef4444;
+                        }
+                    }
+                }
+            }
+
+            .card-content {
+                .description {
+                    font-size: 13px;
+                    color: #94a3b8;
+                    margin-bottom: 12px;
+                }
+
+                .load-info {
+                    margin-bottom: 12px;
+
+                    .load-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 6px;
+                        font-size: 12px;
+                        color: #cbd5e1;
+
+                        .load-percentage {
+                            font-weight: 600;
+
+                            &.low {
+                                color: #10b981;
+                            }
+
+                            &.medium {
+                                color: #f59e0b;
+                            }
+
+                            &.high {
+                                color: #ef4444;
+                            }
+                        }
+                    }
+
+                    .load-bar {
+                        height: 4px;
+                        background: rgb(51 65 85 / 50%);
+                        border-radius: 2px;
+                        overflow: hidden;
+
+                        .load-fill {
+                            height: 100%;
+                            border-radius: 2px;
+                            transition: width 0.3s ease;
+
+                            &.low {
+                                background: #10b981;
+                            }
+
+                            &.medium {
+                                background: #f59e0b;
+                            }
+
+                            &.high {
+                                background: #ef4444;
+                            }
+                        }
+                    }
+                }
+
+                .features-list {
+                    margin-bottom: 12px;
+
+                    .features-label {
+                        font-size: 11px;
+                        color: #64748b;
+                        display: block;
+                        margin-bottom: 6px;
+                    }
+
+                    .features {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 4px;
+
+                        .feature-tag {
+                            background: rgb(59 130 246 / 10%);
+                            color: #3b82f6;
+                            padding: 2px 6px;
+                            border-radius: 4px;
+                            font-size: 10px;
+                            font-weight: 500;
+                        }
+                    }
+                }
+
+                .connection-stats {
+                    display: flex;
+                    gap: 12px;
+                    font-size: 11px;
+
+                    .stat-item {
+                        display: flex;
+                        gap: 4px;
+
+                        .stat-label {
+                            color: #64748b;
+                        }
+
+                        .stat-value {
+                            color: #cbd5e1;
+                            font-family: monospace;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .pool-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+
+        .reconnect-button {
+            padding: 8px 16px;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: #2563eb;
+                transform: translateY(-1px);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+
+        .settings-button {
+            padding: 8px 16px;
+            background: #64748b;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: #475569;
+                transform: translateY(-1px);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+    }
+}
+
+// Dark theme adjustments
+.dark-theme {
+    .connection-pool-status {
+        background: #0f172a;
+        border-color: #1e293b;
+    }
+}
+
+// Light theme
+.light-theme {
+    .connection-pool-status {
+        background: #fff;
+        border-color: #e2e8f0;
+
+        .pool-header h3 {
+            color: #1e293b;
+        }
+
+        .connections-grid .connection-card {
+            background: rgb(241 245 249 / 50%);
+            border-color: rgb(226 232 240 / 80%);
+
+            .card-header .connection-info .connection-details .connection-type {
+                color: #475569;
+            }
+
+            .card-content .description {
+                color: #64748b;
+            }
+        }
+    }
+}
+
+// Animations
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Responsive design
+@media (width <= 768px) {
+    .connection-pool-status {
+        padding: 16px;
+
+        .connections-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .pool-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+
+            .pool-summary {
+                gap: 12px;
+            }
+        }
+    }
+}

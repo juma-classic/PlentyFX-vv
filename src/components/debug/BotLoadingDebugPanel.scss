@@ -1,0 +1,297 @@
+.debug-panel-toggle {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #1f2937;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 9999;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: #374151;
+        transform: translateY(-1px);
+    }
+}
+
+.bot-loading-debug-panel {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 400px;
+    max-height: 600px;
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgb(0 0 0 / 40%);
+    z-index: 10000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', "Roboto", sans-serif;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.debug-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: #111827;
+    border-bottom: 1px solid #374151;
+
+    h3 {
+        margin: 0;
+        color: #f9fafb;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        color: #9ca3af;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: #374151;
+            color: #f9fafb;
+        }
+    }
+}
+
+.debug-panel-content {
+    max-height: 520px;
+    overflow-y: auto;
+    padding: 16px 20px;
+}
+
+.debug-section {
+    margin-bottom: 20px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    h4 {
+        margin: 0 0 12px;
+        color: #f9fafb;
+        font-size: 13px;
+        font-weight: 600;
+    }
+}
+
+.debug-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.debug-btn {
+    background: #374151;
+    color: #f9fafb;
+    border: 1px solid #4b5563;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+        background: #4b5563;
+        border-color: #6b7280;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    &.primary {
+        background: #3b82f6;
+        border-color: #2563eb;
+
+        &:hover:not(:disabled) {
+            background: #2563eb;
+        }
+    }
+}
+
+.debug-results {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.result-summary {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 12px;
+
+    .status {
+        font-weight: 600;
+
+        &.success {
+            color: #10b981;
+        }
+
+        &.error {
+            color: #ef4444;
+        }
+    }
+
+    .duration {
+        color: #9ca3af;
+    }
+
+    .steps {
+        color: #9ca3af;
+    }
+}
+
+.steps-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 11px;
+    border-bottom: 1px solid #374151;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    .step-icon {
+        width: 16px;
+        text-align: center;
+    }
+
+    .step-name {
+        font-weight: 600;
+        color: #f9fafb;
+        min-width: 80px;
+    }
+
+    .step-message {
+        color: #9ca3af;
+        flex: 1;
+    }
+
+    &.success {
+        .step-name {
+            color: #10b981;
+        }
+    }
+
+    &.error {
+        .step-name {
+            color: #ef4444;
+        }
+    }
+
+    &.warning {
+        .step-name {
+            color: #f59e0b;
+        }
+    }
+}
+
+.console-commands {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 6px;
+    padding: 12px;
+
+    code {
+        display: block;
+        color: #10b981;
+        font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+        font-size: 11px;
+        margin-bottom: 4px;
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 3px;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background: #374151;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.process-steps {
+    .process-step {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 0;
+        font-size: 12px;
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #3b82f6;
+            color: #fff;
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .step-text {
+            color: #d1d5db;
+        }
+    }
+}
+
+// Responsive adjustments
+@media (width <= 768px) {
+    .bot-loading-debug-panel {
+        width: calc(100vw - 40px);
+        max-width: 400px;
+    }
+}
+
+// Scrollbar styling
+.debug-panel-content::-webkit-scrollbar,
+.steps-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.debug-panel-content::-webkit-scrollbar-track,
+.steps-list::-webkit-scrollbar-track {
+    background: #111827;
+}
+
+.debug-panel-content::-webkit-scrollbar-thumb,
+.steps-list::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 3px;
+}
+
+.debug-panel-content::-webkit-scrollbar-thumb:hover,
+.steps-list::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}

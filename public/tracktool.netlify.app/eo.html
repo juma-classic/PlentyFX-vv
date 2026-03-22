@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Even/Odd Strategies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #101128;
+            color: #0af822;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #252d40;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 4px solid transparent;
+            animation: glowing-border 3s linear infinite, border-move 5s linear infinite;
+        }
+
+        @keyframes glowing-border {
+            0% {
+                box-shadow: 0 0 15px #0000ff, 0 0 25px #0000ff, 0 0 35px #0000ff;
+            }
+            100% {
+                box-shadow: 0 0 25px #0000ff, 0 0 35px #0000ff, 0 0 45px #0000ff;
+            }
+        }
+
+        @keyframes border-move {
+            0% {
+                border-image-source: linear-gradient(to right, #0000ff, transparent);
+            }
+            25% {
+                border-image-source: linear-gradient(to bottom, #0000ff, transparent);
+            }
+            50% {
+                border-image-source: linear-gradient(to left, #0000ff, transparent);
+            }
+            75% {
+                border-image-source: linear-gradient(to top, #0000ff, transparent);
+            }
+            100% {
+                border-image-source: linear-gradient(to right, #0000ff, transparent);
+            }
+        }
+
+        h2 {
+            color: #0000ff;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Even Strategy & Entry</h2>
+        <p><strong>1:</strong> When numbers (2, 4, 6, 8) indicate 11.5% and above, place an Even contract type in all volatilities from Volatility 10 index to Volatility 100 index.</p>
+        <p><strong>Main Volatility:</strong> Volatility 100 index.</p>
+        <h3>Entry Point</h3>
+        <p>Make sure the cursor hits 4 or 5 times on odd numbers, then run your bot if it hits any Even number.</p>
+        <p><strong>Note:</strong> Don't rush! Wait for confirmation of an Even number before running your bot.</p>
+
+        <h2>Odd Strategy & Entry</h2>
+        <p><strong>3:</strong> When numbers (1, 3, 5, 7, 9) indicate 11% and above in all volatilities from Volatility 10 index to Volatility 100 index, place an Odd contract type.</p>
+        <p><strong>Main Volatility:</strong> Volatility 75 index.</p>
+        <h3>Entry Point</h3>
+        <p>Make sure the cursor hits 3 or 4 times on even numbers, then run your bot if it hits any Odd number.</p>
+        <p><strong>Note:</strong> Don't rush! Wait for confirmation of an Odd number before running your bot.</p>
+    </div>
+</body>
+
+</html>

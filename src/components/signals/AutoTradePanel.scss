@@ -1,0 +1,315 @@
+/**
+ * Auto Trade Panel Styles
+ */
+
+.auto-trade-panel {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+    max-height: 600px;
+    overflow-y: auto;
+
+    // Custom Scrollbar
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+
+        &:hover {
+            background: #a8a8a8;
+        }
+    }
+
+    // Header
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid #f0f0f0;
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            h3 {
+                margin: 0;
+                font-size: 20px;
+                font-weight: 700;
+                color: #1a1a1a;
+            }
+
+            .status-badge {
+                padding: 4px 12px;
+                border-radius: 12px;
+                font-size: 12px;
+                font-weight: 600;
+
+                &.active {
+                    background: #10b981;
+                    color: #fff;
+                }
+
+                &.inactive {
+                    background: #6b7280;
+                    color: #fff;
+                }
+            }
+        }
+
+        .toggle-button {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &.enabled {
+                background: #ef4444;
+                color: #fff;
+
+                &:hover {
+                    background: #dc2626;
+                }
+            }
+
+            &.disabled {
+                background: #10b981;
+                color: #fff;
+
+                &:hover {
+                    background: #059669;
+                }
+            }
+        }
+    }
+
+    // Statistics Grid
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+            color: #fff;
+
+            .stat-value {
+                font-size: 28px;
+                font-weight: 700;
+                line-height: 1;
+                margin-bottom: 6px;
+            }
+
+            .stat-label {
+                font-size: 12px;
+                opacity: 0.9;
+            }
+        }
+    }
+
+    // Configuration Section
+    .config-section {
+        margin-bottom: 20px;
+
+        h4 {
+            margin: 0 0 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .config-item {
+            margin-bottom: 16px;
+
+            label {
+                display: block;
+                font-size: 14px;
+                font-weight: 500;
+                color: #4b5563;
+                margin-bottom: 8px;
+            }
+
+            input[type='range'] {
+                width: 100%;
+                height: 6px;
+                border-radius: 3px;
+                background: #e5e7eb;
+                outline: none;
+                margin-top: 8px;
+
+                &::-webkit-slider-thumb {
+                    appearance: none;
+                    width: 18px;
+                    height: 18px;
+                    border-radius: 50%;
+                    background: #667eea;
+                    cursor: pointer;
+                }
+
+                &::-moz-range-thumb {
+                    width: 18px;
+                    height: 18px;
+                    border-radius: 50%;
+                    background: #667eea;
+                    cursor: pointer;
+                    border: none;
+                }
+            }
+
+            input[type='number'] {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #d1d5db;
+                border-radius: 6px;
+                font-size: 14px;
+                margin-top: 8px;
+
+                &:focus {
+                    outline: none;
+                    border-color: #667eea;
+                }
+            }
+        }
+
+        .config-toggles {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+
+            .toggle-label {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 14px;
+                color: #4b5563;
+                cursor: pointer;
+
+                input[type='checkbox'] {
+                    width: 18px;
+                    height: 18px;
+                    cursor: pointer;
+                }
+
+                span {
+                    user-select: none;
+                }
+            }
+        }
+    }
+
+    // Actions
+    .panel-actions {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 16px;
+
+        .reset-button {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: #f9fafb;
+                border-color: #9ca3af;
+            }
+        }
+    }
+
+    // Warning Banner
+    .warning-banner {
+        padding: 12px;
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #92400e;
+        text-align: center;
+    }
+}
+
+// Dark theme
+.dark-theme {
+    .auto-trade-panel {
+        background: #1f2937;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+
+        .panel-header {
+            border-bottom-color: #374151;
+
+            .header-content h3 {
+                color: #f9fafb;
+            }
+        }
+
+        .config-section {
+            h4 {
+                color: #f9fafb;
+            }
+
+            .config-item {
+                label {
+                    color: #d1d5db;
+                }
+
+                input[type='range'] {
+                    background: #374151;
+                }
+
+                input[type='number'] {
+                    background: #374151;
+                    border-color: #4b5563;
+                    color: #f9fafb;
+                }
+            }
+
+            .config-toggles .toggle-label {
+                color: #d1d5db;
+            }
+        }
+
+        .panel-actions .reset-button {
+            background: #374151;
+            border-color: #4b5563;
+            color: #d1d5db;
+
+            &:hover {
+                background: #4b5563;
+            }
+        }
+    }
+}
+
+// Responsive
+@media (width <= 768px) {
+    .auto-trade-panel {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}

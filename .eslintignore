@@ -1,0 +1,10 @@
+dist/*.js
+src/**/__tests__/*.js
+src/_common/lib/**/*.js
+.eslintrc.js
+.eslintrc.cjs
+rsbuild.config.ts
+
+# Ignore built or vendor assets and public bundles
+public/**
+**/*.min.js

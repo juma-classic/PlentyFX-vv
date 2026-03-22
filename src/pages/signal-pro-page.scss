@@ -1,0 +1,497 @@
+/**
+ * Signal Pro Page Styles
+ */
+
+.signal-pro-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0;
+
+    // Page Header
+    .page-header {
+        background: rgb(255 255 255 / 10%);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgb(255 255 255 / 20%);
+        padding: 30px 40px;
+        color: #fff;
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+
+            .title-section {
+                h1 {
+                    margin: 0 0 8px;
+                    font-size: 36px;
+                    font-weight: 700;
+                    text-shadow: 0 2px 4px rgb(0 0 0 / 30%);
+                }
+
+                p {
+                    margin: 0 0 16px;
+                    font-size: 18px;
+                    opacity: 0.9;
+                }
+
+                .feature-badges {
+                    display: flex;
+                    gap: 12px;
+                    flex-wrap: wrap;
+
+                    .badge {
+                        background: rgb(255 255 255 / 20%);
+                        padding: 6px 12px;
+                        border-radius: 20px;
+                        font-size: 12px;
+                        font-weight: 600;
+                        backdrop-filter: blur(10px);
+                        border: 1px solid rgb(255 255 255 / 30%);
+                    }
+                }
+            }
+
+            .controls-section {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+
+                .symbol-selector {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    label {
+                        font-size: 12px;
+                        font-weight: 600;
+                        opacity: 0.9;
+                    }
+
+                    select {
+                        padding: 10px 16px;
+                        border: 1px solid rgb(255 255 255 / 30%);
+                        border-radius: 8px;
+                        background: rgb(255 255 255 / 10%);
+                        color: #fff;
+                        font-size: 14px;
+                        backdrop-filter: blur(10px);
+
+                        option {
+                            background: #1a1a1a;
+                            color: #fff;
+                        }
+                    }
+                }
+
+                .live-button {
+                    padding: 12px 24px;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+
+                    &.active {
+                        background: #ef4444;
+                        color: #fff;
+
+                        &:hover {
+                            background: #dc2626;
+                            transform: translateY(-2px);
+                        }
+                    }
+
+                    &.inactive {
+                        background: #10b981;
+                        color: #fff;
+
+                        &:hover {
+                            background: #059669;
+                            transform: translateY(-2px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Tab Navigation
+    .tab-navigation {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px;
+        display: flex;
+        gap: 4px;
+        border-bottom: 1px solid rgb(255 255 255 / 20%);
+
+        .tab-button {
+            padding: 12px 24px;
+            border: none;
+            background: rgb(255 255 255 / 10%);
+            color: rgb(255 255 255 / 70%);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px 8px 0 0;
+            backdrop-filter: blur(10px);
+
+            &:hover {
+                background: rgb(255 255 255 / 15%);
+                color: rgb(255 255 255 / 90%);
+            }
+
+            &.active {
+                background: rgb(255 255 255 / 95%);
+                color: #1a1a1a;
+                box-shadow: 0 -2px 8px rgb(0 0 0 / 10%);
+            }
+        }
+    }
+
+    // Main Content
+    .page-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+
+        .main-section {
+            overflow-y: auto;
+            max-height: 100%;
+
+            // Custom Scrollbar
+            &::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: rgb(255 255 255 / 10%);
+                border-radius: 4px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: rgb(255 255 255 / 30%);
+                border-radius: 4px;
+
+                &:hover {
+                    background: rgb(255 255 255 / 50%);
+                }
+            }
+
+            .signal-pro {
+                margin: 0;
+            }
+        }
+
+        .multi-market-section {
+            grid-column: 1 / -1;
+            overflow-y: auto;
+            max-height: 100%;
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+            max-height: 100%;
+
+            // Custom Scrollbar
+            &::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: rgb(255 255 255 / 10%);
+                border-radius: 4px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: rgb(255 255 255 / 30%);
+                border-radius: 4px;
+
+                &:hover {
+                    background: rgb(255 255 255 / 50%);
+                }
+            }
+
+            .panel-section {
+                background: rgb(255 255 255 / 95%);
+                border-radius: 16px;
+                padding: 20px;
+                backdrop-filter: blur(20px);
+                box-shadow: 0 8px 32px rgb(0 0 0 / 10%);
+                flex-shrink: 0;
+
+                h3 {
+                    margin: 0 0 16px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                }
+            }
+        }
+    }
+
+    // Performance Dashboard
+    .performance-dashboard {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px 40px;
+
+        h3 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+
+            .metric-card {
+                background: rgb(255 255 255 / 95%);
+                border-radius: 16px;
+                padding: 24px;
+                text-align: center;
+                backdrop-filter: blur(20px);
+                box-shadow: 0 8px 32px rgb(0 0 0 / 10%);
+                transition: transform 0.3s ease;
+
+                &:hover {
+                    transform: translateY(-4px);
+                }
+
+                .metric-value {
+                    font-size: 32px;
+                    font-weight: 700;
+                    color: #667eea;
+                    margin-bottom: 8px;
+                }
+
+                .metric-label {
+                    font-size: 14px;
+                    color: #64748b;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    // Features Overview
+    .features-overview {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px 40px;
+
+        h3 {
+            margin: 0 0 30px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+
+            .feature-item {
+                background: rgb(255 255 255 / 95%);
+                border-radius: 16px;
+                padding: 24px;
+                backdrop-filter: blur(20px);
+                box-shadow: 0 8px 32px rgb(0 0 0 / 10%);
+                transition: transform 0.3s ease;
+
+                &:hover {
+                    transform: translateY(-4px);
+                }
+
+                .feature-icon {
+                    font-size: 48px;
+                    margin-bottom: 16px;
+                }
+
+                h4 {
+                    margin: 0 0 12px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                }
+
+                p {
+                    margin: 0;
+                    font-size: 14px;
+                    line-height: 1.6;
+                    color: #64748b;
+                }
+            }
+        }
+    }
+
+    // Alert Notifications
+    .alert-notifications {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 400px;
+    }
+}
+
+// Dark theme
+.dark-theme {
+    .signal-pro-page {
+        .page-content .side-panel .panel-section {
+            background: rgb(31 41 55 / 95%);
+
+            h3 {
+                color: #f9fafb;
+            }
+        }
+
+        .performance-dashboard .metrics-grid .metric-card {
+            background: rgb(31 41 55 / 95%);
+
+            .metric-value {
+                color: #93c5fd;
+            }
+
+            .metric-label {
+                color: #9ca3af;
+            }
+        }
+
+        .features-overview .features-grid .feature-item {
+            background: rgb(31 41 55 / 95%);
+
+            h4 {
+                color: #f9fafb;
+            }
+
+            p {
+                color: #9ca3af;
+            }
+        }
+    }
+}
+
+// Responsive Design
+@media (width <= 1200px) {
+    .signal-pro-page {
+        .page-content {
+            grid-template-columns: 1fr;
+            padding: 30px;
+
+            .side-panel {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        .performance-dashboard,
+        .features-overview {
+            padding: 0 30px 30px;
+        }
+    }
+}
+
+@media (width <= 768px) {
+    .signal-pro-page {
+        .page-header {
+            padding: 20px;
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+
+                .title-section h1 {
+                    font-size: 28px;
+                }
+
+                .controls-section {
+                    flex-direction: column;
+                    width: 100%;
+                    gap: 16px;
+
+                    .symbol-selector {
+                        width: 100%;
+
+                        select {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+
+        .tab-navigation {
+            padding: 0 20px;
+
+            .tab-button {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
+        .page-content {
+            padding: 20px;
+        }
+
+        .performance-dashboard,
+        .features-overview {
+            padding: 0 20px 20px;
+
+            .metrics-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .alert-notifications {
+            left: 20px;
+            right: 20px;
+            max-width: none;
+        }
+    }
+}
+
+// Loading animations
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Apply animations to content sections
+.page-content,
+.performance-dashboard,
+.features-overview {
+    animation: fade-in-up 0.6s ease-out;
+}

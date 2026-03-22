@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Dashboard</title>
+    <style>
+        body {
+            background-color: #0c0c25;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #1a1a2e;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+        }
+
+        .profile {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .digits {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            color: blue;
+        }
+
+        .digit-box {
+            background: red;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .percentage {
+            font-size: 14px;
+            color: cyan;
+            margin-top: 5px;
+        }
+
+        .latest-tick,
+        .match-now {
+            background: orange;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .buttons button {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .buttons button:hover {
+            background: darkred;
+        }
+
+        .tick-selector,
+        .market-selector {
+            margin: 15px 0;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 15px;
+            border: none;
+            background: #1a1a2e;
+            color: white;
+            font-size: 16px;
+            box-shadow: 0 0 10px cyan;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        select:hover {
+            box-shadow: 0 0 15px lime;
+            transform: translateY(-3px);
+        }
+
+        select:focus {
+            outline: none;
+            box-shadow: 0 0 15px magenta;
+        }
+
+        .match-now {
+            background: black;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: bold;
+            color: cyan;
+            text-shadow: 0 0 10px cyan;
+        }
+
+        .match-now.match {
+            color: lime;
+            text-shadow: 0 0 15px lime;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="profile">
+            <span>ðŸ‘¤</span>
+            <span>$ â–¼</span>
+        </div>
+        <div class="tick-selector">
+            <label for="ticks">Select Number of Ticks:</label>
+            <select id="ticks">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+        <div class="market-selector">
+            <label for="market">Select Market:</label>
+            <select id="market" onchange="updateMarket()">
+                <option value="">Select Market</option>
+                <option value="R_10">Volatility 10 Index</option>
+                <option value="R_25">Volatility 25 Index</option>
+                <option value="R_50">Volatility 50 Index</option>
+                <option value="R_75">Volatility 75 Index</option>
+                <option value="R_100">Volatility 100 Index</option>
+                <option value="1HZ10V">1Hz Volatility 10 Index</option>
+                <option value="1HZ25V">1Hz Volatility 25 Index</option>
+                <option value="1HZ50V">1Hz Volatility 50 Index</option>
+                <option value="1HZ75V">1Hz Volatility 75 Index</option>
+                <option value="1HZ100V">1Hz Volatility 100 Index</option>
+            </select>
+        </div>
+        <div class="digits">
+            <div class="digit-box">1 <span class="percentage">0%</span></div>
+            <div class="digit-box">2 <span class="percentage">0%</span></div>
+            <div class="digit-box">3 <span class="percentage">0%</span></div>
+            <div class="digit-box">4 <span class="percentage">0%</span></div>
+            <div class="digit-box">5 <span class="percentage">0%</span></div>
+            <div class="digit-box">6 <span class="percentage">0%</span></div>
+            <div class="digit-box">7 <span class="percentage">0%</span></div>
+            <div class="digit-box">8 <span class="percentage">0%</span></div>
+            <div class="digit-box">9 <span class="percentage">0%</span></div>
+        </div>
+        <div class="latest-tick">Latest Tick: <span id="latestTick">--</span></div>
+        <div class="latest-tick">Last Digit: <span id="lastDigit">--</span></div>
+
+        <div class="container">
+            <div class="match-now" id="Predictions">Predictions: --</div>
+            <div class="percentage-prediction" id="PredictionPercentage">Prediction Percentage: --</div>
+            <div class="buttons">
+                <button onclick="startAnalysis()">Start</button>
+                <button onclick="stopAnalysis()">Stop</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let socket;
+        let tickHistory = [];
+        let maxTicks = 100; // Default max ticks
+
+        function updateMarket() {
+            const market = document.getElementById("market").value;
+            if (socket) {
+                socket.close();
+            }
+            tickHistory = []; // Reset history
+
+            if (market) {
+                socket = new WebSocket("wss://ws.binaryws.com/websockets/v3?app_id=66860");
+                socket.onopen = function() {
+                    socket.send(JSON.stringify({
+                        "ticks": market
+                    }));
+                };
+                socket.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    if (data.tick) {
+                        const tickQuote = data.tick.quote;
+                        const lastDigit = tickQuote.toString().slice(-1);
+                        document.getElementById("latestTick").innerText = tickQuote;
+                        document.getElementById("lastDigit").innerText = lastDigit;
+
+                        // Store tick history
+                        tickHistory.push(parseInt(lastDigit));
+                        if (tickHistory.length > maxTicks) {
+                            tickHistory.shift(); // Keep only last maxTicks elements
+                        }
+
+                        updatePercentages();
+                    }
+                };
+            }
+        }
+
+        function updatePercentages() {
+            let countDigits = Array(10).fill(0);
+            tickHistory.forEach(digit => countDigits[digit]++);
+
+            const totalTicks = tickHistory.length;
+            document.querySelectorAll(".digit-box").forEach((box, index) => {
+                let percentage = totalTicks > 0 ? ((countDigits[index] / totalTicks) * 100).toFixed(2) : 0;
+                box.querySelector(".percentage").innerText = percentage + "%";
+            });
+        }
+
+        document.getElementById("ticks").addEventListener("change", function() {
+            maxTicks = parseInt(this.value);
+            tickHistory = tickHistory.slice(-maxTicks); // Trim to new maxTicks
+            updatePercentages();
+        });
+
+        function startAnalysis() {
+            updateMarket();
+            startCountdown();
+        }
+
+        function stopAnalysis() {
+            if (socket) {
+                socket.close();
+            }
+            clearInterval(countdownInterval);
+            location.reload();
+        }
+
+        function startCountdown() {
+            let countdown = 30;
+            const PredictionsElement = document.getElementById("Predictions");
+            const PredictionPercentageElement = document.getElementById("PredictionPercentage");
+            PredictionsElement.style.color = "cyan";
+            PredictionsElement.style.textShadow = "0 0 10px cyan";
+
+            countdownInterval = setInterval(() => {
+                PredictionsElement.innerText = `Predictions: ${countdown}s`;
+                countdown--;
+                if (countdown < 0) {
+                    clearInterval(countdownInterval);
+                    findFrequentDigit();
+                    setTimeout(startCountdown, 30000); // Wait for 30 seconds before restarting
+                }
+            }, 1000);
+        }
+
+        function findFrequentDigit() {
+            let digitCounts = Array(10).fill(0);
+            tickHistory.forEach(digit => digitCounts[digit]++);
+            let mostFrequent = digitCounts.indexOf(Math.max(...digitCounts));
+            let mostFrequentPercentage = ((digitCounts[mostFrequent] / tickHistory.length) * 100).toFixed(2);
+
+            document.getElementById("Predictions").innerHTML = `MATCH NOW! ${mostFrequent}`;
+            document.getElementById("PredictionPercentage").innerHTML = `Prediction Percentage: ${mostFrequentPercentage}%`;
+            document.getElementById("Predictions").classList.add("match");
+        }
+    </script>
+</body>
+
+</html>

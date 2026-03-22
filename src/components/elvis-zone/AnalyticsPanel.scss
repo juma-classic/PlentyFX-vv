@@ -1,0 +1,343 @@
+.analytics-panel {
+    background: rgb(255 255 255 / 5%);
+    border-radius: 16px;
+    border: 1px solid rgb(255 255 255 / 10%);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    height: fit-content;
+
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .tick-counter {
+            font-size: 11px;
+            color: #9ca3af;
+            background: rgb(255 255 255 / 10%);
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+    }
+
+    // Section Styles
+    .probability-section,
+    .status-section,
+    .digits-section,
+    .stats-section {
+        margin-bottom: 24px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        h4 {
+            margin: 0 0 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #d1d5db;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    // Probability Cards
+    .probability-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .probability-card {
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgb(255 255 255 / 10%);
+            transition: all 0.3s ease;
+
+            &.matches {
+                &.high {
+                    background: rgb(16 185 129 / 15%);
+                    border-color: rgb(16 185 129 / 30%);
+
+                    .probability-value {
+                        color: #10b981;
+                    }
+                }
+
+                &.medium {
+                    background: rgb(245 158 11 / 15%);
+                    border-color: rgb(245 158 11 / 30%);
+
+                    .probability-value {
+                        color: #f59e0b;
+                    }
+                }
+
+                &.low {
+                    background: rgb(107 114 128 / 15%);
+                    border-color: rgb(107 114 128 / 30%);
+
+                    .probability-value {
+                        color: #9ca3af;
+                    }
+                }
+            }
+
+            &.differs {
+                &.high {
+                    background: rgb(239 68 68 / 15%);
+                    border-color: rgb(239 68 68 / 30%);
+
+                    .probability-value {
+                        color: #ef4444;
+                    }
+                }
+
+                &.medium {
+                    background: rgb(245 158 11 / 15%);
+                    border-color: rgb(245 158 11 / 30%);
+
+                    .probability-value {
+                        color: #f59e0b;
+                    }
+                }
+
+                &.low {
+                    background: rgb(107 114 128 / 15%);
+                    border-color: rgb(107 114 128 / 30%);
+
+                    .probability-value {
+                        color: #9ca3af;
+                    }
+                }
+            }
+
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+
+                .card-title {
+                    font-size: 11px;
+                    font-weight: 700;
+                    color: #fff;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+                .card-icon {
+                    font-size: 14px;
+                }
+            }
+
+            .probability-value {
+                font-size: 24px;
+                font-weight: 700;
+                font-family: 'Monaco', 'Menlo', monospace;
+                line-height: 1;
+                margin-bottom: 4px;
+            }
+
+            .probability-description {
+                font-size: 11px;
+                color: #9ca3af;
+                line-height: 1.3;
+            }
+        }
+    }
+
+    // Status Items
+    .status-items {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+
+            .status-label {
+                font-size: 12px;
+                color: #9ca3af;
+                font-weight: 500;
+            }
+
+            .status-value {
+                font-size: 13px;
+                font-weight: 600;
+                color: #fff;
+                font-family: 'Monaco', 'Menlo', monospace;
+
+                &.digit {
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+
+                .streak-count {
+                    color: #f59e0b;
+                    margin-left: 4px;
+                }
+            }
+        }
+    }
+
+    // Digit Groups
+    .digits-section {
+        .digit-group {
+            margin-bottom: 16px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            .group-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+
+                .group-title {
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #fff;
+                }
+
+                .group-subtitle {
+                    font-size: 10px;
+                    color: #9ca3af;
+                    font-family: 'Monaco', 'Menlo', monospace;
+                }
+            }
+
+            .digit-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+
+                .digit-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 6px 10px;
+                    background: rgb(255 255 255 / 5%);
+                    border-radius: 8px;
+                    border: 1px solid rgb(255 255 255 / 10%);
+
+                    .digit-number {
+                        font-size: 14px;
+                        font-weight: 700;
+                        font-family: 'Monaco', 'Menlo', monospace;
+                    }
+
+                    .digit-percentage {
+                        font-size: 11px;
+                        color: #9ca3af;
+                        font-family: 'Monaco', 'Menlo', monospace;
+                    }
+                }
+            }
+
+            &.hot .digit-item {
+                background: rgb(245 158 11 / 10%);
+                border-color: rgb(245 158 11 / 20%);
+            }
+
+            &.cold .digit-item {
+                background: rgb(59 130 246 / 10%);
+                border-color: rgb(59 130 246 / 20%);
+            }
+        }
+    }
+
+    // Stats Grid
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+
+        .stat-item {
+            text-align: center;
+            padding: 12px;
+            background: rgb(255 255 255 / 5%);
+            border-radius: 8px;
+            border: 1px solid rgb(255 255 255 / 10%);
+
+            .stat-value {
+                font-size: 18px;
+                font-weight: 700;
+                color: #10b981;
+                font-family: 'Monaco', 'Menlo', monospace;
+                line-height: 1;
+                margin-bottom: 4px;
+            }
+
+            .stat-label {
+                font-size: 10px;
+                color: #9ca3af;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-weight: 500;
+            }
+        }
+    }
+
+    // Responsive
+    @media (width <= 768px) {
+        padding: 16px;
+
+        .panel-header {
+            margin-bottom: 16px;
+
+            h3 {
+                font-size: 16px;
+            }
+        }
+
+        .probability-section,
+        .status-section,
+        .digits-section,
+        .stats-section {
+            margin-bottom: 20px;
+
+            h4 {
+                font-size: 13px;
+                margin-bottom: 10px;
+            }
+        }
+
+        .probability-cards {
+            gap: 10px;
+
+            .probability-card {
+                padding: 14px;
+
+                .probability-value {
+                    font-size: 20px;
+                }
+            }
+        }
+
+        .stats-grid {
+            gap: 10px;
+
+            .stat-item {
+                padding: 10px;
+
+                .stat-value {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

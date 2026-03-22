@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Speed Bot WebSocket Connection Test</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background: #1a1a1a;
+                color: #fff;
+            }
+            .test-container {
+                background: #2a2a2a;
+                padding: 20px;
+                border-radius: 8px;
+                margin: 20px 0;
+            }
+            .status {
+                padding: 10px;
+                border-radius: 4px;
+                margin: 10px 0;
+            }
+            .status.connecting {
+                background: #ffa500;
+                color: #000;
+            }
+            .status.connected {
+                background: #4caf50;
+            }
+            .status.error {
+                background: #f44336;
+            }
+            .log {
+                background: #000;
+                padding: 15px;
+                border-radius: 4px;
+                font-family: monospace;
+                font-size: 12px;
+                max-height: 400px;
+                overflow-y: auto;
+                white-space: pre-wrap;
+            }
+            button {
+                background: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                margin: 5px;
+            }
+            button:hover {
+                background: #0056b3;
+            }
+            button:disabled {
+                background: #666;
+                cursor: not-allowed;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🚀 Speed Bot WebSocket Connection Test</h1>
+
+        <div class="test-container">
+            <h3>Connection Status</h3>
+            <div id="status" class="status">Ready to test</div>
+
+            <button id="connectBtn" onclick="testConnection()">Test Connection</button>
+            <button id="disconnectBtn" onclick="disconnect()" disabled>Disconnect</button>
+            <button onclick="clearLog()">Clear Log</button>
+        </div>
+
+        <div class="test-container">
+            <h3>Connection Log</h3>
+            <div id="log" class="log">Click "Test Connection" to start the WebSocket test...\n</div>
+        </div>
+
+        <script>
+            let ws = null;
+            let pingInterval = null;
+
+            function log(message) {
+                const logElement = document.getElementById('log');
+                const timestamp = new Date().toLocaleTimeString();
+                logElement.textContent += `[${timestamp}] ${message}\n`;
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+
+            function updateStatus(message, className) {
+                const statusElement = document.getElementById('status');
+                statusElement.textContent = message;
+                statusElement.className = `status ${className}`;
+            }
+
+            function testConnection() {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    log('⚠️ Already connected');
+                    return;
+                }
+
+                log('🔌 Starting WebSocket connection test...');
+                updateStatus('Connecting...', 'connecting');
+
+                document.getElementById('connectBtn').disabled = true;
+
+                try {
+                    // Test the exact same connection as Speed Bot
+                    ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=119554');
+
+                    ws.onopen = () => {
+                        log('✅ WebSocket connection opened successfully');
+                        log('📡 Sending ping to test connection...');
+
+                        // Send ping exactly like Speed Bot does
+                        ws.send(JSON.stringify({ ping: 1 }));
+                    };
+
+                    ws.onmessage = event => {
+                        const data = JSON.parse(event.data);
+                        log(`📡 Received message: ${JSON.stringify(data, null, 2)}`);
+
+                        // Check for error first
+                        if (data.error) {
+                            log(`❌ API Error: ${data.error.message}`);
+                            updateStatus(`Error: ${data.error.message}`, 'error');
+                            return;
+                        }
+
+                        // Handle message types properly (this is the fix!)
+                        const msgType = data.msg_type;
+
+                        if (msgType === 'pong' || data.pong) {
+                            log('🏓 Received pong - connection confirmed!');
+                            updateStatus('Connected ✅', 'connected');
+                            document.getElementById('disconnectBtn').disabled = false;
+
+                            // Start periodic pings to keep connection alive
+                            pingInterval = setInterval(() => {
+                                if (ws && ws.readyState === WebSocket.OPEN) {
+                                    log('🏓 Sending periodic ping...');
+                                    ws.send(JSON.stringify({ ping: 1 }));
+                                }
+                            }, 30000);
+
+                            // Test subscribing to tick data
+                            log('📊 Subscribing to R_50 tick data...');
+                            ws.send(
+                                JSON.stringify({
+                                    ticks: 'R_50',
+                                    subscribe: 1,
+                                })
+                            );
+                        }
+
+                        if (msgType === 'ping' || data.ping) {
+                            log('🏓 Received ping from server, sending pong...');
+                            ws.send(JSON.stringify({ pong: 1 }));
+                        }
+
+                        if (msgType === 'tick' || data.tick) {
+                            const tick = data.tick || data;
+                            const quote = tick.quote;
+                            const digit = Math.floor((quote * 10) % 10);
+                            log(`📊 Tick: ${quote} | Last Digit: ${digit}`);
+                        }
+
+                        // Log other message types
+                        if (msgType && msgType !== 'pong' && msgType !== 'ping' && msgType !== 'tick') {
+                            log(`📡 Message type: ${msgType}`);
+                        }
+                    };
+
+                    ws.onerror = error => {
+                        log(`❌ WebSocket error: ${error}`);
+                        updateStatus('Connection Error', 'error');
+                        document.getElementById('connectBtn').disabled = false;
+                    };
+
+                    ws.onclose = event => {
+                        log(`🔌 WebSocket closed: Code ${event.code}, Reason: ${event.reason || 'No reason'}`);
+                        updateStatus('Disconnected', 'error');
+                        document.getElementById('connectBtn').disabled = false;
+                        document.getElementById('disconnectBtn').disabled = true;
+
+                        if (pingInterval) {
+                            clearInterval(pingInterval);
+                            pingInterval = null;
+                        }
+                    };
+                } catch (error) {
+                    log(`❌ Connection failed: ${error.message}`);
+                    updateStatus('Connection Failed', 'error');
+                    document.getElementById('connectBtn').disabled = false;
+                }
+            }
+
+            function disconnect() {
+                if (ws) {
+                    log('🔌 Disconnecting...');
+                    ws.close();
+                    ws = null;
+                }
+
+                if (pingInterval) {
+                    clearInterval(pingInterval);
+                    pingInterval = null;
+                }
+            }
+
+            function clearLog() {
+                document.getElementById('log').textContent = 'Log cleared...\n';
+            }
+
+            // Test WebSocket support
+            if (typeof WebSocket === 'undefined') {
+                log('❌ WebSocket not supported in this browser');
+                updateStatus('WebSocket Not Supported', 'error');
+            } else {
+                log('✅ WebSocket supported');
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,370 @@
+// Zeus Trading Hub - DTrader Integration Styles
+.dtrader-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    overflow: hidden;
+}
+
+// Back button with bull vs bear theme
+.dtrader-back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, #0a0e27 0%, #0f1419 50%, #140a14 100%);
+    border: 2px solid transparent;
+    border-image: linear-gradient(135deg, #00bfff 0%, #f44 100%) 1;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow:
+        0 4px 12px rgb(0 0 0 / 30%),
+        0 0 20px rgb(0 191 255 / 20%),
+        0 0 20px rgb(255 68 68 / 20%);
+
+    svg {
+        width: 20px;
+        height: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    span {
+        text-shadow:
+            0 0 10px rgb(0 191 255 / 30%),
+            0 0 10px rgb(255 68 68 / 30%);
+    }
+
+    &:hover {
+        background: linear-gradient(135deg, #0a1a2e 0%, #0f1f2e 50%, #1a0a14 100%);
+        border-image: linear-gradient(135deg, #00bfff 0%, #f44 100%) 1;
+        transform: translateX(-5px);
+        box-shadow:
+            0 6px 20px rgb(0 0 0 / 40%),
+            0 0 30px rgb(0 191 255 / 40%),
+            0 0 30px rgb(255 68 68 / 40%);
+
+        svg {
+            transform: translateX(-3px);
+        }
+
+        span {
+            text-shadow:
+                0 0 15px rgb(0 191 255 / 60%),
+                0 0 15px rgb(255 68 68 / 60%);
+        }
+    }
+
+    &:active {
+        transform: translateX(-3px) scale(0.98);
+    }
+
+    // Mobile responsive
+    @media (width <= 768px) {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+        top: 8px;
+        left: 8px;
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        span {
+            display: none; // Hide text on mobile, show only icon
+        }
+    }
+}
+
+.dtrader-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+    border-bottom: 2px solid rgb(255 215 0 / 20%);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgb(255 215 0 / 30%);
+        }
+    }
+
+    &__icon {
+        font-size: 1.5rem;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    &__reload {
+        background: rgb(255 215 0 / 10%);
+        border: 2px solid rgb(255 215 0 / 30%);
+        color: #ffd700;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.25rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background: rgb(255 215 0 / 20%);
+            border-color: #ffd700;
+            transform: rotate(180deg);
+            box-shadow: 0 0 15px rgb(255 215 0 / 40%);
+        }
+
+        &:active {
+            transform: rotate(180deg) scale(0.95);
+        }
+    }
+}
+
+.dtrader-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #fff;
+}
+
+// Loading State
+.dtrader-loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+
+    &__spinner {
+        margin-bottom: 1.5rem;
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgb(255 215 0 / 20%);
+            border-top-color: #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    }
+
+    &__text {
+        color: #ffd700;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-shadow: 0 0 10px rgb(255 215 0 / 50%);
+        animation: pulse 2s ease-in-out infinite;
+    }
+}
+
+// Error State
+.dtrader-error {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+    padding: 2rem;
+    text-align: center;
+
+    &__icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        animation: shake 0.5s ease-in-out;
+    }
+
+    &__title {
+        color: #ffd700;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 1rem;
+        text-shadow: 0 0 10px rgb(255 215 0 / 50%);
+    }
+
+    &__message {
+        color: rgb(255 255 255 / 85%);
+        font-size: 1rem;
+        margin: 0 0 2rem;
+        max-width: 400px;
+    }
+
+    &__button {
+        background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+        border: none;
+        color: #000;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgb(255 215 0 / 30%);
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgb(255 215 0 / 50%);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+}
+
+// Animations
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+// Responsive Design - Header adjustments
+@media (width <= 768px) {
+    .dtrader-header {
+        padding: 0.75rem 1rem;
+
+        &__title {
+            h2 {
+                font-size: 1rem;
+            }
+        }
+
+        &__icon {
+            font-size: 1.25rem;
+        }
+
+        &__reload {
+            padding: 0.4rem 0.8rem;
+            font-size: 1rem;
+        }
+    }
+}
+
+@media (width <= 480px) {
+    .dtrader-header {
+        padding: 0.5rem 0.75rem;
+
+        &__title {
+            gap: 0.5rem;
+
+            h2 {
+                font-size: 0.9rem;
+            }
+        }
+
+        &__icon {
+            font-size: 1.1rem;
+        }
+
+        &__reload {
+            padding: 0.35rem 0.7rem;
+            font-size: 0.9rem;
+        }
+    }
+}
+
+// Mobile landscape optimization
+@media (width <= 768px) and (orientation: landscape) {
+    .dtrader-header {
+        padding: 0.5rem 1rem;
+
+        &__title {
+            h2 {
+                font-size: 0.9rem;
+            }
+        }
+
+        &__icon {
+            font-size: 1.1rem;
+        }
+
+        &__reload {
+            padding: 0.35rem 0.7rem;
+            font-size: 0.9rem;
+        }
+    }
+}
+
+// Hide navigation tabs when DTrader is active and make it fullscreen
+.dc-tabs:has(#id-dtrader.dc-tabs__active) {
+    .dc-tabs__list {
+        display: none !important;
+    }
+
+    // Make the tabs content area fullscreen
+    .dc-tabs__content {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100vw;
+        height: calc(100vh - 60px);
+        z-index: 9998;
+    }
+}
+
+// Only make DTrader container fullscreen when it's the active tab
+#id-dtrader.dc-tabs__active {
+    .dtrader-container {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100vw;
+        height: calc(100vh - 60px);
+        z-index: 9999;
+    }
+}
+
+// Hide run panel when DTrader is active
+body:has(#id-dtrader.dc-tabs__active) {
+    .run-panel {
+        display: none !important;
+    }
+}

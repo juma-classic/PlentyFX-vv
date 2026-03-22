@@ -1,0 +1,159 @@
+.market-analyzer {
+    background-color: #121212;
+    color: #e0e0e0;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: calc(100vh - 120px);
+    padding: 20px;
+    position: relative;
+    width: 100%;
+
+    .analyzer-container {
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+        background-color: #121212;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 20px rgba(255, 235, 59, 0.3);
+        margin: 0 auto;
+
+        @media (max-width: 768px) {
+            padding: 15px;
+        }
+    }
+
+    h1 {
+        margin: 20px 0;
+    }
+
+    h2 {
+        margin: 30px 0 20px;
+        color: #ffeb3b;
+    }
+
+    .shaking-title {
+        font-size: 30px;
+        font-weight: bold;
+        animation: shakeTitle 3s infinite, changeColor 5s infinite;
+        margin-bottom: 20px;
+    }
+
+    @keyframes shakeTitle {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        25% {
+            transform: translateX(-5px);
+        }
+        50% {
+            transform: translateX(5px);
+        }
+        75% {
+            transform: translateX(-5px);
+        }
+    }
+
+    @keyframes changeColor {
+        0%, 100% {
+            color: #ffeb3b;
+        }
+        25% {
+            color: #4caf50;
+        }
+        50% {
+            color: #f44336;
+        }
+        75% {
+            color: #ffeb3b;
+        }
+    }
+
+    .animated-text {
+        font-size: 20px;
+        color: #ffeb3b;
+        margin-top: 20px;
+        min-height: 30px;
+    }
+
+    select {
+        padding: 10px;
+        font-size: 16px;
+        background-color: #333;
+        color: #e0e0e0;
+        border: 1px solid #444;
+        border-radius: 5px;
+        margin: 20px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 60%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+
+        @media (max-width: 768px) {
+            width: 90%;
+        }
+    }
+
+    th, td {
+        border: 1px solid #444;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #ff5722;
+    }
+
+    .digit-display-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        max-width: 80%;
+        margin: 10px auto;
+        border: 1px solid #444;
+        padding: 10px;
+        overflow: hidden;
+        background-color: #2c2c2c;
+        border-radius: 8px;
+        min-height: 50px;
+    }
+
+    .digit {
+        font-size: 18px;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 2px;
+    }
+
+    .even-digit {
+        background-color: blue;
+        color: white;
+    }
+
+    .odd-digit {
+        background-color: green;
+        color: white;
+    }
+
+    .over-digit {
+        background-color: red;
+        color: white;
+    }
+
+    .under-digit {
+        background-color: blue;
+        color: white;
+    }
+}

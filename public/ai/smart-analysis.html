@@ -1,0 +1,1839 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Smart Analysis - Advanced Trading Analytics</title>
+        <link rel="stylesheet" href="/ai/index-enhanced.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            /* Smart Analysis Specific Styles */
+            .smart-analysis-app {
+                min-height: 100vh;
+                background: var(--bg-primary);
+            }
+
+            .smart-analysis-container {
+                padding: 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+                font-family: 'Inter', sans-serif;
+            }
+
+            .analysis-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                padding: 15px;
+                background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+                border-radius: var(--radius-lg);
+                box-shadow: var(--shadow-md);
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .header-controls {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+
+            .symbol-selector {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .symbol-selector label {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .symbol-selector select {
+                padding: 8px 12px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                background: var(--bg-primary);
+                color: var(--text-primary);
+                font-size: 14px;
+                font-weight: 500;
+                min-width: 150px;
+                transition: all 0.3s ease;
+            }
+
+            .symbol-selector select:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
+            }
+
+            .btn-compact {
+                padding: 8px 16px;
+                border: none;
+                border-radius: var(--radius-md);
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                white-space: nowrap;
+            }
+
+            .btn-compact.btn-secondary {
+                background: var(--bg-tertiary);
+                color: var(--text-primary);
+                border: 1px solid var(--border);
+            }
+
+            .btn-compact.btn-secondary:hover {
+                background: var(--primary);
+                color: white;
+                transform: translateY(-1px);
+            }
+
+            .current-price {
+                text-align: center;
+            }
+
+            .current-price h3 {
+                margin: 0;
+                color: var(--text-secondary);
+                font-size: 14px;
+            }
+
+            .current-price h2 {
+                margin: 5px 0 0 0;
+                color: var(--text-primary);
+                font-size: 24px;
+                font-weight: bold;
+                font-family: 'JetBrains Mono', monospace;
+            }
+
+            .digit-analysis-card,
+            .even-odd-analysis-card,
+            .rise-fall-analysis-card,
+            .turbo-speed-ai-bot {
+                background: var(--bg-secondary);
+                border-radius: var(--radius-lg);
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: var(--shadow-md);
+                border: 1px solid var(--border);
+            }
+
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .card-header h4 {
+                margin: 0;
+                color: var(--text-primary);
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            .toggle-button {
+                background: var(--primary);
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+
+            .toggle-button:hover {
+                background: var(--primary-light);
+                transform: translateY(-1px);
+            }
+
+            .digit-percentages {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+
+            .digit-circle {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background: var(--bg-primary);
+                font-weight: bold;
+                transition: all 0.3s ease;
+                border: 3px solid var(--border);
+            }
+
+            .digit-circle:hover {
+                transform: scale(1.05);
+                box-shadow: var(--shadow-md);
+            }
+
+            /* Colored rings for digit frequency ranking */
+            .digit-circle.ring-most {
+                border-color: #10b981; /* Green for most appearing */
+                box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+            }
+
+            .digit-circle.ring-second-most {
+                border-color: #3b82f6; /* Blue for 2nd most appearing */
+                box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+            }
+
+            .digit-circle.ring-second-least {
+                border-color: #f59e0b; /* Yellow for 2nd least appearing */
+                box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+            }
+
+            .digit-circle.ring-least {
+                border-color: #ef4444; /* Red for least appearing */
+                box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+            }
+
+            /* Current digit indicator - Red triangle pointer */
+            .digit-circle.current-digit {
+                position: relative;
+            }
+
+            .digit-circle.current-digit::after {
+                content: '';
+                position: absolute;
+                bottom: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                border-bottom: 12px solid #ef4444;
+                filter: drop-shadow(0 2px 4px rgba(239, 68, 68, 0.5));
+                animation: triangle-bounce 1.5s ease-in-out infinite;
+                z-index: 10;
+            }
+
+            @keyframes triangle-bounce {
+                0%, 100% {
+                    transform: translateX(-50%) translateY(0);
+                }
+                50% {
+                    transform: translateX(-50%) translateY(-4px);
+                }
+            }
+
+            .digit-number {
+                font-size: 24px;
+                margin-bottom: 5px;
+                color: var(--text-primary);
+                font-family: 'JetBrains Mono', monospace;
+                font-weight: 700;
+            }
+
+            .digit-percentage {
+                font-size: 12px;
+                color: var(--text-secondary);
+                font-weight: 600;
+            }
+
+            /* Enhanced ring effects */
+            .digit-circle.ring-most {
+                border-width: 4px;
+                animation: ring-pulse-green 2s ease-in-out infinite;
+            }
+
+            .digit-circle.ring-second-most {
+                border-width: 4px;
+                animation: ring-pulse-blue 2s ease-in-out infinite;
+            }
+
+            .digit-circle.ring-second-least {
+                border-width: 4px;
+                animation: ring-pulse-yellow 2s ease-in-out infinite;
+            }
+
+            .digit-circle.ring-least {
+                border-width: 4px;
+                animation: ring-pulse-red 2s ease-in-out infinite;
+            }
+
+            @keyframes ring-pulse-green {
+                0%, 100% {
+                    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+                }
+                50% {
+                    box-shadow: 0 0 20px rgba(16, 185, 129, 0.7);
+                }
+            }
+
+            @keyframes ring-pulse-blue {
+                0%, 100% {
+                    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+                }
+                50% {
+                    box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+                }
+            }
+
+            @keyframes ring-pulse-yellow {
+                0%, 100% {
+                    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+                }
+                50% {
+                    box-shadow: 0 0 20px rgba(245, 158, 11, 0.7);
+                }
+            }
+
+            @keyframes ring-pulse-red {
+                0%, 100% {
+                    box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+                }
+                50% {
+                    box-shadow: 0 0 20px rgba(239, 68, 68, 0.7);
+                }
+            }
+
+            .recent-digits h4 {
+                margin-bottom: 10px;
+                color: var(--text-primary);
+                font-weight: 600;
+            }
+
+            .digit-sequence,
+            .sequence-display {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+                margin-bottom: 10px;
+            }
+
+            .digit-box {
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: var(--radius-sm);
+                font-weight: bold;
+                font-size: 14px;
+                transition: all 0.3s ease;
+            }
+
+            .digit-box:hover {
+                transform: scale(1.1);
+            }
+
+            .digit-box.even {
+                background: var(--success);
+                color: white;
+            }
+
+            .digit-box.odd {
+                background: var(--error);
+                color: white;
+            }
+
+            .digit-box.rise {
+                background: var(--success);
+                color: white;
+            }
+
+            .digit-box.fall {
+                background: var(--error);
+                color: white;
+            }
+
+            .analysis-header h4 {
+                margin: 0;
+                color: var(--text-primary);
+                font-weight: 600;
+            }
+
+            .current-streak {
+                color: var(--text-secondary);
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            .percentages-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin-bottom: 20px;
+            }
+
+            .percentage-item {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .percentage-item strong {
+                color: var(--text-primary);
+                font-weight: 600;
+            }
+
+            .percentage-item span {
+                font-weight: bold;
+                font-size: 18px;
+                font-family: 'JetBrains Mono', monospace;
+            }
+
+            .percentage-bar {
+                height: 20px;
+                background: var(--bg-primary);
+                border-radius: var(--radius-md);
+                overflow: hidden;
+                border: 1px solid var(--border);
+            }
+
+            .percentage-bar .bar {
+                height: 100%;
+                transition: width 0.3s ease;
+            }
+
+            .percentage-bar.even .bar {
+                background: var(--success);
+            }
+
+            .percentage-bar.odd .bar {
+                background: var(--error);
+            }
+
+            .percentage-bar.rise .bar {
+                background: var(--success);
+            }
+
+            .percentage-bar.fall .bar {
+                background: var(--error);
+            }
+
+            .sequence-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .more-button {
+                align-self: flex-start;
+                background: var(--accent);
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                font-size: 12px;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .more-button:hover {
+                background: var(--accent-dark);
+                transform: translateY(-1px);
+            }
+
+            .turbo-speed-ai-bot h3 {
+                margin: 0 0 20px 0;
+                color: var(--text-primary);
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            .bot-controls {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 20px;
+                margin-bottom: 20px;
+            }
+
+            .bot-controls label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: 500;
+                color: var(--text-primary);
+            }
+
+            .bot-controls select,
+            .bot-controls input {
+                width: 100%;
+                padding: 8px 12px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                font-size: 14px;
+                background: var(--bg-secondary);
+                color: var(--text-primary);
+                transition: border-color 0.3s ease;
+            }
+
+            .bot-controls select:focus,
+            .bot-controls input:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
+            }
+
+            .bot-actions {
+                display: flex;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+
+            .trade-button {
+                padding: 12px 24px;
+                border: none;
+                border-radius: var(--radius-md);
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .trade-button.start {
+                background: var(--success);
+                color: white;
+            }
+
+            .trade-button.stop {
+                background: var(--error);
+                color: white;
+            }
+
+            .trade-button:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-md);
+            }
+
+            .settings-button {
+                background: var(--primary);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .settings-button:hover {
+                background: var(--primary-light);
+                transform: translateY(-2px);
+            }
+
+            .settings-panel {
+                background: var(--bg-primary);
+                padding: 20px;
+                border-radius: var(--radius-md);
+                border: 1px solid var(--border);
+                margin-top: 16px;
+            }
+
+            .settings-panel h4 {
+                margin: 0 0 15px 0;
+                color: var(--text-primary);
+                font-weight: 600;
+            }
+
+            .setting-item {
+                margin-bottom: 15px;
+            }
+
+            .setting-item label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 500;
+                color: var(--text-primary);
+            }
+
+            .setting-item input[type='checkbox'] {
+                width: auto;
+            }
+
+            .setting-item input[type='number'] {
+                width: 100px;
+                padding: 6px 10px;
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+                margin-left: 10px;
+                background: var(--bg-secondary);
+                color: var(--text-primary);
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .digit-percentages {
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 10px;
+                }
+
+                .digit-circle {
+                    width: 70px;
+                    height: 70px;
+                }
+
+                .digit-number {
+                    font-size: 20px;
+                }
+
+                .digit-percentage {
+                    font-size: 10px;
+                }
+
+                .digit-circle.current-digit::after {
+                    bottom: -12px;
+                    border-left: 6px solid transparent;
+                    border-right: 6px solid transparent;
+                    border-bottom: 10px solid #ef4444;
+                }
+
+                .bot-controls {
+                    grid-template-columns: 1fr;
+                }
+
+                .percentages-container {
+                    grid-template-columns: 1fr;
+                }
+
+                .analysis-header {
+                    flex-direction: column;
+                    gap: 16px;
+                    text-align: center;
+                }
+
+                .header-controls {
+                    flex-direction: column;
+                    width: 100%;
+                    gap: 15px;
+                }
+
+                .symbol-selector {
+                    width: 100%;
+                }
+
+                .symbol-selector select {
+                    width: 100%;
+                    min-width: auto;
+                }
+
+                .current-price {
+                    order: -1;
+                }
+
+                .bot-actions {
+                    flex-direction: column;
+                }
+
+                .btn-compact {
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .digit-percentages {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 8px;
+                }
+
+                .digit-circle {
+                    width: 60px;
+                    height: 60px;
+                }
+
+                .digit-number {
+                    font-size: 18px;
+                }
+
+                .digit-percentage {
+                    font-size: 9px;
+                }
+
+                .digit-circle.current-digit::after {
+                    bottom: -10px;
+                    border-left: 5px solid transparent;
+                    border-right: 5px solid transparent;
+                    border-bottom: 8px solid #ef4444;
+                }
+            }
+
+            /* Connection Status Styles */
+            .connection-status {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 12px;
+                border-radius: 20px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                font-size: 12px;
+                font-weight: 500;
+                margin-left: auto;
+            }
+
+            .status-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+
+            .status-connected {
+                background: #10b981;
+                box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+                animation: pulse-green 2s infinite;
+            }
+
+            .status-connecting {
+                background: #f59e0b;
+                animation: pulse-orange 1.5s infinite;
+            }
+
+            .status-disconnected {
+                background: #ef4444;
+            }
+
+            @keyframes pulse-green {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.5;
+                }
+            }
+
+            @keyframes pulse-orange {
+                0%,
+                100% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 0.7;
+                    transform: scale(1.1);
+                }
+            }
+
+            /* Notification Styles */
+            .trade-notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--bg-secondary);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                padding: 15px;
+                min-width: 250px;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            }
+
+            .trade-notification.win {
+                border-color: var(--success);
+                background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(16, 185, 129, 0.1) 100%);
+            }
+
+            .trade-notification.loss {
+                border-color: var(--error);
+                background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(239, 68, 68, 0.1) 100%);
+            }
+
+            .notification-header {
+                font-weight: 600;
+                color: var(--text-primary);
+                margin-bottom: 5px;
+            }
+
+            .notification-body {
+                font-size: 12px;
+                color: var(--text-secondary);
+            }
+
+            /* Error Message Styles */
+            .error-message {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: var(--bg-secondary);
+                border: 2px solid var(--error);
+                border-radius: var(--radius-lg);
+                padding: 20px;
+                min-width: 300px;
+                z-index: 10001;
+                text-align: center;
+            }
+
+            .error-header {
+                font-weight: 600;
+                color: var(--error);
+                margin-bottom: 10px;
+                font-size: 16px;
+            }
+
+            .error-body {
+                color: var(--text-primary);
+                margin-bottom: 15px;
+            }
+
+            .error-message button {
+                background: var(--error);
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: var(--radius-md);
+                cursor: pointer;
+            }
+
+            /* Simulation Warning Styles */
+            .simulation-warning {
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+                padding: 15px 20px;
+                border-radius: var(--radius-lg);
+                z-index: 10000;
+                text-align: center;
+                min-width: 300px;
+            }
+
+            .warning-header {
+                font-weight: 600;
+                margin-bottom: 5px;
+            }
+
+            .warning-body {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+
+            .simulation-warning button {
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                padding: 6px 12px;
+                border-radius: var(--radius-sm);
+                cursor: pointer;
+                margin: 0 5px;
+                font-size: 11px;
+            }
+
+            .simulation-warning button:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Skip Link for Accessibility -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+
+        <!-- Main App -->
+        <div id="app" class="app">
+            <!-- Compact Header -->
+            <header class="header-compact">
+                <div class="container">
+                    <div class="header-row">
+                        <h1 class="title-compact">🧠 Smart Analysis Dashboard</h1>
+                        <div class="header-status">
+                            <div class="header-actions">
+                                <button onclick="window.location.href='/ai/'" class="btn-compact btn-secondary">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                                    </svg>
+                                    Analysis Tool
+                                </button>
+                                <button
+                                    onclick="window.location.href='/ai/copy-trading.html'"
+                                    class="btn-compact btn-secondary"
+                                >
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path
+                                            d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                                        ></path>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                    </svg>
+                                    Copy Trading
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main id="main-content" class="main">
+                <div class="container">
+                    <div id="smart-analysis-root"></div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Load Smart Analysis API and Bot -->
+        <script src="/ai/robust-websocket-manager.js"></script>
+        <script src="/ai/smart-analysis-api.js"></script>
+        <script src="/ai/turbo-speed-ai-bot.js"></script>
+
+        <!-- Load Smart Analysis Component -->
+        <script>
+            // Global state
+            let allLastDigitList = [];
+            let isTradeActive = false;
+            let showDigitAnalysis = true;
+            let showMoreEOSequences = false;
+            let showMoreRFSequences = false;
+            let currentTick = 0;
+
+            // Real API integration
+            let smartAPI = null;
+            let turboBot = null;
+
+            // Initialize the application with real API integration
+            function init() {
+                console.log('🧠 Initializing Smart Analysis with Enhanced Real API...');
+
+                // Initialize Smart Analysis API with robust connection
+                if (window.SmartAnalysisAPI) {
+                    smartAPI = new window.SmartAnalysisAPI();
+
+                    // Set up callbacks for real data
+                    smartAPI.setCallbacks({
+                        onTick: tickData => {
+                            handleRealTick(tickData);
+                        },
+                        onConnectionChange: connected => {
+                            updateConnectionStatus(connected);
+                        },
+                        onError: error => {
+                            console.error('❌ Smart Analysis API Error:', error);
+                            showErrorMessage(error);
+                        },
+                        onHistoricalDataLoaded: historicalData => {
+                            console.log(`📈 Historical data loaded: ${historicalData.length} ticks`);
+                            updateDisplay();
+                        }
+                    });
+
+                    // Initialize connection
+                    smartAPI
+                        .initialize()
+                        .then(() => {
+                            console.log('✅ Smart Analysis API initialized with robust connection');
+                            updateConnectionStatus(true);
+                        })
+                        .catch(error => {
+                            console.error('❌ Failed to initialize Smart Analysis API:', error);
+                            showErrorMessage(`Connection failed: ${error.message}`);
+                            // Fallback to simulation mode
+                            initSimulationMode();
+                        });
+                } else {
+                    console.warn('⚠️ Smart Analysis API not available, using simulation');
+                    initSimulationMode();
+                }
+
+                // Initialize Turbo Speed AI Bot
+                if (window.TurboSpeedAIBot) {
+                    turboBot = new window.TurboSpeedAIBot();
+
+                    turboBot.setCallbacks({
+                        onTradeExecuted: trade => {
+                            console.log('🚀 AI Trade Executed:', trade);
+                            showTradeNotification(trade, 'executed');
+                        },
+                        onTradeResult: result => {
+                            console.log('📊 AI Trade Result:', result);
+                            showTradeNotification(result, 'completed');
+                        },
+                        onError: error => {
+                            console.error('❌ AI Bot Error:', error);
+                            showErrorMessage(`AI Bot Error: ${error}`);
+                        },
+                        onStatusChange: isActive => {
+                            updateBotStatus(isActive);
+                        },
+                    });
+
+                    console.log('🤖 Turbo Speed AI Bot initialized');
+                } else {
+                    console.warn('⚠️ Turbo Speed AI Bot not available');
+                }
+
+                // Create the Smart Analysis component
+                createSmartAnalysisComponent();
+
+                // Initial render
+                updateDisplay();
+
+                // Add connection status indicator
+                addConnectionStatusIndicator();
+            }
+
+            // Handle real tick data from API
+            function handleRealTick(tickData) {
+                if (!tickData || typeof tickData.quote !== 'number') return;
+
+                currentTick = tickData.quote;
+                const currentTickElement = document.getElementById('current-tick');
+                if (currentTickElement) {
+                    currentTickElement.textContent = currentTick.toFixed(5);
+                }
+
+                // Get tick history from API and ensure current tick is included
+                if (smartAPI) {
+                    allLastDigitList = smartAPI.getTickHistory();
+                    
+                    // Ensure the current tick is the latest in our list
+                    if (allLastDigitList.length === 0 || allLastDigitList[allLastDigitList.length - 1] !== currentTick) {
+                        allLastDigitList.push(currentTick);
+                        if (allLastDigitList.length > 1000) {
+                            allLastDigitList.shift();
+                        }
+                    }
+                } else {
+                    // Fallback: Add to local history
+                    allLastDigitList.push(currentTick);
+                    if (allLastDigitList.length > 1000) {
+                        allLastDigitList.shift();
+                    }
+                }
+
+                // Update displays immediately with new tick
+                updateDisplay();
+
+                console.log(`📊 Smart Analysis Real Tick: ${currentTick.toFixed(5)} (${tickData.symbol}) - Last Digit: ${getLastDigit(currentTick)}`);
+            }
+
+            // Fallback simulation mode
+            function initSimulationMode() {
+                console.log('🎮 Starting Smart Analysis simulation mode...');
+
+                // Generate some initial simulated data
+                for (let i = 0; i < 100; i++) {
+                    const simulatedTick = Math.random() * 1000 + 9000;
+                    allLastDigitList.push(simulatedTick);
+                }
+
+                // Simulate tick data (original functionality)
+                setInterval(updateTick, 1000);
+
+                // Show simulation warning
+                showSimulationWarning();
+            }
+
+            // Update connection status indicator
+            function updateConnectionStatus(connected) {
+                const statusElement = document.getElementById('connection-status');
+                if (statusElement) {
+                    const statusDot = statusElement.querySelector('.status-dot');
+                    const statusText = statusElement.querySelector('.status-text');
+
+                    if (statusDot && statusText) {
+                        // Remove all status classes
+                        statusDot.className = 'status-dot';
+                        
+                        if (connected) {
+                            statusDot.classList.add('status-connected');
+                            statusText.textContent = 'Connected to Smart Analysis';
+                            
+                            // Get connection quality if available
+                            if (smartAPI) {
+                                const status = smartAPI.getConnectionStatus();
+                                if (status.wsStatus && status.wsStatus.connectionQuality) {
+                                    const quality = status.wsStatus.connectionQuality.qualityScore || 100;
+                                    statusText.textContent = `Smart Analysis Connected (${quality}%)`;
+                                }
+                            }
+                        } else {
+                            statusDot.classList.add('status-disconnected');
+                            statusText.textContent = 'Smart Analysis Disconnected';
+                        }
+                    }
+                }
+            }
+
+            // Update bot status
+            function updateBotStatus(isActive) {
+                const button = document.getElementById('trade-button');
+                if (button) {
+                    if (isActive) {
+                        button.textContent = 'Stop AI Bot';
+                        button.className = 'trade-button stop';
+                    } else {
+                        button.textContent = 'Start AI Bot';
+                        button.className = 'trade-button start';
+                    }
+                }
+            }
+
+            // Show trade notification
+            function showTradeNotification(trade, type) {
+                const notification = document.createElement('div');
+                notification.className = `trade-notification ${type}`;
+
+                if (type === 'executed') {
+                    notification.innerHTML = `
+                        <div class="notification-header">🚀 AI Trade Executed</div>
+                        <div class="notification-body">
+                            ${trade.strategy.toUpperCase()} on ${trade.market}<br>
+                            Stake: $${trade.stake} | Duration: ${trade.duration}t
+                        </div>
+                    `;
+                } else if (type === 'completed') {
+                    const isWin = trade.profit > 0;
+                    notification.innerHTML = `
+                        <div class="notification-header">${isWin ? '🎉' : '😔'} Trade ${isWin ? 'Won' : 'Lost'}</div>
+                        <div class="notification-body">
+                            Profit: ${trade.profit >= 0 ? '+' : ''}$${trade.profit.toFixed(2)}
+                        </div>
+                    `;
+                    notification.className += isWin ? ' win' : ' loss';
+                }
+
+                document.body.appendChild(notification);
+
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    notification.remove();
+                }, 5000);
+            }
+
+            // Show error message
+            function showErrorMessage(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.innerHTML = `
+                    <div class="error-header">❌ Error</div>
+                    <div class="error-body">${message}</div>
+                    <button onclick="this.parentElement.remove()">Close</button>
+                `;
+
+                document.body.appendChild(errorDiv);
+
+                // Auto-remove after 10 seconds
+                setTimeout(() => {
+                    errorDiv.remove();
+                }, 10000);
+            }
+
+            // Show simulation warning
+            function showSimulationWarning() {
+                const warning = document.createElement('div');
+                warning.className = 'simulation-warning';
+                warning.innerHTML = `
+                    <div class="warning-header">🎮 Simulation Mode</div>
+                    <div class="warning-body">
+                        Using simulated data. Login for real market data and trading.
+                    </div>
+                    <button onclick="window.location.href='/'">Login Now</button>
+                    <button onclick="this.parentElement.remove()">Continue Demo</button>
+                `;
+
+                document.body.appendChild(warning);
+            }
+
+            // Add connection status indicator
+            function addConnectionStatusIndicator() {
+                const header = document.querySelector('.header-compact .container');
+                if (header) {
+                    const statusHTML = `
+                        <div id="connection-status" class="connection-status">
+                            <span class="status-dot status-connecting"></span>
+                            <span class="status-text">Connecting...</span>
+                        </div>
+                    `;
+                    header.insertAdjacentHTML('beforeend', statusHTML);
+                }
+            }
+
+            // Create Smart Analysis Component
+            function createSmartAnalysisComponent() {
+                const container = document.getElementById('smart-analysis-root');
+                container.innerHTML = `
+                    <div class="smart-analysis-container">
+                        <div class="analysis-header">
+                            <h2>🧠 Smart Analysis Dashboard</h2>
+                            <div class="header-controls">
+                                <div class="symbol-selector">
+                                    <label for="symbol-select">Market:</label>
+                                    <select id="symbol-select" onchange="changeSymbol()">
+                                        <option value="R_10">Volatility 10</option>
+                                        <option value="1HZ10V">Volatility 10 (1s)</option>
+                                        <option value="1HZ15V">Volatility 15 (1s)</option>
+                                        <option value="R_25">Volatility 25</option>
+                                        <option value="1HZ25V">Volatility 25 (1s)</option>
+                                        <option value="1HZ30V">Volatility 30 (1s)</option>
+                                        <option value="R_50">Volatility 50</option>
+                                        <option value="1HZ50V">Volatility 50 (1s)</option>
+                                        <option value="R_75">Volatility 75</option>
+                                        <option value="1HZ75V">Volatility 75 (1s)</option>
+                                        <option value="1HZ90V">Volatility 90 (1s)</option>
+                                        <option value="R_100" selected>Volatility 100</option>
+                                        <option value="1HZ100V">Volatility 100 (1s)</option>
+                                    </select>
+                                </div>
+                                <div class="current-price">
+                                    <h3>Current Price</h3>
+                                    <h2 id="current-tick">Loading...</h2>
+                                </div>
+                                <button id="reconnect-btn" class="btn-compact btn-secondary" onclick="forceReconnect()" title="Force reconnection">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polyline points="23 4 23 10 17 10"></polyline>
+                                        <polyline points="1 20 1 14 7 14"></polyline>
+                                        <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                    </svg>
+                                    Reconnect
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Digit Analysis Card -->
+                        <div class="digit-analysis-card">
+                            <div class="card-header">
+                                <h4>📊 Volatility 100 Index - Digit Analysis</h4>
+                                <button class="toggle-button" onclick="toggleDigitAnalysis()">
+                                    <span id="digit-toggle-text">Hide</span>
+                                </button>
+                            </div>
+                            
+                            <div id="digit-analysis-content">
+                                <div class="digit-percentages" id="digit-circles">
+                                    <!-- Digit circles will be generated by JavaScript -->
+                                </div>
+                                
+                                <div class="recent-digits">
+                                    <h4>Recent Last Digits</h4>
+                                    <div class="digit-sequence" id="recent-sequence">
+                                        <!-- Recent digits will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Even/Odd Analysis -->
+                        <div class="even-odd-analysis-card">
+                            <div class="card-header">
+                                <h4>⚪⚫ Even/Odd Analysis</h4>
+                                <div class="current-streak" id="even-odd-streak">
+                                    Current Streak: Loading...
+                                </div>
+                            </div>
+                            
+                            <div class="percentages-container">
+                                <div class="percentage-item even">
+                                    <strong>Even</strong>
+                                    <span id="even-percentage">50.0%</span>
+                                    <div class="percentage-bar even">
+                                        <div class="bar" id="even-bar" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="percentage-item odd">
+                                    <strong>Odd</strong>
+                                    <span id="odd-percentage">50.0%</span>
+                                    <div class="percentage-bar odd">
+                                        <div class="bar" id="odd-bar" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sequence-container">
+                                <div class="sequence-display" id="even-odd-sequence">
+                                    <!-- Even/Odd sequence will be populated by JavaScript -->
+                                </div>
+                                <button class="more-button" onclick="toggleEvenOddSequence()">
+                                    <span id="eo-more-text">MORE</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Rise/Fall Analysis -->
+                        <div class="rise-fall-analysis-card">
+                            <div class="card-header">
+                                <h4>📈📉 Rise/Fall Analysis</h4>
+                                <div class="current-streak" id="rise-fall-streak">
+                                    Current Streak: Loading...
+                                </div>
+                            </div>
+                            
+                            <div class="percentages-container">
+                                <div class="percentage-item rise">
+                                    <strong>Rise</strong>
+                                    <span id="rise-percentage">50.0%</span>
+                                    <div class="percentage-bar rise">
+                                        <div class="bar" id="rise-bar" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="percentage-item fall">
+                                    <strong>Fall</strong>
+                                    <span id="fall-percentage">50.0%</span>
+                                    <div class="percentage-bar fall">
+                                        <div class="bar" id="fall-bar" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sequence-container">
+                                <div class="sequence-display" id="rise-fall-sequence">
+                                    <!-- Rise/Fall sequence will be populated by JavaScript -->
+                                </div>
+                                <button class="more-button" onclick="toggleRiseFallSequence()">
+                                    <span id="rf-more-text">MORE</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Turbo Speed AI Bot -->
+                        <div class="turbo-speed-ai-bot">
+                            <h3>🚀 Turbo Speed AI Bot</h3>
+                            
+                            <div class="bot-controls">
+                                <div>
+                                    <label>Trade Option:</label>
+                                    <select id="trade-option">
+                                        <option value="even">Even</option>
+                                        <option value="odd">Odd</option>
+                                        <option value="over">Over</option>
+                                        <option value="under">Under</option>
+                                        <option value="matches">Matches</option>
+                                        <option value="differs">Differs</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label>Amount:</label>
+                                    <input type="number" id="trade-amount" value="0.5" step="0.1" min="0.35">
+                                </div>
+
+                                <div>
+                                    <label>Duration:</label>
+                                    <input type="number" id="trade-duration" value="1" min="1" max="10">
+                                </div>
+                            </div>
+
+                            <div class="bot-actions">
+                                <button class="trade-button start" id="trade-button" onclick="toggleBot()">
+                                    Start Bot
+                                </button>
+                                
+                                <button class="settings-button" onclick="toggleSettings()">
+                                    Settings
+                                </button>
+                            </div>
+
+                            <!-- Settings Panel -->
+                            <div class="settings-panel" id="settings-panel" style="display: none;">
+                                <h4>⚙️ Bot Settings</h4>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="enable-martingale" checked>
+                                        Enable Martingale
+                                    </label>
+                                </div>
+
+                                <div class="setting-item">
+                                    <label>
+                                        Martingale Multiplier:
+                                        <input type="number" id="martingale-value" value="1.2" step="0.1" min="1.1">
+                                    </label>
+                                </div>
+
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="enable-sl-tp">
+                                        Enable Take Profit / Stop Loss
+                                    </label>
+                                </div>
+
+                                <div class="setting-item">
+                                    <label>
+                                        Take Profit:
+                                        <input type="number" id="take-profit" value="2" step="0.1" min="0.1">
+                                    </label>
+                                </div>
+                                
+                                <div class="setting-item">
+                                    <label>
+                                        Stop Loss:
+                                        <input type="number" id="stop-loss" value="2" step="0.1" min="0.1">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Simulate new tick data
+            function updateTick() {
+                currentTick = Math.random() * 1000 + 9000; // Simulate volatility 100 index
+                document.getElementById('current-tick').textContent = currentTick.toFixed(2);
+
+                // Keep last 1000 ticks
+                allLastDigitList.push(currentTick);
+                if (allLastDigitList.length > 1000) {
+                    allLastDigitList.shift();
+                }
+
+                updateDisplay();
+            }
+
+            // Update all displays
+            function updateDisplay() {
+                updateDigitCircles();
+                updateEvenOddAnalysis();
+                updateRiseFallAnalysis();
+            }
+
+            // Calculate digit percentages (synchronized with Metatron Analysis)
+            function calculateDigitPercentages() {
+                if (allLastDigitList.length === 0) return Array(10).fill(10);
+
+                const recentTicks = allLastDigitList.slice(-1000);
+                const digitCounts = Array(10).fill(0);
+
+                console.log(`🔍 Smart Analysis calculating percentages from ${recentTicks.length} ticks`);
+                console.log(`🔍 Sample ticks:`, recentTicks.slice(-5));
+
+                recentTicks.forEach((tick, index) => {
+                    const lastDigit = getLastDigit(tick);
+                    if (lastDigit >= 0 && lastDigit <= 9) {
+                        digitCounts[lastDigit]++;
+                    } else {
+                        if (index < 5) { // Log first few invalid digits
+                            console.warn(`⚠️ Invalid digit ${lastDigit} from tick ${tick}`);
+                        }
+                    }
+                });
+
+                console.log(`🔍 Digit counts:`, digitCounts);
+                const percentages = digitCounts.map(count => (count / recentTicks.length) * 100);
+                console.log(`🔍 Digit percentages:`, percentages);
+
+                return percentages;
+            }
+
+            // Extract last digit using same method as Metatron Analysis (adapted for Smart Analysis data)
+            function getLastDigit(tick) {
+                // Convert tick to string and handle decimal extraction
+                let priceStr = tick.toString();
+                
+                // Split into integer and decimal parts
+                let priceParts = priceStr.split('.');
+                let decimals = priceParts[1] || '';
+
+                // If no decimal part, pad with zeros (like Metatron Analysis)
+                if (decimals.length === 0) {
+                    decimals = '000'; // Default 3 decimal places
+                }
+                
+                // Ensure we have at least 3 decimal places (pad with zeros)
+                while (decimals.length < 3) {
+                    decimals += '0';
+                }
+
+                // Get the last digit from the decimal part (3rd decimal place)
+                const lastDigit = Number(decimals.charAt(2)); // 3rd decimal place (index 2)
+                
+                return lastDigit;
+            }
+
+            // Update digit circles with colored rings based on frequency ranking
+            function updateDigitCircles() {
+                const digitPercentages = calculateDigitPercentages();
+                const currentLastDigit =
+                    allLastDigitList.length > 0
+                        ? getLastDigit(allLastDigitList[allLastDigitList.length - 1])
+                        : -1;
+
+                // Create array of digits with their percentages for ranking
+                const digitRanking = digitPercentages.map((percentage, digit) => ({
+                    digit,
+                    percentage
+                })).sort((a, b) => b.percentage - a.percentage);
+
+                // Get the digits for each rank
+                const mostAppearing = digitRanking[0].digit;
+                const secondMostAppearing = digitRanking[1].digit;
+                const secondLeastAppearing = digitRanking[8].digit; // 9th position (2nd least)
+                const leastAppearing = digitRanking[9].digit; // 10th position (least)
+
+                const circlesContainer = document.getElementById('digit-circles');
+                if (!circlesContainer) return;
+
+                circlesContainer.innerHTML = '';
+
+                for (let digit = 0; digit <= 9; digit++) {
+                    const circle = document.createElement('div');
+                    circle.className = 'digit-circle';
+
+                    // Apply ranking-based ring colors
+                    if (digit === mostAppearing) {
+                        circle.classList.add('ring-most'); // Green
+                    } else if (digit === secondMostAppearing) {
+                        circle.classList.add('ring-second-most'); // Blue
+                    } else if (digit === secondLeastAppearing) {
+                        circle.classList.add('ring-second-least'); // Yellow
+                    } else if (digit === leastAppearing) {
+                        circle.classList.add('ring-least'); // Red
+                    }
+
+                    // Add current digit indicator (red triangle)
+                    if (digit === currentLastDigit) {
+                        circle.classList.add('current-digit');
+                    }
+
+                    circle.innerHTML = `
+                        <div class="digit-number">${digit}</div>
+                        <div class="digit-percentage">${digitPercentages[digit].toFixed(1)}%</div>
+                    `;
+
+                    circlesContainer.appendChild(circle);
+                }
+
+                // Update recent digits sequence
+                updateRecentSequence();
+            }
+
+            // Update recent digits sequence (synchronized with Metatron Analysis)
+            function updateRecentSequence() {
+                const sequenceContainer = document.getElementById('recent-sequence');
+                if (!sequenceContainer) return;
+
+                sequenceContainer.innerHTML = '';
+
+                const recentTicks = allLastDigitList.slice(-10);
+                recentTicks.forEach(tick => {
+                    const digit = getLastDigit(tick);
+                    if (digit >= 0 && digit <= 9) {
+                        const digitBox = document.createElement('div');
+                        digitBox.className = `digit-box ${digit % 2 === 0 ? 'even' : 'odd'}`;
+                        digitBox.textContent = digit;
+                        sequenceContainer.appendChild(digitBox);
+                    }
+                });
+            }
+
+            // Calculate even/odd percentages (synchronized with Metatron Analysis)
+            function calculateEvenOddPercentages() {
+                if (allLastDigitList.length === 0) return { even: 50, odd: 50 };
+
+                const recentTicks = allLastDigitList.slice(-1000);
+                let evenCount = 0;
+
+                recentTicks.forEach(tick => {
+                    const lastDigit = getLastDigit(tick);
+                    if (lastDigit >= 0 && lastDigit <= 9 && lastDigit % 2 === 0) evenCount++;
+                });
+
+                const evenPercentage = (evenCount / recentTicks.length) * 100;
+                return {
+                    even: evenPercentage,
+                    odd: 100 - evenPercentage,
+                };
+            }
+
+            // Get current even/odd streak (synchronized with Metatron Analysis)
+            function getCurrentEvenOddStreak() {
+                if (allLastDigitList.length === 0) return 'No data';
+
+                const recentDigits = allLastDigitList
+                    .slice(-50)
+                    .map(tick => getLastDigit(tick));
+
+                let streak = 1;
+                const lastDigit = recentDigits[recentDigits.length - 1];
+                if (lastDigit < 0 || lastDigit > 9) return 'No data';
+                
+                const isEven = lastDigit % 2 === 0;
+
+                for (let i = recentDigits.length - 2; i >= 0; i--) {
+                    const digit = recentDigits[i];
+                    if (digit >= 0 && digit <= 9 && (digit % 2 === 0) === isEven) {
+                        streak++;
+                    } else {
+                        break;
+                    }
+                }
+
+                return `${streak}x ${isEven ? 'even' : 'odd'}`;
+            }
+
+            // Update even/odd analysis
+            function updateEvenOddAnalysis() {
+                const percentages = calculateEvenOddPercentages();
+
+                const evenPercentageEl = document.getElementById('even-percentage');
+                const oddPercentageEl = document.getElementById('odd-percentage');
+                const evenBarEl = document.getElementById('even-bar');
+                const oddBarEl = document.getElementById('odd-bar');
+                const streakEl = document.getElementById('even-odd-streak');
+
+                if (evenPercentageEl) evenPercentageEl.textContent = percentages.even.toFixed(1) + '%';
+                if (oddPercentageEl) oddPercentageEl.textContent = percentages.odd.toFixed(1) + '%';
+                if (evenBarEl) evenBarEl.style.width = percentages.even + '%';
+                if (oddBarEl) oddBarEl.style.width = percentages.odd + '%';
+                if (streakEl) streakEl.textContent = 'Current Streak: ' + getCurrentEvenOddStreak();
+
+                // Update even/odd sequence
+                updateEvenOddSequence();
+            }
+
+            // Update even/odd sequence (synchronized with Metatron Analysis)
+            function updateEvenOddSequence() {
+                const sequenceContainer = document.getElementById('even-odd-sequence');
+                if (!sequenceContainer) return;
+
+                sequenceContainer.innerHTML = '';
+
+                const limit = showMoreEOSequences ? 50 : 8;
+                const recentTicks = allLastDigitList.slice(-limit);
+
+                recentTicks.forEach(tick => {
+                    const digit = getLastDigit(tick);
+                    if (digit >= 0 && digit <= 9) {
+                        const digitBox = document.createElement('div');
+                        digitBox.className = `digit-box ${digit % 2 === 0 ? 'even' : 'odd'}`;
+                        digitBox.textContent = digit % 2 === 0 ? 'E' : 'O';
+                        sequenceContainer.appendChild(digitBox);
+                    }
+                });
+            }
+
+            // Calculate rise/fall percentages
+            function calculateRiseFallPercentages() {
+                if (allLastDigitList.length < 2) return { rise: 50, fall: 50 };
+
+                const recentTicks = allLastDigitList.slice(-1000);
+                let riseCount = 0;
+
+                for (let i = 1; i < recentTicks.length; i++) {
+                    if (recentTicks[i] > recentTicks[i - 1]) riseCount++;
+                }
+
+                const risePercentage = (riseCount / (recentTicks.length - 1)) * 100;
+                return {
+                    rise: risePercentage,
+                    fall: 100 - risePercentage,
+                };
+            }
+
+            // Get current rise/fall streak
+            function getCurrentRiseFallStreak() {
+                if (allLastDigitList.length < 2) return 'No data';
+
+                const recentTicks = allLastDigitList.slice(-50);
+                let streak = 1;
+                const isRise = recentTicks[recentTicks.length - 1] > recentTicks[recentTicks.length - 2];
+
+                for (let i = recentTicks.length - 2; i >= 1; i--) {
+                    if (recentTicks[i] > recentTicks[i - 1] === isRise) {
+                        streak++;
+                    } else {
+                        break;
+                    }
+                }
+
+                return `${streak}x ${isRise ? 'rise' : 'fall'}`;
+            }
+
+            // Update rise/fall analysis
+            function updateRiseFallAnalysis() {
+                const percentages = calculateRiseFallPercentages();
+
+                const risePercentageEl = document.getElementById('rise-percentage');
+                const fallPercentageEl = document.getElementById('fall-percentage');
+                const riseBarEl = document.getElementById('rise-bar');
+                const fallBarEl = document.getElementById('fall-bar');
+                const streakEl = document.getElementById('rise-fall-streak');
+
+                if (risePercentageEl) risePercentageEl.textContent = percentages.rise.toFixed(1) + '%';
+                if (fallPercentageEl) fallPercentageEl.textContent = percentages.fall.toFixed(1) + '%';
+                if (riseBarEl) riseBarEl.style.width = percentages.rise + '%';
+                if (fallBarEl) fallBarEl.style.width = percentages.fall + '%';
+                if (streakEl) streakEl.textContent = 'Current Streak: ' + getCurrentRiseFallStreak();
+
+                // Update rise/fall sequence
+                updateRiseFallSequence();
+            }
+
+            // Update rise/fall sequence
+            function updateRiseFallSequence() {
+                const sequenceContainer = document.getElementById('rise-fall-sequence');
+                if (!sequenceContainer) return;
+
+                sequenceContainer.innerHTML = '';
+
+                const limit = showMoreRFSequences ? 50 : 8;
+                const recentTicks = allLastDigitList.slice(-limit);
+
+                for (let i = 1; i < recentTicks.length; i++) {
+                    const isRise = recentTicks[i] > recentTicks[i - 1];
+                    const digitBox = document.createElement('div');
+                    digitBox.className = `digit-box ${isRise ? 'rise' : 'fall'}`;
+                    digitBox.textContent = isRise ? 'R' : 'F';
+                    sequenceContainer.appendChild(digitBox);
+                }
+            }
+
+            // Toggle functions
+            function toggleDigitAnalysis() {
+                showDigitAnalysis = !showDigitAnalysis;
+                const content = document.getElementById('digit-analysis-content');
+                const toggleText = document.getElementById('digit-toggle-text');
+
+                if (content && toggleText) {
+                    if (showDigitAnalysis) {
+                        content.style.display = 'block';
+                        toggleText.textContent = 'Hide';
+                    } else {
+                        content.style.display = 'none';
+                        toggleText.textContent = 'Show';
+                    }
+                }
+            }
+
+            function toggleEvenOddSequence() {
+                showMoreEOSequences = !showMoreEOSequences;
+                const moreText = document.getElementById('eo-more-text');
+                if (moreText) {
+                    moreText.textContent = showMoreEOSequences ? 'LESS' : 'MORE';
+                }
+                updateEvenOddSequence();
+            }
+
+            function toggleRiseFallSequence() {
+                showMoreRFSequences = !showMoreRFSequences;
+                const moreText = document.getElementById('rf-more-text');
+                if (moreText) {
+                    moreText.textContent = showMoreRFSequences ? 'LESS' : 'MORE';
+                }
+                updateRiseFallSequence();
+            }
+
+            function toggleBot() {
+                // Use real AI bot if available
+                if (turboBot) {
+                    if (turboBot.isActive) {
+                        turboBot.stop();
+                    } else {
+                        // Update bot configuration from UI
+                        const tradeOption = document.getElementById('trade-option').value;
+                        const tradeAmount = parseFloat(document.getElementById('trade-amount').value);
+                        const tradeDuration = parseInt(document.getElementById('trade-duration').value);
+
+                        turboBot.updateConfig({
+                            strategy: tradeOption,
+                            stake: tradeAmount,
+                            duration: tradeDuration,
+                            market: 'R_100',
+                        });
+
+                        turboBot.start();
+                    }
+                } else {
+                    // Fallback to simulation mode
+                    isTradeActive = !isTradeActive;
+                    const button = document.getElementById('trade-button');
+
+                    if (button) {
+                        if (isTradeActive) {
+                            button.textContent = 'Stop Bot';
+                            button.className = 'trade-button stop';
+                            console.log('🚀 Smart Analysis Bot started (simulation)');
+                        } else {
+                            button.textContent = 'Start Bot';
+                            button.className = 'trade-button start';
+                            console.log('⏹️ Smart Analysis Bot stopped (simulation)');
+                        }
+                    }
+                }
+            }
+
+            function toggleSettings() {
+                const panel = document.getElementById('settings-panel');
+                if (panel) {
+                    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+                }
+            }
+
+            // Change symbol function
+            function changeSymbol() {
+                const symbolSelect = document.getElementById('symbol-select');
+                if (!symbolSelect || !smartAPI) return;
+
+                const newSymbol = symbolSelect.value;
+                console.log(`🔄 Changing symbol to ${newSymbol}...`);
+
+                // Show loading state
+                const currentTickElement = document.getElementById('current-tick');
+                if (currentTickElement) {
+                    currentTickElement.textContent = 'Loading...';
+                }
+
+                // Change symbol through API
+                smartAPI.changeSymbol(newSymbol)
+                    .then(() => {
+                        console.log(`✅ Successfully changed to ${newSymbol}`);
+                        // Clear current data for new symbol
+                        allLastDigitList = [];
+                        updateDisplay();
+                    })
+                    .catch(error => {
+                        console.error('❌ Failed to change symbol:', error);
+                        showErrorMessage(`Failed to change symbol: ${error.message}`);
+                        // Revert selection
+                        symbolSelect.value = smartAPI.currentSymbol || 'R_100';
+                    });
+            }
+
+            // Force reconnection function
+            function forceReconnect() {
+                console.log('🔄 Force reconnecting Smart Analysis...');
+                
+                if (smartAPI) {
+                    smartAPI.forceReconnect();
+                } else {
+                    // Reinitialize if API is not available
+                    init();
+                }
+            }
+
+            // Initialize when page loads
+            document.addEventListener('DOMContentLoaded', init);
+        </script>
+    </body>
+</html>

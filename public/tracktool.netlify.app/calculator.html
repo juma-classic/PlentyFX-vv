@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #101128;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #252d40;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            max-width: 420px;
+            width: 100%;
+            border: 1px solid #5f05fc;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f77d0;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            color: #1f77d0;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            border: 1px solid #2e0f4d;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        input:hover,
+        input:focus {
+            border-color: #1f77d0;
+            box-shadow: 0 0 8px rgba(31, 119, 208, 0.5);
+        }
+
+        button {
+            width: 90%;
+            padding: 12px;
+            background-color: #007bff;
+            color: rgb(241, 5, 5);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Trading Calculator</h1>
+        <label for="riskAmount">Risk Amount ($)</label>
+        <input type="number" id="riskAmount" placeholder="Enter risk amount" min="1" required>
+
+        <label for="targetProfit">Target Profit ($)</label>
+        <input type="number" id="targetProfit" placeholder="Enter target profit" min="1" required>
+
+        <label for="numberOfLosses">Number of Losses</label>
+        <input type="number" id="numberOfLosses" placeholder="Enter number of losses" min="0" required>
+
+        <button onclick="calculateStrategy()">Calculate</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculateStrategy() {
+            const riskAmount = parseFloat(document.getElementById('riskAmount').value);
+            const targetProfit = parseFloat(document.getElementById('targetProfit').value);
+            const numberOfLosses = parseInt(document.getElementById('numberOfLosses').value);
+
+            if (isNaN(riskAmount) || isNaN(targetProfit) || isNaN(numberOfLosses)) {
+                alert('Please enter valid numbers for all fields.');
+                return;
+            }
+
+            if (numberOfLosses <= 0) {
+                alert('Number of losses must be at least 1.');
+                return;
+            }
+
+            // Total amount available per trade must be less than risk amount and aim for profitability
+            const maxAffordableRisk = riskAmount / numberOfLosses;
+            let recommendedTradeAmount;
+
+            if (targetProfit <= 0 || maxAffordableRisk <= 0) {
+                recommendedTradeAmount = 'Achieving the target profit is not feasible with these parameters.';
+            } else {
+                // Safe and profitable recommendation
+                const safeTradeAmount = Math.min((targetProfit / (numberOfLosses + 1)), maxAffordableRisk * 0.8);
+
+                recommendedTradeAmount = `To achieve your target, consider trading around $${safeTradeAmount.toFixed(2)} per trade to stay within risk limits and aim for profitability.`;
+            }
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = recommendedTradeAmount;
+        }
+    </script>
+</body>
+
+</html>

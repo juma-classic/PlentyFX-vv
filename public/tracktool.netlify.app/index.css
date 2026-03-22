@@ -1,0 +1,327 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: "black";
+    width: 100%;
+}
+
+.title {
+    font-family: 'times', sans-serif;
+    color: orange;
+    /* Default color */
+    transition: color 0.5s ease;
+    /* Smooth transition for color change */
+}
+
+.controls label {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Add more selectors as needed to ensure consistency */
+
+h1 {
+    color: #ff6f00;
+}
+
+.controls {
+    margin-bottom: 20px;
+    align-content: center;
+    color: #4fef0b;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.controls label {
+    display: block;
+    font-size: 1.5em;
+    /* Increase font size */
+    margin-bottom: 10px;
+}
+
+.controls select {
+    width: 90%;
+    padding: 10px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    background-color: rgb(0 0 0 / 21%);
+    color: rgb(255, 255, 255);
+}
+
+.control-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.control-container label {
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.control-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #ff6f00;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e65c00;
+}
+
+#latestTick,
+#digits {
+    font-size: 24px;
+    margin-top: 10px;
+    padding: 10px;
+    color: #2be243;
+}
+
+#chart {
+    background-color: #000;
+    border: 1px solid #17172f;
+}
+
+.digit-bar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.container {
+    padding: 20px;
+    background-color: #080921;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: content;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.digit-bar {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    background-color: orange;
+    color: black;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    position: relative;
+}
+
+.digit-bar .arrow {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    color: lightgreen;
+}
+
+#chartContainer {
+    margin-top: 20px;
+}
+
+#chartCanvas {
+    width: 100%;
+    height: 300px;
+}
+
+.digit-bar.highlight {
+    background-color: blue;
+    color: white;
+    /* Change text color to white when highlighted */
+}
+
+.digit-bar.arrow::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    /* Adjusted to be sure the arrow is below the bar */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid blue;
+    transition: border-color 0.3s;
+}
+
+/* Animation for shaking */
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Title style */
+
+.title {
+    font-size: 30px;
+    /* Adjust size as needed */
+    text-align: center;
+    margin: 20px 0;
+    animation: zoomIn 1s ease-in-out;
+    /* Zoom in on load */
+}
+
+/* Add shake animation */
+
+.title.shake {
+    animation: shake 5s ease-in-out;
+}
+
+/* Matches and Differs */
+
+.title.Matches and Differs {
+    font-size: 2rem;
+    /* Adjust size as needed */
+    text-align: center;
+    margin: 20px 0;
+    animation: zoomIn 1s ease-in-out;
+    /* Zoom in on load */
+}
+
+/* Add shake animation */
+
+.title.Matches and Differs.shake {
+    animation: shake 5s ease-in-out;
+}
+
+.predictions-container {
+    text-align: center;
+    margin: 20px auto;
+    width: fit-content;
+}
+
+h2 {
+    color: darkorange;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.predictions-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.predictions-table td {
+    border: 2px solid darkorange;
+    padding: 25px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+}
+
+.number-display {
+    color: green;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#start-predictions {
+    margin-top: 20px;
+    padding: 25px;
+    background-color: darkorange;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#start-predictions:hover {
+    background-color: orangered;
+}
+
+#timer {
+    margin-top: 20px;
+    font-size: 28px;
+    color: white;
+}
+
+#slidingListContainer {
+    width: 100%;
+    overflow: hidden;
+    background-color: #f2f2f2;
+    margin: 20px 0;
+}
+
+#slidingList {
+    display: flex;
+    white-space: nowrap;
+    animation: slide 10s linear infinite;
+}
+
+#slidingList span {
+    font-size: 24px;
+    margin-right: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.even-item {
+    color: white;
+    background-color: green;
+    /* Green background for even */
+}
+
+.odd-item {
+    color: white;
+    background-color: blue;
+    /* Blue background for odd */
+}
+
+@keyframes slide {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}

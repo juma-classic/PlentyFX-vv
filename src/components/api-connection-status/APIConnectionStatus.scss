@@ -1,0 +1,188 @@
+.api-connection-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgb(255 255 255 / 5%);
+    border-radius: 8px;
+    font-size: 0.85rem;
+
+    .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+
+            &.connected {
+                background: #4caf50;
+                box-shadow: 0 0 8px rgb(76 175 80 / 60%);
+            }
+
+            &.disconnected {
+                background: #f44336;
+                box-shadow: 0 0 8px rgb(244 67 54 / 60%);
+            }
+        }
+
+        .status-text {
+            color: rgb(255 255 255 / 90%);
+            font-weight: 600;
+        }
+    }
+
+    .account-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding-left: 1rem;
+        border-left: 1px solid rgb(255 255 255 / 20%);
+
+        .account-id {
+            color: rgb(255 255 255 / 70%);
+            font-size: 0.8rem;
+        }
+
+        .account-balance {
+            color: #4caf50;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            padding: 0.25rem 0.75rem;
+            background: rgb(244 67 54 / 20%);
+            border: 1px solid rgb(244 67 54 / 40%);
+            border-radius: 4px;
+            color: #f44336;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: rgb(244 67 54 / 30%);
+            }
+        }
+    }
+
+    .auth-required {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding-left: 1rem;
+        border-left: 1px solid rgb(255 255 255 / 20%);
+
+        .auth-text {
+            color: rgb(255 255 255 / 60%);
+        }
+
+        .auth-btn {
+            padding: 0.25rem 0.75rem;
+            background: rgb(33 150 243 / 20%);
+            border: 1px solid rgb(33 150 243 / 40%);
+            border-radius: 4px;
+            color: #2196f3;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: rgb(33 150 243 / 30%);
+            }
+        }
+    }
+
+    .token-input-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-left: 1rem;
+        border-left: 1px solid rgb(255 255 255 / 20%);
+
+        .token-input {
+            padding: 0.25rem 0.5rem;
+            background: rgb(0 0 0 / 30%);
+            border: 1px solid rgb(255 255 255 / 20%);
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.75rem;
+            width: 200px;
+
+            &:focus {
+                outline: none;
+                border-color: #2196f3;
+            }
+
+            &::placeholder {
+                color: rgb(255 255 255 / 40%);
+            }
+        }
+
+        .token-submit {
+            padding: 0.25rem 0.75rem;
+            background: rgb(76 175 80 / 20%);
+            border: 1px solid rgb(76 175 80 / 40%);
+            border-radius: 4px;
+            color: #4caf50;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: rgb(76 175 80 / 30%);
+            }
+        }
+
+        .token-cancel {
+            padding: 0.25rem 0.75rem;
+            background: rgb(255 255 255 / 10%);
+            border: 1px solid rgb(255 255 255 / 20%);
+            border-radius: 4px;
+            color: rgb(255 255 255 / 70%);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: rgb(255 255 255 / 15%);
+            }
+        }
+    }
+
+    .connection-help {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding-left: 1rem;
+        border-left: 1px solid rgb(255 255 255 / 20%);
+
+        .help-text {
+            color: rgb(255 255 255 / 60%);
+        }
+
+        .help-link {
+            color: #2196f3;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    @keyframes pulse-dot {
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+    }
+}

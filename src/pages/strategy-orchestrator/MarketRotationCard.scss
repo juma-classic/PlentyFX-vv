@@ -1,0 +1,313 @@
+.market-rotation-card {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .card-header {
+        background: white;
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .card-title {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .toggle-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+
+            &:hover {
+                border-color: #7b1fa2;
+                color: #7b1fa2;
+            }
+
+            &.active {
+                background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+                border-color: #7b1fa2;
+                color: white;
+            }
+        }
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .status-section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid #7b1fa2;
+
+        .current-market {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+
+            .label {
+                font-size: 0.875rem;
+                color: #6b7280;
+                font-weight: 600;
+            }
+
+            .value {
+                font-size: 1.125rem;
+                color: #1f2937;
+                font-weight: 700;
+                background: #f3f4f6;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+            }
+        }
+
+        .progress-section {
+            .progress-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.75rem;
+
+                .label {
+                    font-size: 0.875rem;
+                    color: #6b7280;
+                    font-weight: 600;
+                }
+
+                .value {
+                    font-size: 0.875rem;
+                    color: #1f2937;
+                    font-weight: 700;
+                }
+            }
+
+            .progress-bar {
+                height: 8px;
+                background: #e5e7eb;
+                border-radius: 4px;
+                overflow: hidden;
+
+                .progress-fill {
+                    height: 100%;
+                    background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+                    transition: width 0.3s ease;
+                }
+            }
+        }
+    }
+
+    .settings-section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+
+        .setting-group {
+            .setting-label {
+                display: block;
+                font-size: 0.875rem;
+                color: #374151;
+                font-weight: 700;
+                margin-bottom: 0.75rem;
+            }
+
+            .input-group {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                .btn-minus,
+                .btn-plus {
+                    width: 40px;
+                    height: 40px;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 8px;
+                    background: white;
+                    color: #1f2937;
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        border-color: #7b1fa2;
+                        color: #7b1fa2;
+                    }
+                }
+
+                .setting-input {
+                    flex: 1;
+                    padding: 0.75rem;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 8px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    text-align: center;
+                    color: #1f2937;
+
+                    &:focus {
+                        outline: none;
+                        border-color: #7b1fa2;
+                    }
+                }
+            }
+        }
+    }
+
+    .markets-section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+
+        .section-title {
+            margin: 0 0 1rem 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .selected-markets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+
+            .market-badge {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+                background: #f3f4f6;
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                transition: all 0.2s ease;
+
+                &.active {
+                    background: linear-gradient(135deg, #7b1fa2, #9c27b0);
+                    border-color: #7b1fa2;
+                    color: white;
+
+                    .market-name {
+                        color: white;
+                        font-weight: 700;
+                    }
+
+                    .remove-btn {
+                        color: white;
+                    }
+                }
+
+                .market-name {
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    color: #1f2937;
+                }
+
+                .remove-btn {
+                    background: none;
+                    border: none;
+                    color: #6b7280;
+                    font-size: 1.25rem;
+                    cursor: pointer;
+                    padding: 0;
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: color 0.2s ease;
+
+                    &:hover {
+                        color: #ef4444;
+                    }
+                }
+            }
+        }
+
+        .available-markets {
+            .label {
+                display: block;
+                font-size: 0.875rem;
+                color: #6b7280;
+                font-weight: 600;
+                margin-bottom: 0.75rem;
+            }
+
+            .market-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 0.5rem;
+
+                .market-btn {
+                    padding: 0.75rem;
+                    border: 2px dashed #e5e7eb;
+                    border-radius: 8px;
+                    background: white;
+                    color: #6b7280;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        border-color: #7b1fa2;
+                        color: #7b1fa2;
+                        background: #f9f5ff;
+                    }
+                }
+            }
+        }
+    }
+
+    .info-section {
+        background: #f0f9ff;
+        padding: 1rem;
+        border-radius: 8px;
+        border-left: 4px solid #0ea5e9;
+
+        .info-text {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #0c4a6e;
+            line-height: 1.5;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .market-rotation-card {
+        .card-body {
+            padding: 1rem;
+        }
+
+        .markets-section {
+            .available-markets {
+                .market-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                }
+            }
+        }
+    }
+}

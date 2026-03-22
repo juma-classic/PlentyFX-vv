@@ -1,0 +1,607 @@
+// Zeus Trading Hub Loader - Lightning Tech Theme
+.zeus-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #050a1e 0%, #0a0f28 50%, #0f1432 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    overflow: hidden;
+
+    // Tech lines animation canvas
+    &__matrix-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    // Lightning flash effect
+    &__lightning-flash {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(0, 191, 255, 0.3) 0%, transparent 70%);
+        opacity: 0;
+        z-index: 2;
+        pointer-events: none;
+        transition: opacity 0.1s;
+
+        &.active {
+            animation: lightningFlash 0.2s;
+        }
+    }
+
+    // Tech grid overlay
+    &__storm-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    &__cloud {
+        display: none;
+    }
+
+    // Main content container
+    &__content {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 600px;
+        width: 100%;
+    }
+
+    // Logo container
+    &__logo-container {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    &__logo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+        animation: logoPulse 2s infinite ease-in-out;
+        border-radius: 12px;
+    }
+
+    &__logo-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: glowPulse 2s infinite ease-in-out;
+        pointer-events: none;
+
+        &--secondary {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(65, 105, 225, 0.3) 0%, transparent 70%);
+            animation-delay: 1s;
+        }
+    }
+
+    // Lightning bolt container
+    &__lightning-container {
+        position: relative;
+        width: 200px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__lightning-bolt {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+        animation: boltPulse 2s infinite ease-in-out;
+    }
+
+    &__bolt-main {
+        animation: boltGlow 1.5s infinite alternate;
+    }
+
+    &__bolt-arc {
+        animation: arcFlicker 1s infinite;
+
+        &--1 {
+            animation-delay: 0s;
+        }
+
+        &--2 {
+            animation-delay: 0.3s;
+        }
+
+        &--3 {
+            animation-delay: 0.6s;
+        }
+    }
+
+    &__energy-particle {
+        animation: particleOrbit 3s infinite linear;
+    }
+
+    &__energy-ring {
+        animation: ringRotate 4s infinite linear;
+    }
+
+    &__lightning-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: glowPulse 2s infinite ease-in-out;
+
+        &--secondary {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(65, 105, 225, 0.3) 0%, transparent 70%);
+            animation-delay: 1s;
+        }
+    }
+
+    // Brand name
+    &__brand {
+        font-size: 3.5rem;
+        font-weight: 900;
+        text-align: center;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    &__brand-zeus {
+        color: #00BFFF;
+        text-shadow: 
+            0 0 20px rgba(0, 191, 255, 0.8),
+            0 0 40px rgba(0, 191, 255, 0.5),
+            0 2px 4px rgba(0, 0, 0, 0.5);
+        animation: textGlow 2s infinite alternate;
+    }
+
+    &__brand-trading {
+        color: #1E90FF;
+        font-size: 2rem;
+        text-shadow: 
+            0 0 15px rgba(30, 144, 255, 0.6),
+            0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    &__brand-hub {
+        color: #4169E1;
+        font-size: 2rem;
+        text-shadow: 
+            0 0 15px rgba(65, 105, 225, 0.6),
+            0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    &__tagline {
+        color: #87CEEB;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: center;
+        margin: 0;
+        text-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+        animation: taglinePulse 3s infinite ease-in-out;
+    }
+
+    // Loading text
+    &__text-container {
+        margin-top: 1rem;
+    }
+
+    &__text {
+        color: #B0E0E6;
+        font-size: 1.1rem;
+        font-weight: 500;
+        text-align: center;
+        min-height: 1.5rem;
+        text-shadow: 0 0 8px rgba(176, 224, 230, 0.4);
+    }
+
+    // Progress bar
+    &__progress-container {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    &__progress-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        color: #87CEEB;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-shadow: 0 0 5px rgba(135, 206, 235, 0.5);
+    }
+
+    &__progress-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(0, 191, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 
+            inset 0 1px 3px rgba(0, 0, 0, 0.5),
+            0 0 10px rgba(0, 191, 255, 0.2);
+    }
+
+    &__progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #00BFFF 0%, #1E90FF 50%, #4169E1 100%);
+        border-radius: 10px;
+        position: relative;
+        transition: width 0.3s ease-out;
+        box-shadow: 0 0 15px rgba(0, 191, 255, 0.8);
+        animation: progressGlow 1.5s infinite alternate;
+    }
+
+    &__progress-lightning {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.6) 50%,
+            transparent 100%
+        );
+        animation: lightningMove 1.5s infinite;
+    }
+
+    // Trading tip
+    &__trading-tip {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem 1.5rem;
+        background: rgba(0, 191, 255, 0.1);
+        border: 1px solid rgba(0, 191, 255, 0.3);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        max-width: 500px;
+        box-shadow: 0 0 20px rgba(0, 191, 255, 0.2);
+    }
+
+    &__tip-icon {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: gearRotate 4s infinite linear;
+        
+        svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 8px rgba(0, 191, 255, 0.6));
+        }
+    }
+
+    &__tip-text {
+        color: #B0E0E6;
+        font-size: 0.95rem;
+        margin: 0;
+        line-height: 1.5;
+        text-shadow: 0 0 5px rgba(176, 224, 230, 0.3);
+    }
+}
+
+// Animations
+@keyframes lightningFlash {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes marketFlash {
+    0%,
+    100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes orbFloat {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+    33% {
+        transform: translate(40px, -30px) scale(1.1);
+    }
+    66% {
+        transform: translate(-30px, 40px) scale(0.95);
+    }
+}
+
+@keyframes logoPulse {
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+    }
+    50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1));
+    }
+}
+
+@keyframes boltPulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes boltGlow {
+    0% {
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+    }
+    100% {
+        filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1));
+    }
+}
+
+@keyframes arcFlicker {
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes particleOrbit {
+    0% {
+        transform: rotate(0deg) translateX(40px) rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg) translateX(40px) rotate(-360deg);
+    }
+}
+
+@keyframes ringRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes glowPulse {
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+@keyframes textGlow {
+    0% {
+        text-shadow: 
+            0 0 20px rgba(0, 191, 255, 0.8), 
+            0 0 40px rgba(0, 191, 255, 0.5);
+    }
+    100% {
+        text-shadow: 
+            0 0 30px rgba(0, 191, 255, 1), 
+            0 0 60px rgba(0, 191, 255, 0.8),
+            0 0 80px rgba(30, 144, 255, 0.6);
+    }
+}
+
+@keyframes taglinePulse {
+    0%,
+    100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes progressGlow {
+    0% {
+        box-shadow: 0 0 15px rgba(0, 191, 255, 0.8);
+    }
+    100% {
+        box-shadow: 
+            0 0 25px rgba(0, 191, 255, 1), 
+            0 0 35px rgba(30, 144, 255, 0.8);
+    }
+}
+
+@keyframes lightningMove {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(200%);
+    }
+}
+
+@keyframes gearRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes iconSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .zeus-loader {
+        &__logo-container {
+            width: 150px;
+            height: 150px;
+        }
+
+        &__lightning-container {
+            width: 150px;
+            height: 225px;
+        }
+
+        &__brand {
+            font-size: 2.5rem;
+        }
+
+        &__brand-trading,
+        &__brand-hub {
+            font-size: 1.5rem;
+        }
+
+        &__tagline {
+            font-size: 1rem;
+        }
+
+        &__text {
+            font-size: 1rem;
+        }
+
+        &__trading-tip {
+            padding: 0.8rem 1rem;
+        }
+
+        &__tip-text {
+            font-size: 0.85rem;
+        }
+    }
+}
+
+// Globe Logo Animations
+.globe-logo {
+    width: 240px; // Increased from 150px (60% larger)
+    height: 240px; // Increased from 150px (60% larger)
+    filter: drop-shadow(0 0 20px rgba(0, 191, 255, 0.5));
+    animation: globeFloat 3s ease-in-out infinite;
+}
+
+.globe-glow {
+    animation: globeGlowPulse 2s ease-in-out infinite;
+}
+
+.core-pulse {
+    animation: corePulse 1.5s ease-in-out infinite;
+}
+
+.orbit-1 {
+    animation: orbitRotate1 8s linear infinite;
+    transform-origin: 100px 100px;
+}
+
+.orbit-2 {
+    animation: orbitRotate2 6s linear infinite reverse;
+    transform-origin: 100px 100px;
+}
+
+@keyframes globeFloat {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(-10px) scale(1.05);
+    }
+}
+
+@keyframes globeGlowPulse {
+    0%, 100% {
+        opacity: 0.3;
+        r: 70;
+    }
+    50% {
+        opacity: 0.6;
+        r: 75;
+    }
+}
+
+@keyframes corePulse {
+    0%, 100% {
+        opacity: 0.8;
+        r: 8;
+    }
+    50% {
+        opacity: 1;
+        r: 10;
+    }
+}
+
+@keyframes orbitRotate1 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes orbitRotate2 {
+    0% {
+        transform: rotate(60deg);
+    }
+    100% {
+        transform: rotate(420deg);
+    }
+}

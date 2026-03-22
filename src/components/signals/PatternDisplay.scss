@@ -1,0 +1,84 @@
+.pattern-display {
+    margin: 12px 0;
+    padding: 12px;
+    background: rgb(0 0 0 / 20%);
+    border-radius: 8px;
+
+    .pattern-row {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 6px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .pattern-box {
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 18px;
+        color: #fff;
+        text-shadow: 0 2px 4px rgb(0 0 0 / 30%);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+
+        &.green {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: 2px solid #34d399;
+
+            &:hover {
+                transform: scale(1.1);
+                box-shadow: 0 4px 12px rgb(16 185 129 / 40%);
+            }
+        }
+
+        &.red {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: 2px solid #f87171;
+
+            &:hover {
+                transform: scale(1.1);
+                box-shadow: 0 4px 12px rgb(239 68 68 / 40%);
+            }
+        }
+
+        // Animation for newest box
+        &:last-child {
+            animation: pulse-in 0.5s ease;
+        }
+    }
+}
+
+@keyframes pulse-in {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+// Responsive adjustments
+@media (width <= 768px) {
+    .pattern-display {
+        .pattern-box {
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+        }
+    }
+}

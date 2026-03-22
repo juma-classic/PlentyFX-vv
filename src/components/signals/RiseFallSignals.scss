@@ -1,0 +1,122 @@
+.risefall-signals {
+    .risefall-header {
+        background: linear-gradient(135deg, rgb(0 200 83 / 10%), rgb(255 68 68 / 10%));
+        border: 1px solid rgb(0 200 83 / 30%);
+        border-radius: 8px;
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+
+        .header-content {
+            flex: 1;
+
+            h3 {
+                font-size: 1.2rem;
+                margin: 0 0 5px;
+                color: var(--text-primary, #fff);
+                background: linear-gradient(135deg, #00c853, #f44);
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .risefall-description {
+                color: var(--text-secondary, #a0a0a0);
+                font-size: 0.85rem;
+                margin: 0;
+                line-height: 1.4;
+            }
+        }
+
+        .scan-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            background: linear-gradient(135deg, #00c853 0%, #00a843 100%);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 0.9rem;
+
+            &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgb(0 200 83 / 40%);
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .risefall-signals-list {
+        .no-signals {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary, #a0a0a0);
+            background: var(--background-primary, #0f0f1e);
+            border-radius: 8px;
+            border: 2px dashed var(--border-color, #333);
+
+            .no-signals-icon {
+                font-size: 3rem;
+                display: block;
+                margin-bottom: 10px;
+            }
+        }
+
+        .scanning-message {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgb(0 200 83 / 10%);
+            border: 2px solid rgb(0 200 83 / 30%);
+            border-radius: 8px;
+
+            .scanning-icon {
+                font-size: 3rem;
+                display: block;
+                margin-bottom: 10px;
+                animation: trend-pulse 2s ease-in-out infinite;
+            }
+
+            p {
+                margin: 0;
+                color: #00c853;
+                font-weight: 500;
+            }
+        }
+    }
+}
+
+@keyframes trend-pulse {
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1) rotate(5deg);
+        opacity: 0.8;
+    }
+}
+
+// Responsive design
+@media (width <= 768px) {
+    .risefall-signals {
+        .risefall-header {
+            flex-direction: column;
+            align-items: stretch;
+
+            .scan-btn {
+                width: 100%;
+            }
+        }
+    }
+}

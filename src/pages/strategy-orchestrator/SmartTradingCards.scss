@@ -1,0 +1,688 @@
+.smart-trading-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+
+    .trading-card {
+        background: #f8f9fa;
+        border-radius: 16px;
+        padding: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+
+        .card-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .card-title {
+                margin: 0;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: #1f2937;
+            }
+
+            .status-indicator {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background: #7b1fa2;
+                box-shadow: 0 0 8px rgba(123, 31, 162, 0.5);
+            }
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        // Barrier Control
+        .barrier-control {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+
+            .control-label {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 0.5rem;
+
+                strong {
+                    font-size: 1rem;
+                    color: #1f2937;
+                    font-weight: 700;
+                }
+
+                .barrier-input {
+                    width: 80px;
+                    padding: 0.5rem;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 6px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    text-align: center;
+                    color: #1f2937; // Dark text color
+                    background: #f9fafb; // Light gray background
+
+                    &:focus {
+                        outline: none;
+                        border-color: #7b1fa2;
+                        background: white;
+                    }
+                }
+            }
+
+            .barrier-description {
+                margin: 0;
+                font-size: 0.875rem;
+                color: #4b5563;
+                font-weight: 500;
+            }
+        }
+
+        // Probability Display
+        .probability-display {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+
+            .prob-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .prob-label {
+                    min-width: 60px;
+                    font-size: 0.875rem;
+                    font-weight: 700;
+                    color: #374151;
+                }
+
+                .prob-bar {
+                    flex: 1;
+                    height: 40px;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    position: relative;
+
+                    &.over {
+                        background: #e0f2fe;
+
+                        .prob-fill {
+                            background: #0ea5e9;
+                        }
+                    }
+
+                    &.under {
+                        background: #fce7f3;
+
+                        .prob-fill {
+                            background: #ec4899;
+                        }
+                    }
+
+                    .prob-fill {
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: width 0.3s ease;
+                        min-width: 60px;
+
+                        .prob-value {
+                            color: white;
+                            font-weight: 700;
+                            font-size: 0.875rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Digits Pattern (Even/Odd)
+        .digits-pattern {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+
+            .pattern-title {
+                margin: 0 0 1rem 0;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #1f2937;
+            }
+
+            .pattern-display {
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                margin-bottom: 1rem;
+
+                .digit-badge {
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 8px;
+                    font-weight: 700;
+                    font-size: 1rem;
+
+                    &.even {
+                        background: #d1fae5;
+                        color: #065f46;
+                    }
+
+                    &.odd {
+                        background: #fed7aa;
+                        color: #9a3412;
+                    }
+                }
+            }
+
+            .pattern-description {
+                margin: 0 0 0.5rem 0;
+                font-size: 0.875rem;
+                color: #4b5563;
+                font-weight: 500;
+            }
+
+            .streak-info {
+                margin: 0;
+                font-size: 0.875rem;
+                color: #1f2937;
+                font-weight: 600;
+
+                strong {
+                    color: #7b1fa2;
+                    font-weight: 700;
+                }
+            }
+        }
+
+        // Trading Condition
+        .trading-condition {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #7b1fa2;
+            margin-bottom: 1.5rem;
+
+            .condition-title {
+                margin: 0 0 1rem 0;
+                font-size: 1rem;
+                font-weight: 700;
+                color: #1f2937;
+            }
+
+            .condition-row {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                margin-bottom: 1rem;
+                flex-wrap: wrap;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .condition-label {
+                    font-size: 0.875rem;
+                    color: #1f2937;
+                    font-weight: 600;
+                }
+
+                .condition-select {
+                    padding: 0.5rem 0.75rem;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 6px;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    color: #1f2937;
+                    background: white;
+                    cursor: pointer;
+                    min-width: 120px;
+
+                    &.small {
+                        min-width: 70px;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border-color: #7b1fa2;
+                    }
+
+                    &:disabled {
+                        background: #f3f4f6;
+                        cursor: not-allowed;
+                    }
+                }
+
+                .condition-input {
+                    padding: 0.5rem 0.75rem;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 6px;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    color: #1f2937;
+                    width: 80px;
+                    text-align: center;
+
+                    &.small {
+                        width: 60px;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border-color: #7b1fa2;
+                    }
+
+                    &:disabled {
+                        background: #f3f4f6;
+                        cursor: not-allowed;
+                    }
+                }
+
+                .condition-unit {
+                    font-size: 0.875rem;
+                    color: #374151;
+                    font-weight: 700;
+                }
+
+                .condition-checkbox {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    cursor: pointer;
+
+                    input[type='checkbox'] {
+                        width: 18px;
+                        height: 18px;
+                        cursor: pointer;
+                    }
+
+                    span {
+                        font-size: 0.875rem;
+                        color: #1f2937;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+
+        // Trading Settings
+        .trading-settings {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+
+            .setting-group {
+                background: white;
+                padding: 1rem;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                .setting-label {
+                    font-size: 0.875rem;
+                    font-weight: 700;
+                    color: #374151;
+                }
+
+                .setting-input {
+                    padding: 0.75rem;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 6px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: #1f2937;
+                    text-align: center;
+
+                    &:focus {
+                        outline: none;
+                        border-color: #7b1fa2;
+                    }
+                }
+            }
+        }
+
+        // Start Trading Button
+        .start-trading-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+
+        // Trading Controls (3 buttons)
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+
+            .status-label,
+            .mode-label {
+                font-weight: 600;
+                color: #6b7280;
+            }
+
+            .status-value {
+                font-weight: 700;
+                
+                &.running {
+                    color: #10b981;
+                }
+                
+                &.paused {
+                    color: #f59e0b;
+                }
+            }
+
+            .mode-value {
+                font-weight: 600;
+                color: #0ea5e9;
+            }
+        }
+
+        .trading-controls {
+            display: flex;
+            gap: 0.75rem;
+            width: 100%;
+
+            .control-btn {
+                flex: 1;
+                padding: 0.875rem;
+                border: 2px solid #e5e7eb;
+                border-radius: 10px;
+                background: white;
+                color: #374151;
+                font-size: 0.875rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                &.active {
+                    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+                    color: white;
+                    border-color: #0ea5e9;
+                    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+                }
+
+                &.stop {
+                    background: linear-gradient(135deg, #ef4444, #dc2626);
+                    color: white;
+                    border-color: #ef4444;
+
+                    &:hover {
+                        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+    .smart-trading-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .smart-trading-cards {
+        padding: 1rem 0;
+        gap: 1rem;
+
+        .trading-card {
+            .card-body {
+                padding: 1rem;
+            }
+
+            .trading-settings {
+                grid-template-columns: 1fr;
+            }
+
+            .condition-row {
+                flex-direction: column;
+                align-items: stretch;
+
+                .condition-select,
+                .condition-input {
+                    width: 100%;
+                    min-width: unset;
+                }
+            }
+        }
+    }
+}
+
+
+// Recent Trades Section
+.recent-trades-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+
+    .recent-trades-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #e0e0e0;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .mechanical-icon {
+            color: #7c3aed;
+        }
+
+        .recent-trades-subtitle {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #9ca3af;
+            font-style: italic;
+            margin-left: auto;
+        }
+    }
+
+    .recent-trades-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+
+        .trade-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+
+            &.win {
+                border-left-color: #10b981;
+                background: rgba(16, 185, 129, 0.1);
+            }
+
+            &.loss {
+                border-left-color: #ef4444;
+                background: rgba(239, 68, 68, 0.1);
+            }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.08);
+                transform: translateX(4px);
+            }
+
+            .trade-info {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                .trade-type-wrapper {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    .trade-icon {
+                        &.win {
+                            color: #10b981;
+                        }
+
+                        &.loss {
+                            color: #ef4444;
+                        }
+                    }
+
+                    .trade-type {
+                        font-size: 0.95rem;
+                        font-weight: 600;
+                        color: #e0e0e0;
+                    }
+                }
+
+                .trade-time-wrapper {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.4rem;
+
+                    .trade-clock {
+                        color: #9ca3af;
+                    }
+
+                    .trade-time {
+                        font-size: 0.8rem;
+                        color: #9ca3af;
+                    }
+                }
+            }
+
+            .trade-result {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 0.5rem;
+
+                .trade-profit-wrapper {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.4rem;
+
+                    .profit-arrow {
+                        color: inherit;
+                    }
+
+                    .trade-profit {
+                        font-size: 1rem;
+                        font-weight: 700;
+
+                        &.win {
+                            color: #10b981;
+                        }
+
+                        &.loss {
+                            color: #ef4444;
+                        }
+                    }
+                }
+
+                .trade-stake {
+                    font-size: 0.8rem;
+                    color: #9ca3af;
+                }
+            }
+        }
+    }
+
+    .trades-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(124, 58, 237, 0.2);
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+
+            .stat-icon {
+                color: #7c3aed;
+
+                &.positive {
+                    color: #10b981;
+                }
+
+                &.negative {
+                    color: #ef4444;
+                }
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+                color: #9ca3af;
+            }
+
+            .stat-value {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: #e0e0e0;
+
+                &.positive {
+                    color: #10b981;
+                }
+
+                &.negative {
+                    color: #ef4444;
+                }
+            }
+        }
+    }
+}

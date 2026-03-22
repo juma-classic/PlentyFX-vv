@@ -1,5 +1,6 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { isAllowedFakeRealAccount } from '@/config/fake-real-allowlist';
+import { getFakeRealResetDetector } from '@/utils/fake-real-reset-detector';
 
 const CURRENCY_ICONS = {
     aud: lazy(() => import('@deriv/quill-icons/Currencies').then(module => ({ default: module.CurrencyAudIcon }))),
@@ -68,6 +69,17 @@ export const CurrencyIcon = ({ currency, isVirtual }: { currency?: string; isVir
     const [pressProgress, setPressProgress] = useState(0);
     const progressInterval = useState<ReturnType<typeof setInterval> | null>(null);
 
+    // Double-tap detection for reset panel
+    const lastTapRef = { current: 0 };
+    const handleDoubleTap = () => {
+        if (!isFakeRealMode || !isVirtual || !isAllowedFakeRealAccount()) return;
+        const now = Date.now();
+        if (now - lastTapRef.current < 350) {
+            getFakeRealResetDetector()?.handleIconDoubleTap();
+        }
+        lastTapRef.current = now;
+    };
+
     // Check if fake real mode is active
     const isFakeRealMode = localStorage.getItem('demo_icon_us_flag') === 'true';
     const activeLoginId = localStorage.getItem('active_loginid');
@@ -131,6 +143,7 @@ export const CurrencyIcon = ({ currency, isVirtual }: { currency?: string; isVir
                 onMouseLeave={handlePressEnd}
                 onTouchStart={handlePressStart}
                 onTouchEnd={handlePressEnd}
+                onClick={handleDoubleTap}
                 style={{
                     cursor: isFakeRealMode && isVirtual ? 'pointer' : 'default',
                     position: 'relative',

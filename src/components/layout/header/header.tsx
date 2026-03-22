@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
-import { FakeRealModeIndicator } from '@/components/fake-real-account-toggle/FakeRealModeIndicator';
 import { standalone_routes } from '@/components/shared';
 import Button from '@/components/shared_ui/button';
 import Modal from '@/components/shared_ui/modal'; // Import the modal component
@@ -148,7 +147,6 @@ const AppHeader = observer(() => {
             <Wrapper variant='left'>
                 <AppLogo />
                 <MobileMenu />
-                <FakeRealModeIndicator />
             </Wrapper>
             <Wrapper variant='right'>{renderAccountSection()}</Wrapper>
 

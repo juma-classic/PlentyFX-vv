@@ -25,6 +25,9 @@ const MarketProbabilityCard: React.FC<MarketProbabilityCardProps> = ({
     const [autoTradingActive, setAutoTradingActive] = useState(false);
     const [condition, setCondition] = useState<any>(null);
     const [barrier, setBarrier] = useState(5);
+    const [isVisible, setIsVisible] = useState(() => {
+        return localStorage.getItem('market_analysis_overlay_visible') === 'true';
+    });
 
     useEffect(() => {
         // Load saved state from localStorage
@@ -196,6 +199,22 @@ const MarketProbabilityCard: React.FC<MarketProbabilityCardProps> = ({
         };
     }, []);
 
+    // Listen for overlay visibility toggle from Strategy Orchestrator
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            const visible = localStorage.getItem('market_analysis_overlay_visible') === 'true';
+            setIsVisible(visible);
+        };
+
+        window.addEventListener('storage', handleVisibilityChange);
+        const pollInterval = setInterval(handleVisibilityChange, 500);
+
+        return () => {
+            window.removeEventListener('storage', handleVisibilityChange);
+            clearInterval(pollInterval);
+        };
+    }, []);
+
     const handleAutoStop = () => {
         setAutoMode('auto-stop');
         
@@ -252,7 +271,7 @@ const MarketProbabilityCard: React.FC<MarketProbabilityCardProps> = ({
     };
 
     return (
-        <div className={`market-probability-card ${isMinimized ? 'minimized' : ''}`}>
+        <div className={`market-probability-card ${isMinimized ? 'minimized' : ''}`} style={{ display: isVisible ? 'block' : 'none' }}>
             <div className="card-header" onClick={() => setIsMinimized(!isMinimized)}>
                 <span className="card-title">📊 Market Analysis</span>
                 <button className="minimize-btn">{isMinimized ? '▼' : '▲'}</button>

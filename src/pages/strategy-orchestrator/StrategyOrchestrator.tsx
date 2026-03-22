@@ -56,6 +56,17 @@ const StrategyOrchestrator: React.FC = () => {
     const [availableSymbols, setAvailableSymbols] = useState<ActiveSymbol[]>([]);
     const [symbolsLoading, setSymbolsLoading] = useState<boolean>(false);
 
+    // Market Analysis overlay toggle
+    const [overlayVisible, setOverlayVisible] = useState<boolean>(
+        () => localStorage.getItem('market_analysis_overlay_visible') === 'true'
+    );
+
+    const toggleOverlay = () => {
+        const next = !overlayVisible;
+        setOverlayVisible(next);
+        localStorage.setItem('market_analysis_overlay_visible', String(next));
+    };
+
     useEffect(() => {
         // Load initial data
         loadData();
@@ -218,6 +229,14 @@ const StrategyOrchestrator: React.FC = () => {
                 </div>
 
                 <div className='header-controls'>
+                    <button
+                        className={`control-btn ${overlayVisible ? 'stop-btn' : 'start-btn'}`}
+                        onClick={toggleOverlay}
+                        title='Toggle Market Analysis overlay on Bot Builder'
+                    >
+                        <ChartIcon size={18} className='btn-icon' />
+                        {overlayVisible ? 'Hide Market Analysis' : 'Show Market Analysis'}
+                    </button>
                     {orchestratorState?.isActive ? (
                         <button className='control-btn stop-btn' onClick={handleStopOrchestrator}>
                             <CrossIcon size={18} className='btn-icon' />
